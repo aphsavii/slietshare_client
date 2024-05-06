@@ -1,7 +1,7 @@
 const PROGRAMMES = ["ICD", "BE"];
 const TRADES = {
   ICD: ["CDE", "CSMM", "CSME", "CTV", "CPT", "CFP", "CFF", "CWG", "CTD", "CAC"],
-  BE: ["GCS", "GEE", "GEC","GCT", "GFT", "GIE", "GME"],
+  BE: ["GCS", "GEE", "GEC","GCT", "GFT", "GIN", "GME"],
 };
 
 const QUESTION_TYPES = ["minor-1", "minor-2", "major"];

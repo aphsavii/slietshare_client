@@ -132,7 +132,7 @@ function UploadQs() {
               "qs", {
               required: "Question Paper is required",
               validate: (value) => {
-                const allowedTypes = ['image/jpeg', 'image/png'];
+                const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
                 return allowedTypes.includes(value[0]?.type) || "Invalid file format only jpg/jpeg and png allowed";
               }
             }
