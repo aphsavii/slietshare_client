@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-
 function Select({ title, name=null, options = [], register, setValue = ()=> null}) {
   return (
     <>
@@ -7,11 +6,14 @@ function Select({ title, name=null, options = [], register, setValue = ()=> null
         {title}
       </label>
       <select
+        
         name={name?name:title.toLowerCase().replaceAll(" ","")}
         id={name?name:title.toLowerCase().replaceAll(" ","") }
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         {...register(name?name:title.toLowerCase().replaceAll(" ",""), { required: `${title} is required` })}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
       >
         <option value="">Select an option</option>
         {options.map((option) => (

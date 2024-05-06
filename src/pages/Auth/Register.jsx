@@ -8,10 +8,15 @@ import Alert from "../../components/alerts/Alert.jsx";
 import OverlayLoading from "../../components/Loaders/OverlayLoading";
 import { useDispatch,useSelector } from "react-redux";
 import { setSuccess } from "../../redux/slices/appSuccess/index.js";
+import Timer from "../../components/timer/Timer.jsx";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [timer, setTimer] = useState();
+  // const updateTimer = () => {
+
 
   const [step, setStep] = useState(1);
   const [password, setPassword] = useState("");
@@ -71,7 +76,9 @@ const Register = () => {
   return (
     <>
     {errors.root && <Alert message={errors.root.message} type="error" />}
-    {isSubmitting && ( <OverlayLoading title="Loading" message="Please wait a moment..." /> )}
+    {isSubmitting && step<2 && ( <OverlayLoading title="Registering" message="Please wait a moment..." /> )}
+    {isSubmitting && step>1 && ( <OverlayLoading title="Registering" message="Please wait a moment..." /> )}
+
     <div className="container py-10  px-4 flex items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">
       <div className="max-w-sm bg-white p-6 rounded-lg shadow-md w-full md:max-w-md lg:max-w-lg mx-auto">
         <form onSubmit={handleSubmit(onsubmit)}>
@@ -269,7 +276,7 @@ const Step2 = ({ register, errors:errorsObj, password, setPassword }) => (
       }
     </div>
     <div id="note" className="max-w-[400px] mt-2">
-      <p className="text-xs text-warn md:text-sm ml-1 md:ml-2">An otp has been sent to you email. Please check the spam folder too and make sure to mark it as not spam to recieve future email in inbox itself.</p>
+      <p className="text-xs text-alert md:text-sm ml-1 md:ml-2">Otp expiring in <span className="text-primary">{<Timer minutes={5}/>}</span>  </p>
     </div>
   </div>
 );

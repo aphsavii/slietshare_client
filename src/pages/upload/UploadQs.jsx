@@ -28,7 +28,7 @@ function UploadQs() {
 
  
       const res = await qsService.uploadQs(formData);
-      dispatch(setSuccess("Question Paper uploaded successfully"));
+      dispatch(setSuccess("Successfully uploaded for  review..."));
       reset();
       // console.log(res);
     } catch (error) {
