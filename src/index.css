@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.max-w{
+    max-width: 1440px;
+}
+
+.text-xxs{
+    font-size: 10px;
+    line-height: 14px;
+}
+
+/* *{
+    font-family: 'Poppins', sans-serif;
+    margin: 0px 0px;
+    padding: 0px 0px;
+    box-sizing: border-box;
+} */
