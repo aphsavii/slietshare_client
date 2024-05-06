@@ -8,7 +8,7 @@ const Footer = () => {
         </div>
         <div>
         <p className="text-sm md:text-base tracking-wider text-gray-500">&copy; copyright SLIETshare {new Date().getFullYear()}</p>
-        <p className="text-xs mt-3 text-warn">Please report any error or wanna contribute in development at <a href="mailto:info@slietshare.online"> info@slietshare.online</a></p>
+        <p className="text-xs mt-3 text-warn">Please report any error or if you wanna contribute in development at <a href="mailto:info@slietshare.online"> info@slietshare.online</a></p>
         </div>
        
       </div>
