@@ -51,7 +51,7 @@ const QsShare = () => {
               DOE={qs.DOE}
               type={qs['type']}
               ctaText="Download"
-              ctaFunc = {async () => await saveAs(qsUrl, subCode)}
+              ctaFunc = {() =>  saveAs(qs.qsUrl, qs.subCode)}
             />
           ))}
       </div>

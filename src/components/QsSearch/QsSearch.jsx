@@ -28,7 +28,7 @@ const QsSearch = ({  setSearchText, disabled=false }) => {
           </svg>
         </button>
       </div>
-      <p className="italic text-gray-300 text-xs md:text-sm text-center mt-1" >Note: You can search by Subject Code or Subject Name </p>
+      <p className="italic text-gray-500 text-xs md:text-sm text-center mt-1" >Note: You can search by Subject Code or Subject Name </p>
     </div>
   );
 };
