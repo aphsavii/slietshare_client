@@ -51,9 +51,11 @@ const QsShare = () => {
               qsUrl={qs.qsUrl}
               DOE={qs.DOE}
               type={qs['type']}
-              ctaText="Download"
+              ctaText={qs.qsUrl.includes('pdf') ? 'Copy Pdf Link' : 'Download'}
               ctaFunc = {() =>  {
-                if(qs.qsUrl.includes('pdf')) window.open(qs.qsUrl, '_blank')
+                if(qs.qsUrl.includes('pdf')){
+                  navigator.clipboard.writeText(qs.qsUrl);
+                }
                 else
                 saveAs(qs.qsUrl, qs.subCode)}}
             />
