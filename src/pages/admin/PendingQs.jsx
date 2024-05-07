@@ -35,7 +35,7 @@ function PendingQs() {
       setIsOverlayLoading(true);
       await adminService.approveQs(id);
       setIsOverlayLoading(false);
-      setPendingQs(pendingQs.filter(qs => qs._id !== id));
+      dispatch(updatePendingQs(id));
       dispatch(setSuccess('Question approved successfully'));
     } catch (error) {
       setIsOverlayLoading(false);
