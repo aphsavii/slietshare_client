@@ -5,17 +5,23 @@ import QsSearch from "../../components/QsSearch/QsSearch.jsx";
 import qsService from "../../api/services/qsService.js";
 import Error from "../../components/errors/Error.jsx";
 import { useQuery } from "@tanstack/react-query";
-import {useDebouncedState} from "../../hooks/useDebouncedState.js";
+import { useDebouncedState } from "../../hooks/useDebouncedState.js";
+import { useDispatch } from "react-redux";
+import { setSuccess } from "../../redux/slices/appSuccess/index.js";
 
 const QsShare = () => {
-  const [searchText, setSearchText] = useDebouncedState("",1000);
+  const dispatch = useDispatch();
+  const [searchText, setSearchText] = useDebouncedState("", 1000);
 
-  const { isLoading, isError, data, error } = useQuery({queryKey:["qsData",searchText], queryFn: async () => await qsService.searchQs(searchText), enabled: searchText.length > 0, retry: false});
-  
+  const { isLoading, isError, data, error } = useQuery({ queryKey: ["qsData", searchText], queryFn: async () => await qsService.searchQs(searchText), enabled: searchText.length > 0, retry: false });
+
   if (isError) {
     console.log(error)
   }
-  // console.log(isLoading)
+  const copyToClipBoard = (qsUrl) => {
+    dispatch(setSuccess("Link copied to clipboard"));
+    navigator.clipboard.writeText(qsUrl);
+  }
 
   return (
     <div className="container px-4 mx-auto py-10 md:py-16 ">
@@ -39,7 +45,7 @@ const QsShare = () => {
       <div className="relative pt-5 md:pt-10 qs-container w-full flex flex-wrap justify-center lg:justify-normal gap-8 md:gap-14 min-h-96 md:min-h-[500px]">
         {isLoading && <Loading />}
         {isError && <Error message={error} />}
-     
+
         {data && data.length > 0 &&
           data.map((qs) => (
             <Qs
@@ -52,12 +58,13 @@ const QsShare = () => {
               DOE={qs.DOE}
               type={qs['type']}
               ctaText={qs.qsUrl.includes('pdf') ? 'Copy Pdf Link' : 'Download'}
-              ctaFunc = {() =>  {
-                if(qs.qsUrl.includes('pdf')){
-                  navigator.clipboard.writeText(qs.qsUrl);
+              ctaFunc={() => {
+                if (qs.qsUrl.includes('pdf')) {
+                  copyToClipBoard(qs.qsUrl);
                 }
                 else
-                saveAs(qs.qsUrl, qs.subCode)}}
+                  saveAs(qs.qsUrl, qs.subCode)
+              }}
             />
           ))}
       </div>
