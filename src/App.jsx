@@ -54,7 +54,6 @@ function App() {
   const refreshToken = localStorage.getItem('refreshToken');
   const isRefreshTokenValid = refreshToken && jwtDecode(refreshToken).exp > Date.now() / 1000;
   useEffect(() => {
-
     if (accessToken && user && isRefreshTokenValid) {
       dispatch(loginSuccess({ user, accessToken, refreshToken }));
       return;
@@ -64,7 +63,6 @@ function App() {
       userAuthService.refreshTokens().then((res) => {
         if (res?.user && res?.accessToken) {
           dispatch(loginSuccess({ user: res.user, accessToken: res.accessToken, refreshToken: res.refreshToken }));
-          console.log('Refreshed token');
         }
         dispatch(setAppLoading(false));
       }).catch((error) => {

@@ -43,6 +43,7 @@ const QsShare = () => {
         {data && data.length > 0 &&
           data.map((qs) => (
             <Qs
+              qsId={qs._id}
               key={qs._id}
               uploader={qs.uploadedBy.fullName.split(" ")[0]}
               subName={qs.subName}
@@ -51,7 +52,10 @@ const QsShare = () => {
               DOE={qs.DOE}
               type={qs['type']}
               ctaText="Download"
-              ctaFunc = {() =>  saveAs(qs.qsUrl, qs.subCode)}
+              ctaFunc = {() =>  {
+                if(qs.qsUrl.includes('pdf')) window.open(qs.qsUrl, '_blank')
+                else
+                saveAs(qs.qsUrl, qs.subCode)}}
             />
           ))}
       </div>

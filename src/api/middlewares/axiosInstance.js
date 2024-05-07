@@ -15,9 +15,19 @@ const axiosInstance = axios.create({
     baseURL: baseURL,
 });
 
+axiosInstance.interceptors.request.use(async (req)=>{
+    const refreshToken = localStorage.getItem('refreshToken');
+    if(refreshToken) req.headers.Authorization = `Bearer ${refreshToken}`;
+    return req;
+}
+);
+
+
+
 axiosAuthInstance.interceptors.request.use(async (req)=>{
     const accessToken = sessionStorage.getItem('accessToken');
-    if(!accessToken) return Promise.reject('No access token found');
+     if(!accessToken) return Promise.reject('No access token found');
+    req.headers.Authorization = `Bearer ${accessToken}`;
     if (accessToken) {
         const decodedToken = jwtDecode(accessToken);
         if (decodedToken.exp * 1000 < Date.now()) {

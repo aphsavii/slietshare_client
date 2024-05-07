@@ -14,7 +14,12 @@ const qsService = {
         const {data, error} = await apiHandler (()=> axiosAuthInstance.post("qs/upload",requestOptions,{withCredentials:true}));
         if(error) return error;
         return data;
-    }
+    },
+    deleteQs: async(qsId)=>{
+        const {data, error} = await apiHandler (()=> axiosAuthInstance.delete(`qs/delete/${qsId}`,{withCredentials:true}));
+        if(error) return error;
+        return data;
+    },
 }
 
 export default qsService;

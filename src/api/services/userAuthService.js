@@ -1,6 +1,7 @@
 import setLocalAuth from "../../helpers/setLocalAuth";
-import { axiosInstance } from "../middlewares/axiosInstance";
+import { axiosInstance,axiosAuthInstance } from "../middlewares/axiosInstance";
 import { apiHandler } from "../utils/apiHandler";
+
 
 export const userAuthService = {
     register: async (req) => {
@@ -35,7 +36,7 @@ export const userAuthService = {
     },
     refreshTokens: async () => {
         const {data,error} = await apiHandler(async () => {
-            return await axiosInstance.get("/user/refresh-token",{withCredentials:true});
+            return await axiosInstance.get("/user/refresh-token");
         });
         if(error) return error;
         setLocalAuth(data.user,data.accessToken,data.refreshToken);

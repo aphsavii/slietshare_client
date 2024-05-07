@@ -6,18 +6,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setError } from '../../redux/slices/appError';
 import { setSuccess } from '../../redux/slices/appSuccess';
 import OverlayLoading from '../../components/Loaders/OverlayLoading';
+import { updatePendingQs } from '../../redux/slices/qs';
 
 function PendingQs() {
   const [loading, setLoading] = useState(false);
   const [isOverlayLoading, setIsOverlayLoading] = useState(false);
-  const [pendingQs, setPendingQs] = useState([]);
+  const {pendingQs} = useSelector(state => state.qs);
+  console.log(pendingQs)
   const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
     adminService.getPendingQs()
       .then((response) => {
-        setPendingQs(response);
+        dispatch(updatePendingQs(response));
         setLoading(false);
       })
       .catch((error) => {
@@ -41,6 +43,8 @@ function PendingQs() {
       console.log(error);
     }
   }
+  // Delete Qs
+
   return (
     <>
       {loading && <Loading />}
@@ -51,6 +55,7 @@ function PendingQs() {
           { pendingQs.length >0 && pendingQs.map((qs, index) => {
             return (<div key={qs._id}>
               <Qs
+              qsId={qs._id}
               uploader={qs.uploadedBy.fullName.split(" ")[0]}
               subName={qs.subName}
               subCode={qs.subCode.toUpperCase().replace(/([a-zA-Z]+)(\d+)/g, '$1-$2')}
