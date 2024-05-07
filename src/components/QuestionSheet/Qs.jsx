@@ -8,7 +8,7 @@ const Qs = ({ uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc }) 
     <div className=" flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border h-fit rounded-xl w-64 md:w-72">
       <a href={qsUrl} target="_blank" rel="noreferrer">
         <div className="h-32 md:h-48 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40 ">
-          <img className="w-full h-full object-contain" src={qsUrl.includes('pdf')?'assets/icons/pdf.svg':qsUrl} alt="qs" />
+          <img className={`w-full h-full ${qsUrl.includes('pdf')?'object-contain':'object-cover'}`} src={qsUrl.includes('pdf')?'assets/icons/pdf.svg':qsUrl} alt="qs" />
         </div>
       </a>
       <div className="px-6 py-3">
