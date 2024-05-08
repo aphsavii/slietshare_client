@@ -13,7 +13,7 @@ const MsgDialog = ({ active, title = "", text = "" }) => {
       {isOpen && (
         <div className="fixed inset-0 flex items-start justify-center z-50 pt-40 md:items-center md:pt-0">
           <div className="absolute inset-0 bg-black opacity-50" onClick={handleCloseDialog}></div>
-          <div className="bg-white rounded-lg p-6 max-w-[350px] md:max-w-md mx-auto relative z-10">
+          <div className="bg-white rounded-lg p-5 max-w-[330px] md:max-w-md mx-auto relative z-10">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-primary">{title}</h3>
               <button className="text-gray-500 hover:text-gray-700 pl-5 md:pl-10" onClick={handleCloseDialog}>
