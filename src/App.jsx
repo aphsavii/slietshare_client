@@ -90,10 +90,10 @@ function App() {
 
   return (
     <>
+      {appLoading ? <AppLoading /> : <RouterProvider router={router} />}
       <MsgDialog title="Important Note" active={isDialog} text="We just started and there's not much of the data of question papers around here. So, please do upload some if you have previos papers and make sure to upload upcoming paper. Together we Can..."/>
        {isError && <Alert message={errorMsg} type="error" />}
       {isSuccess && <Alert message={successMsg} type="success" />}
-      {appLoading ? <AppLoading /> : <RouterProvider router={router} />}
     </>
   );
 }
