@@ -13,7 +13,6 @@ const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFun
   const [isDeleteting, setisDeleteting] = useState(false);
   const { isAuthenticated, user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  console.log(qsUrl)
   const deleteQs = async () => {
     try {
       setisDeleteting(true);
