@@ -73,25 +73,24 @@ function App() {
     else {
       dispatch(loginFailure('Session expired'));
     }
-
   }, []);
 
 
   const router = createHashRouter(routes);
   const appLoading = useSelector((state) => state.loading.appLoading);
 
-  const { isError, errorMsg} = useSelector((state) => state.error);
-  const { isSuccess,successMsg } = useSelector((state) => state.success);
+  const { isError, errorMsg } = useSelector((state) => state.error);
+  const { isSuccess, successMsg } = useSelector((state) => state.success);
 
   // Dialogs
-  const isDialog = localStorage.getItem('msgDialog')?false:true;
+  const isDialog = localStorage.getItem('msgDialog') ? false : true;
 
 
   return (
     <>
       {appLoading ? <AppLoading /> : <RouterProvider router={router} />}
-      <MsgDialog title="Important Note" active={isDialog} text="We've just started and there's not much of the data of question papers around here. So, please do upload some if you have previous papers and please make sure to upload upcoming papers as well. We help our juniors, our seniors will help us. Together we Can..."/>
-       {isError && <Alert message={errorMsg} type="error" />}
+      <MsgDialog title="Important Note" active={isDialog} text="We've just started and there's not much of the data of question papers around here. So, please do upload some if you have previous papers and please make sure to upload upcoming papers as well. We help our juniors, our seniors will help us. Together we Can..." />
+      {isError && <Alert message={errorMsg} type="error" />}
       {isSuccess && <Alert message={successMsg} type="success" />}
     </>
   );

@@ -3,9 +3,9 @@ import React from 'react'
 function AppLoading() {
     return (
         <>
-            <div>
-                <div className="loadingio-spinner-gear-nq4q5u6dq7r absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="ldio-x2uulkbinbj">
+            <div className='flex flex-col items-center justify-center h-screen'>
+                <div className="loadingio-spinner-gear-nq4q5u6dq7r">
+                    <div className="ldio-x2uulkbinbj ">
                         <div>
                             <div />
                             <div />
@@ -17,6 +17,7 @@ function AppLoading() {
                         </div>
                     </div>
                 </div>
+                <p className="text-center text-lg md:text-2xl text-gray-600">Hang on, Logging you in...</p>
                 <style
                     type="text/css"
                     dangerouslySetInnerHTML={{
