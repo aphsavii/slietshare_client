@@ -1,4 +1,4 @@
-import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements, useLocation } from 'react-router-dom';
+import { RouterProvider, Route, createRoutesFromElements, HashRouter, createHashRouter } from 'react-router-dom';
 import Layout from './Layout.jsx';
 import { loginSuccess, loginFailure } from './redux/slices/auth';
 import { jwtDecode } from 'jwt-decode';
@@ -21,8 +21,7 @@ import PageNotFound from './components/errors/PageNotFound.jsx';
 import NotAuthenticated from './pages/Auth/NotAuthenticated.jsx';
 import NotAdmin from './pages/Auth/NotAdmin.jsx';
 import Admin from './pages/admin/Admin.jsx';
-import { clearError } from './redux/slices/appError/index.js';
-import { clearSuccess } from './redux/slices/appSuccess/index.js';
+
 
 // Route definitions
 const routes = createRoutesFromElements(
@@ -78,7 +77,7 @@ function App() {
   }, []);
 
 
-  const router = createBrowserRouter(routes);
+  const router = createHashRouter(routes);
   const appLoading = useSelector((state) => state.loading.appLoading);
 
   const { isError, errorMsg} = useSelector((state) => state.error);
