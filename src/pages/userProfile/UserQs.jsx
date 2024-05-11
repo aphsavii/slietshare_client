@@ -8,6 +8,7 @@ import Loading from '../../components/Loaders/Loading';
 import { updateUserQs } from '../../redux/slices/qs';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { isPending } from '@reduxjs/toolkit';
 
 function UserQs() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ function UserQs() {
   let { regno } = useParams();
   useEffect(() => {
     setLoading(true);
-    const userQs = qsService.getUserQs(regno).then((res) => {
+    qsService.getUserQs(regno).then((res) => {
       setLoading(false);
       dispatch(updateUserQs(res));
     }).catch((e) => {
@@ -43,6 +44,7 @@ function UserQs() {
                   DOE={qs?.DOE}
                   type={qs['type']}
                   regno={qs.uploadedBy.regno}
+                  isPending={qs.status == 'pending' ? true : false}
                 />
               </div>
             )

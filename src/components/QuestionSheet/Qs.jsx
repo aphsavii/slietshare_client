@@ -10,7 +10,7 @@ import ButtonLoader from "../Loaders/ButtonLoader";
 import {deletePendingQs, deleteUserQs} from "../../redux/slices/qs";
 
 
-const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc, regno }) => {
+const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc, regno, isPending }) => {
   const [isDeleteting, setisDeleteting] = useState(false);
 
   const { isAuthenticated, user } = useSelector(state => state.auth);
@@ -27,7 +27,7 @@ const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFun
       dispatch(setError(error));
       setisDeleteting(false);
     }
-
+    
   }
 
   return (
@@ -49,8 +49,11 @@ const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFun
       </div>
       <div className="p-6 pt-0 flex justify-between">
         {ctaText && <BtnPrimary onClick={ctaFunc} text={ctaText} />}
+        {isPending && <span className="cursor-pointer h-5 w-5 mt-2" title="pending">
+          <img src="assets/icons/pending.svg" alt="pending" />
+          </span>}
         { ( user?.regno == regno || user?.role=="admin"  )     && <span onClick={deleteQs} className="cursor-pointer h-5 w-5 mt-2" title="Delete" > 
-         {isDeleteting? <ButtonLoader/>:<img src="assets/icons/delete.svg" alt="" />}
+         {isDeleteting? <ButtonLoader/>:<img src="assets/icons/delete.svg" alt="delete" />}
          </span>}
       </div>
     </div>
