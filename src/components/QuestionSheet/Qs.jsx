@@ -1,23 +1,26 @@
 import { useState } from "react";
 import BtnPrimary from "../buttons/BtnPrimary";
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from "react-redux";
 import qsService from "../../api/services/qsService";
 import { setError } from "../../redux/slices/appError";
 import { setSuccess } from "../../redux/slices/appSuccess";
 import ButtonLoader from "../Loaders/ButtonLoader";
-import {removeQs} from "../../redux/slices/qs";
+import {deletePendingQs, deleteUserQs} from "../../redux/slices/qs";
 
 
-const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc }) => {
+const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc, regno }) => {
   const [isDeleteting, setisDeleteting] = useState(false);
+
   const { isAuthenticated, user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const deleteQs = async () => {
     try {
       setisDeleteting(true);
       await qsService.deleteQs(qsId);
-      dispatch(removeQs(qsId));
+      dispatch(deletePendingQs(qsId));
+      dispatch(deleteUserQs(qsId));
       setisDeleteting(false);
       dispatch(setSuccess("Question paper deleted successfully"));
     } catch (error) {
@@ -40,13 +43,13 @@ const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFun
         </h5>
 
         <div className="font-sans text-xs md:text-sm antialiased font-light leading-relaxed text-inherit flex justify-between ">
-          <span> {subCode}</span> <span className="italic text-primary font-medium">By {uploader.split(" ")[0]}</span>
+          <span> {subCode}</span><Link to={"/user/"+regno}> <span className="italic text-primary font-medium">By {uploader.split(" ")[0]}</span></Link>
         </div>
         <span className="text-xs md:text-sm text-gray-500">{type} ({DOE.slice(0, 4)})</span>
       </div>
       <div className="p-6 pt-0 flex justify-between">
         {ctaText && <BtnPrimary onClick={ctaFunc} text={ctaText} />}
-        {isAuthenticated && user?.role=="admin"&& <span onClick={deleteQs} className="cursor-pointer h-5 w-5 mt-2"> 
+        { ( user?.regno == regno || user?.role=="admin"  )     && <span onClick={deleteQs} className="cursor-pointer h-5 w-5 mt-2" title="Delete" > 
          {isDeleteting? <ButtonLoader/>:<img src="assets/icons/delete.svg" alt="" />}
          </span>}
       </div>

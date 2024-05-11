@@ -25,10 +25,8 @@ function UploadQs() {
         formData.append(key, data[key]);
       }
       console.log(typeof formData);
-
- 
       const res = await qsService.uploadQs(formData);
-      dispatch(setSuccess("Successfully uploaded for  review..."));
+      dispatch(setSuccess("Question uploaded successfully"));
       reset();
       // console.log(res);
     } catch (error) {

@@ -20,6 +20,11 @@ const qsService = {
         if(error) return error;
         return data;
     },
+    getUserQs: async(regno)=>{
+        const {data, error} = await apiHandler (()=> axiosAuthInstance.get("qs/user/"+regno,{withCredentials:true}));
+        return data ?? error;
+    }
+
 }
 
 export default qsService;

@@ -58,6 +58,7 @@ const QsShare = () => {
               DOE={qs.DOE}
               type={qs['type']}
               ctaText={qs.qsUrl.includes('pdf') ? 'Copy Pdf Link' : 'Download'}
+              regno={qs.uploadedBy.email.slice(0, qs.uploadedBy.email.indexOf('@'))}
               ctaFunc={() => {
                 if (qs.qsUrl.includes('pdf')) {
                   copyToClipBoard(qs.qsUrl);

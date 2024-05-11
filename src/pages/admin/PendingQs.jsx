@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setError } from '../../redux/slices/appError';
 import { setSuccess } from '../../redux/slices/appSuccess';
 import OverlayLoading from '../../components/Loaders/OverlayLoading';
-import { removeQs, updatePendingQs } from '../../redux/slices/qs';
+import { deletePendingQs, updatePendingQs } from '../../redux/slices/qs';
 
 function PendingQs() {
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ function PendingQs() {
       setIsOverlayLoading(true);
       await adminService.approveQs(id);
       setIsOverlayLoading(false);
-      dispatch(removeQs(id));
+      dispatch(deletePendingQs(id));
       dispatch(setSuccess('Question approved successfully'));
     } catch (error) {
       setIsOverlayLoading(false);

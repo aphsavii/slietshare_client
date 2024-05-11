@@ -52,6 +52,7 @@ function userNav() {
           </div>
           <div className=" w-full flex justify-between mt-5">
            {user?.role=="admin" && <Link to={'/admin'}><BtnGray text="admin" /></Link>}
+            <Link to={`/user/${user?.regno}`}><BtnGray text="Profile" /></Link>
             <BtnGray onClick={handleLogOut} text="Logout" isLoading={logginOut} isDisabled={logginOut} />
           </div>
         </div>

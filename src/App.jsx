@@ -21,12 +21,13 @@ import PageNotFound from './components/errors/PageNotFound.jsx';
 import NotAuthenticated from './pages/Auth/NotAuthenticated.jsx';
 import NotAdmin from './pages/Auth/NotAdmin.jsx';
 import Admin from './pages/admin/Admin.jsx';
+import UserQs from './pages/userProfile/UserQs.jsx';
 
 
 // Route definitions
 const routes = createRoutesFromElements(
   <Route path='/' element={<Layout />}>
-
+    {/* Non Authenticated Routes */}
     <Route path="" element={< QsShare />} />
     <Route path="login" element={< Login />} />
     <Route path="register" element={< Register />} />
@@ -39,7 +40,10 @@ const routes = createRoutesFromElements(
     {/* Authenticated Routes */}
     <Route element={<AuthRoutes />}>
       <Route path="qs/upload" element={< UploadQs />} />
+      <Route path="user/:regno" element={< UserQs />} />
     </Route>
+
+    {/* Error Routes */}
     <Route path="*" element={<PageNotFound />} />
     <Route path="noAuth" element={<NotAuthenticated />} />
     <Route path='notAdmin' element={<NotAdmin />} />
