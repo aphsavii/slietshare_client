@@ -1,4 +1,4 @@
-import { RouterProvider, Route, createRoutesFromElements, HashRouter, createHashRouter } from 'react-router-dom';
+import { RouterProvider, Route, createRoutesFromElements,  createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout.jsx';
 import { loginSuccess, loginFailure } from './redux/slices/auth';
 import { jwtDecode } from 'jwt-decode';
@@ -80,7 +80,7 @@ function App() {
   }, []);
 
 
-  const router = createHashRouter(routes);
+  const router = createBrowserRouter(routes);
   const appLoading = useSelector((state) => state.loading.appLoading);
 
   const { isError, errorMsg } = useSelector((state) => state.error);
