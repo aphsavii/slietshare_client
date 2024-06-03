@@ -69,7 +69,8 @@ function App() {
           dispatch(loginSuccess({ user: res.user, accessToken: res.accessToken, refreshToken: res.refreshToken }));
         }
         dispatch(setAppLoading(false));
-      }).catch((error) => {
+      }).catch((e) => {
+        console.error(e);
         dispatch(setAppLoading(false));
         dispatch(loginFailure('Session expired'));
       })
@@ -77,7 +78,7 @@ function App() {
     else {
       dispatch(loginFailure('Session expired'));
     }
-  }, []);
+  });
 
 
   const router = createBrowserRouter(routes);
