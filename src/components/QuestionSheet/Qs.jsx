@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import BtnPrimary from "../buttons/BtnPrimary";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from "react-redux";
 import qsService from "../../api/services/qsService";
@@ -12,6 +12,7 @@ import {toast} from 'react-hot-toast'
 
 const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc, regno, isPending }) => {
   const [isDeleteting, setisDeleteting] = useState(false);
+  const {pathname} = useLocation() ;
 
   const {  user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -52,8 +53,8 @@ const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFun
         {isPending && <span className="cursor-pointer h-5 w-5 mt-2" title="pending">
           <img src="assets/icons/pending.svg" alt="pending" />
           </span>}
-        { ( user?.regno == regno || user?.role=="admin"  )     && <span onClick={deleteQs} className="cursor-pointer h-5 w-5 mt-2" title="Delete" > 
-         {isDeleteting? <ButtonLoader/>:<img src="assets/icons/delete.svg" alt="delete" />}
+        { (( user?.regno == regno || user?.role=="admin") && pathname != '/'  )     && <span onClick={deleteQs} className="cursor-pointer h-5 w-5 mt-2" title="Delete" > 
+         {isDeleteting? <ButtonLoader/>:<img src="/assets/icons/delete.svg" alt="delete" />}
          </span>}
       </div>
     </div>
