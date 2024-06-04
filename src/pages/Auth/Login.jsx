@@ -1,14 +1,12 @@
 import OverlayLoading from "../../components/Loaders/OverlayLoading";
-import Alert from "../../components/alerts/Alert";
 import userAuthService from "../../api/services/userAuthService";
-import { set, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { loginSuccess } from "../../redux/slices/auth";
 import { useDispatch, useSelector } from "react-redux";
 import setLocalAuth from "../../helpers/setLocalAuth";
-import { clearError, setError } from "../../redux/slices/appError";
-import { clearSuccess, setSuccess } from "../../redux/slices/appSuccess";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -18,7 +16,7 @@ const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -27,25 +25,22 @@ const navigate = useNavigate();
       const res = await userAuthService.login({ email, password });
       const { loggedInUser, accessToken, refreshToken } = res;
       dispatch(loginSuccess({ user: loggedInUser, accessToken, refreshToken }));
-      dispatch(setSuccess("Login successfull"));
+      toast.success("Login successfull");
       setLocalAuth(loggedInUser, accessToken, refreshToken);
-      dispatch(clearError());
     }
     catch (error) {
-      dispatch(setError(error.toString()));
+      toast.error(error.toString());
     }
   }
   useEffect(() => {
-
     if(isAuthenticated)
     {
       setTimeout(() => {
-        dispatch(clearSuccess());
         navigate('/');
       },1000);
     }
   }
-    , [isAuthenticated]);
+    , [ isAuthenticated, navigate]);
   
 
   return (

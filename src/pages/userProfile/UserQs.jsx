@@ -1,14 +1,12 @@
-import React from 'react'
 import { useEffect, useState } from 'react';
 import Qs from '../../components/QuestionSheet/Qs';
 import { useSelector, useDispatch } from 'react-redux';
 import qsService from '../../api/services/qsService';
-import { setError } from '../../redux/slices/appError';
 import Loading from '../../components/Loaders/Loading';
 import { updateUserQs } from '../../redux/slices/qs';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { isPending } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 
 function UserQs() {
   const dispatch = useDispatch();
@@ -20,11 +18,11 @@ function UserQs() {
     qsService.getUserQs(regno).then((res) => {
       setLoading(false);
       dispatch(updateUserQs(res));
-    }).catch((e) => {
+    }).catch((error) => {
       setLoading(false);
-      dispatch(setError(error.toString()));
+      toast.error(error.toString());
     })
-  }, []);
+  }, [dispatch, regno]);
 
   return (
     <>

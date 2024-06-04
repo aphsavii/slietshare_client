@@ -1,19 +1,19 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import BtnPrimary from "../buttons/BtnPrimary";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from "react-redux";
 import qsService from "../../api/services/qsService";
-import { setError } from "../../redux/slices/appError";
-import { setSuccess } from "../../redux/slices/appSuccess";
 import ButtonLoader from "../Loaders/ButtonLoader";
 import {deletePendingQs, deleteUserQs} from "../../redux/slices/qs";
+import {toast} from 'react-hot-toast'
 
 
 const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc, regno, isPending }) => {
   const [isDeleteting, setisDeleteting] = useState(false);
 
-  const { isAuthenticated, user } = useSelector(state => state.auth);
+  const {  user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const deleteQs = async () => {
     try {
@@ -22,9 +22,9 @@ const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFun
       dispatch(deletePendingQs(qsId));
       dispatch(deleteUserQs(qsId));
       setisDeleteting(false);
-      dispatch(setSuccess("Question paper deleted successfully"));
+      toast.success("Question paper deleted successfully");
     } catch (error) {
-      dispatch(setError(error));
+      toast.error(error.toString());
       setisDeleteting(false);
     }
     

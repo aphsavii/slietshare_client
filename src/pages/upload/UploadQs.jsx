@@ -3,17 +3,14 @@ import { useForm } from "react-hook-form";
 import Select from "../../components/inputs/Select";
 import { PROGRAMMES, TRADES } from "../../constant.js";
 import { QUESTION_TYPES } from "../../constant.js";
-import { useDispatch } from 'react-redux';
-import { setError } from '../../redux/slices/appError/index.js';
-import { setSuccess } from '../../redux/slices/appSuccess/index.js';
 import BtnPrimary from '../../components/buttons/BtnPrimary';
 import qsService from '../../api/services/qsService.js';
+import toast from 'react-hot-toast';
 
 function UploadQs() {
 
-  const { register, handleSubmit, reset, formState: { errors, isSubmitted, isValid, isSubmitSuccessful, isSubmitting }, setValue } = useForm();
+  const { register, handleSubmit, reset, formState: { errors, isValid, isSubmitting } } = useForm();
   const [programme, setProgramme] = useState("");
-  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     try {
@@ -25,13 +22,13 @@ function UploadQs() {
         formData.append(key, data[key]);
       }
       console.log(typeof formData);
-      const res = await qsService.uploadQs(formData);
-      dispatch(setSuccess("Question uploaded successfully"));
+      await qsService.uploadQs(formData);
+      toast.success("Question uploaded successfully");
       reset();
       // console.log(res);
     } catch (error) {
       console.log(error);
-      dispatch(setError(error.toString()));
+      toast.error(error.toString());
     }
   }
 

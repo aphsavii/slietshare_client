@@ -3,10 +3,9 @@ import Qs from '../../components/QuestionSheet/Qs';
 import adminService from '../../api/services/adminService';
 import Loading from '../../components/Loaders/Loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { setError } from '../../redux/slices/appError';
-import { setSuccess } from '../../redux/slices/appSuccess';
 import OverlayLoading from '../../components/Loaders/OverlayLoading';
 import { deletePendingQs, updatePendingQs } from '../../redux/slices/qs';
+import toast from 'react-hot-toast';
 
 function PendingQs() {
   const [loading, setLoading] = useState(false);
@@ -23,10 +22,10 @@ function PendingQs() {
       })
       .catch((error) => {
         setLoading(false);
-        dispatch(setError(error.toString()));
+        toast.error(error.toString());
         console.log(error);
       });
-  },[]);
+  }, [dispatch]);
 
   // Approve Qs 
   const approveQs = async (id) => {
@@ -35,10 +34,10 @@ function PendingQs() {
       await adminService.approveQs(id);
       setIsOverlayLoading(false);
       dispatch(deletePendingQs(id));
-      dispatch(setSuccess('Question approved successfully'));
+      toast.success('Question approved successfully');
     } catch (error) {
       setIsOverlayLoading(false);
-      dispatch(setError(error.toString()));
+      toast.error(error.toString());
       console.log(error);
     }
   }
@@ -51,7 +50,7 @@ function PendingQs() {
       <div className=''>
         <h1 className="text-2xl font-bold text-center text-primary pb-10">Pending Questions</h1>
         <div className="flex gap-5 flex-wrap justify-center">
-          { pendingQs.length >0 && pendingQs.map((qs, index) => {
+          { pendingQs.length >0 && pendingQs.map((qs) => {
             return (<div key={qs._id}>
               <Qs
               qsId={qs._id}

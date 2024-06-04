@@ -6,11 +6,9 @@ import qsService from "../../api/services/qsService.js";
 import Error from "../../components/errors/Error.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useDebouncedState } from "../../hooks/useDebouncedState.js";
-import { useDispatch } from "react-redux";
-import { setSuccess } from "../../redux/slices/appSuccess/index.js";
+import toast from "react-hot-toast";
 
 const QsShare = () => {
-  const dispatch = useDispatch();
   const [searchText, setSearchText] = useDebouncedState("", 1000);
 
   const { isLoading, isError, data, error } = useQuery({ queryKey: ["qsData", searchText], queryFn: async () => await qsService.searchQs(searchText), enabled: searchText.length > 0, retry: false });
@@ -19,7 +17,7 @@ const QsShare = () => {
     console.log(error)
   }
   const copyToClipBoard = (qsUrl) => {
-    dispatch(setSuccess("Link copied to clipboard"));
+    toast.success("Link copied to clipboard");
     navigator.clipboard.writeText(qsUrl);
   }
 

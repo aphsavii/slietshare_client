@@ -9,6 +9,7 @@ import Alert from './components/alerts/Alert.jsx';
 import AppLoading from './components/Loaders/AppLoading.jsx';
 import { useEffect } from 'react';
 import MsgDialog from './components/popups/MsgDialog.jsx';
+import { Toaster } from 'react-hot-toast';
 
 // Route imports
 import AuthRoutes from './components/routes/AuthRoutes/AuthRoutes.jsx';
@@ -95,6 +96,7 @@ function App() {
     <>
       {appLoading ? <AppLoading /> : <RouterProvider router={router} />}
       <MsgDialog title="Important Note" active={isDialog} text="We've just started and there's not much of the data of question papers around here. So, please do upload some if you have previous papers and please make sure to upload upcoming papers as well. We help our juniors, our seniors will help us. Together we Can..." />
+      <Toaster position="top-center" />
       {isError && <Alert message={errorMsg} type="error" />}
       {isSuccess && <Alert message={successMsg} type="success" />}
     </>

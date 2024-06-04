@@ -1,21 +1,17 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import Select from "../../components/inputs/Select";
 import { PROGRAMMES, TRADES, getBatchYears } from "../../constant.js";
-import { set, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import {userAuthService} from "../../api/services/userAuthService";
 import { useNavigate } from "react-router";
 import Alert from "../../components/alerts/Alert.jsx";
 import OverlayLoading from "../../components/Loaders/OverlayLoading";
-import { useDispatch,useSelector } from "react-redux";
-import { setSuccess } from "../../redux/slices/appSuccess/index.js";
 import Timer from "../../components/timer/Timer.jsx";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [timer, setTimer] = useState();
-  // const updateTimer = () => {
 
 
   const [step, setStep] = useState(1);
@@ -38,7 +34,7 @@ const Register = () => {
     if(step < 2 ) {
      try {
        await userAuthService.generateOTP({email: data.email,name:data.fullName});
-        dispatch(setSuccess("OTP sent to your email..."));
+        toast.success("OTP sent to your email...");
         setStep(2);
        return;
      } catch (error) {
@@ -50,7 +46,7 @@ const Register = () => {
     try {
       const regno = data?.email.slice(0,7);
        await userAuthService.register({regno,...data});
-        dispatch(setSuccess("Registration Successful. Redirecting to login page..."));
+        toast.success("Registration Successful. Redirecting to login page...");
         setTimeout(() => {
           setRegistered(true);
         }, 1000);
@@ -60,18 +56,13 @@ const Register = () => {
   }
 
 
-  const handleNext = () => {
-    if (!isValid) return;
-    setStep(step + 1);
-  };
-
   const handleBack = () => {
     setStep(step - 1);
   };
 
   useEffect(() => {
     if(registered) navigate("/login");
-  }, [registered]);
+  }, [navigate, registered]);
 
   return (
     <>

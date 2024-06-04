@@ -3,13 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import userAuthService from "../../api/services/userAuthService";
 import { logout } from "../../redux/slices/auth";
-import { setError } from "../../redux/slices/appError";
-import BtnPrimary from "../buttons/BtnPrimary";
-import BtnSecondary from "../buttons/BtnSecondary";
 import BtnGray from "../buttons/BtnGray";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
-function userNav() {
+function UserNav() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [offCanvas, setOffCanvas] = useState(false);
@@ -29,7 +27,7 @@ function userNav() {
       navigate('/');
     } catch (error) {
       setLoggingOut(false);
-      dispatch(setError(error.toString()));
+      toast.error(error.toString());
     }
   }
 
@@ -62,4 +60,4 @@ function userNav() {
   )
 }
 
-export default userNav
+export default UserNav
