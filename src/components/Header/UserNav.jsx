@@ -24,6 +24,7 @@ function UserNav() {
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
       setLoggingOut(false);
+      toast.success("Logged out successfully");
       navigate('/');
     } catch (error) {
       setLoggingOut(false);

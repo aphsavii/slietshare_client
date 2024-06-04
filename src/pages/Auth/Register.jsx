@@ -5,7 +5,6 @@ import { PROGRAMMES, TRADES, getBatchYears } from "../../constant.js";
 import {  useForm } from "react-hook-form";
 import {userAuthService} from "../../api/services/userAuthService";
 import { useNavigate } from "react-router";
-import Alert from "../../components/alerts/Alert.jsx";
 import OverlayLoading from "../../components/Loaders/OverlayLoading";
 import Timer from "../../components/timer/Timer.jsx";
 import toast from "react-hot-toast";
@@ -61,15 +60,16 @@ const Register = () => {
   };
 
   useEffect(() => {
+    if(errors.root) {
+      toast.error(errors.root.message);
+    }
     if(registered) navigate("/login");
-  }, [navigate, registered]);
+  }, [errors.root, navigate, registered]);
 
   return (
     <>
-    {errors.root && <Alert message={errors.root.message} type="error" />}
-    {isSubmitting && step<2 && ( <OverlayLoading title="Registering" message="Please wait a moment..." /> )}
+    {isSubmitting && step<2 && ( <OverlayLoading title="Sending Otp" message="Please wait a moment..." /> )}
     {isSubmitting && step>1 && ( <OverlayLoading title="Registering" message="Please wait a moment..." /> )}
-
     <div className="container py-10  px-4 flex items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">
       <div className="max-w-sm bg-white p-6 rounded-lg shadow-md w-full md:max-w-md lg:max-w-lg mx-auto">
         <form onSubmit={handleSubmit(onsubmit)}>

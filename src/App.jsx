@@ -5,7 +5,6 @@ import { jwtDecode } from 'jwt-decode';
 import userAuthService from './api/services/userAuthService.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAppLoading } from './redux/slices/appLoading/index.js';
-import Alert from './components/alerts/Alert.jsx';
 import AppLoading from './components/Loaders/AppLoading.jsx';
 import { useEffect } from 'react';
 import MsgDialog from './components/popups/MsgDialog.jsx';
@@ -85,8 +84,6 @@ function App() {
   const router = createBrowserRouter(routes);
   const appLoading = useSelector((state) => state.loading.appLoading);
 
-  const { isError, errorMsg } = useSelector((state) => state.error);
-  const { isSuccess, successMsg } = useSelector((state) => state.success);
 
   // Dialogs
   const isDialog = localStorage.getItem('msgDialog') ? false : true;
@@ -97,8 +94,6 @@ function App() {
       {appLoading ? <AppLoading /> : <RouterProvider router={router} />}
       <MsgDialog title="Important Note" active={isDialog} text="We've just started and there's not much of the data of question papers around here. So, please do upload some if you have previous papers and please make sure to upload upcoming papers as well. We help our juniors, our seniors will help us. Together we Can..." />
       <Toaster position="top-center" />
-      {isError && <Alert message={errorMsg} type="error" />}
-      {isSuccess && <Alert message={successMsg} type="success" />}
     </>
   );
 }
