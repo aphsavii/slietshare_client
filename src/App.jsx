@@ -1,12 +1,7 @@
 import { RouterProvider, Route, createRoutesFromElements,  createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout.jsx';
-import { loginSuccess, loginFailure } from './redux/slices/auth';
-import { jwtDecode } from 'jwt-decode';
-import userAuthService from './api/services/userAuthService.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { setAppLoading } from './redux/slices/appLoading/index.js';
+import { useSelector } from 'react-redux';
 import AppLoading from './components/Loaders/AppLoading.jsx';
-import { useEffect } from 'react';
 import MsgDialog from './components/popups/MsgDialog.jsx';
 import { Toaster } from 'react-hot-toast';
 
