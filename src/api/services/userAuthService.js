@@ -1,5 +1,5 @@
-import setLocalAuth from "../../helpers/setLocalAuth";
-import { axiosInstance,axiosAuthInstance } from "../middlewares/axiosInstance";
+import {setLocalAuth} from "../../helpers/LocalAuth";
+import { axiosInstance } from "../middlewares/axiosInstance";
 import { apiHandler } from "../utils/apiHandler";
 
 

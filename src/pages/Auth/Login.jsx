@@ -4,12 +4,12 @@ import {  useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { loginSuccess } from "../../redux/slices/auth";
 import { useDispatch, useSelector } from "react-redux";
-import setLocalAuth from "../../helpers/setLocalAuth";
+import {setLocalAuth} from "../../helpers/LocalAuth";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const dispatch = useDispatch();
+const dispatch = useDispatch();
 const navigate = useNavigate();
 
   const {isAuthenticated} = useSelector(state => state.auth);

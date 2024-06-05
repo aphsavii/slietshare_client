@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import setLocalAuth from "../../../helpers/setLocalAuth";
+import {setLocalAuth,resetLocalAuth} from "../../../helpers/LocalAuth";
 
 const initialState = {
     isAuthenticated: false,
@@ -23,6 +23,7 @@ const authSlice = createSlice({
             state.user = null;
             state.accessToken = null;
             state.error = action.payload;
+            resetLocalAuth();
         },
         logout: (state) => {
             state.isAuthenticated = false;

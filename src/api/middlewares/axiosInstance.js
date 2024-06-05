@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import {jwtDecode} from 'jwt-decode'
 import userAuthService from '../services/userAuthService';
-import setLocalAuth from '../../helpers/setLocalAuth';
+import {setLocalAuth} from '../../helpers/LocalAuth';
 
 const baseURL = window.location.origin.includes('localhost') ? 'http://localhost:5050' : 'https://slietshare-server.onrender.com/';
 

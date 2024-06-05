@@ -23,6 +23,7 @@ function Layout() {
     const user = JSON.parse(localStorage.getItem('user'));
     const refreshToken = localStorage.getItem('refreshToken');
     const isRefreshTokenValid = refreshToken && jwtDecode(refreshToken).exp > Date.now() / 1000;
+    
     useEffect(() => {
       if (accessToken && user && isRefreshTokenValid) {
         dispatch(loginSuccess({ user, accessToken, refreshToken }));
@@ -45,7 +46,7 @@ function Layout() {
         dispatch(setAppLoading(false));
         dispatch(loginFailure('Session expired'));
       }
-    });
+    },[accessToken, dispatch, isRefreshTokenValid, refreshToken, user]);
   
   
 
