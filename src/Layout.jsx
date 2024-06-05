@@ -42,6 +42,7 @@ function Layout() {
         })
       }
       else {
+        dispatch(setAppLoading(false));
         dispatch(loginFailure('Session expired'));
       }
     });
