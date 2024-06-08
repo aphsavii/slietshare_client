@@ -48,7 +48,7 @@ function PendingQs() {
       {loading && <Loading />}
       {isOverlayLoading && <OverlayLoading />}
       <div className=''>
-        <h1 className="text-2xl font-bold text-center text-primary pb-10">Pending Questions</h1>
+        <h1 className="text-2xl font-bold text-center text-primaryBlue pb-10">Pending Questions</h1>
         <div className="flex gap-5 flex-wrap justify-center">
           { pendingQs.length >0 && pendingQs.map((qs) => {
             return (<div key={qs._id}>

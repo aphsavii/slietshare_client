@@ -44,7 +44,7 @@ const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFun
         </h5>
 
         <div className="font-sans text-xs md:text-sm antialiased font-light leading-relaxed text-inherit flex justify-between ">
-          <span> {subCode}</span><Link to={"/user/"+regno}> <span className="italic text-primary font-medium">By {uploader.split(" ")[0]}</span></Link>
+          <span> {subCode}</span><Link to={"/user/"+regno}> <span className="italic text-primaryBlue font-medium">By {uploader.split(" ")[0]}</span></Link>
         </div>
         <span className="text-xs md:text-sm text-gray-500">{type} ({DOE.slice(0, 4)})</span>
       </div>

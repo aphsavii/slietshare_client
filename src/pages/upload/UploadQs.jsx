@@ -35,7 +35,7 @@ function UploadQs() {
   return (
     <div className="container px-4 flex items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto py-10">
       <div className="max-w-sm bg-white p-6 rounded-lg shadow-md w-full md:max-w-md lg:max-w-lg mx-auto ">
-        <h2 className="text-xl md:text-2xl font-bold text-primary mb-2">
+        <h2 className="text-xl md:text-2xl font-bold text-primaryBlue mb-2">
           Upload the Question Paper
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>

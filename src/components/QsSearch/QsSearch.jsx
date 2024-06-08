@@ -4,7 +4,7 @@ const QsSearch = ({  setSearchText, disabled=false }) => {
     <div className="qs-search">
       <div className="pt-2 relative mx-auto text-gray-600">
         <input
-          className="border-2 border-lightGray bg-white h-10 md:h-12 px-5 pr-16 rounded-lg text-sm focus:outline-primary focus:border-none w-72 md:w-96 "
+          className="border-2 border-lightGray bg-white h-10 md:h-12 px-5 pr-16 rounded-lg text-sm focus:outline-primaryBlue focus:border-none w-72 md:w-96 "
           type="search"
           name="search"
           placeholder="Search"
@@ -14,7 +14,7 @@ const QsSearch = ({  setSearchText, disabled=false }) => {
         />
         <button  className="absolute right-0 top-0 mt-5 mr-4"  disabled={disabled}>
           <svg
-                className="text-primary h-4 w-4 md:h-5 md:w-5 fill-current"
+                className="text-primaryBlue h-4 w-4 md:h-5 md:w-5 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
             x="0px"

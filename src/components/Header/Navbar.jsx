@@ -7,8 +7,8 @@ const Navbar = () => {
   const isLoginPage = useLocation().pathname === '/login';
   const { isAuthenticated } = useSelector((state) => state.auth);
   return (
-    <div className="w-full bg-primary sticky z-[30] top-0">
-      <nav className="container  relative mx-auto text-center flex items-center justify-center h-10 md:h-16  text-lg md:text-2xl  bg-primary ">
+    <div className="w-full bg-primaryBlue sticky z-[30] top-0">
+      <nav className="container  relative mx-auto text-center flex items-center justify-center h-10 md:h-16  text-lg md:text-2xl  bg-primaryBlue ">
         <Link to="">
           <h1 className="text-white font-bold tracking-wider">SLIETshare</h1>
         </Link>

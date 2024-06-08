@@ -21,7 +21,7 @@ const OverlayLoading = ({ title = "Loading...", message = "please wait a moment.
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-600 bg-opacity-70 flex flex-col items-center justify-center">
       <div className="flex justify-center items-center mb-5">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-[3px] border-b-[3px] border-primary"></div>
+        <div className="animate-spin rounded-full h-10 w-10 border-t-[3px] border-b-[3px] border-primaryBlue"></div>
       </div>
       <div className="min-w-72 text-center flex flex-col items-center">
       <h2 className="text-lg text-center text-white md:text-xl font-semibold w-full">{title}</h2>

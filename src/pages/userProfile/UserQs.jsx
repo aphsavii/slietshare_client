@@ -28,7 +28,7 @@ function UserQs() {
     <>
       {loading && <Loading />}
       <div className="container py-10 px-4  items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">
-        <h2 className='w-full text-center text-xl md:text-3xl font-bold text-primary my-5'>Questions Uploaded </h2>
+        <h2 className='w-full text-center text-xl md:text-3xl font-bold text-primaryBlue my-5'>Questions Uploaded </h2>
         <div className='w-full flex  gap-5 flex-wrap justify-center'>
           {!loading && userQs.length > 0 && userQs.map((qs) => {
             return (
@@ -52,7 +52,7 @@ function UserQs() {
         {userQs.length == 0 && !loading && <h2 className='text-center text-lg md:text-xl font-normal text-alert my-5'>No Questions Uploaded</h2>}
         {userQs.length == 0 && !loading &&
           <div className="flex justify-center">
-            <span className="mx-auto text-sm md:text-lg text-white bg-primary py-1.5 px-2 md:py-2 md:px-3 rounded-md">
+            <span className="mx-auto text-sm md:text-lg text-white bg-primaryBlue py-1.5 px-2 md:py-2 md:px-3 rounded-md">
               <Link to={'/qs/upload'}>Upload Now</Link>
             </span>
           </div>}

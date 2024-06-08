@@ -7,6 +7,7 @@ import Error from "../../components/errors/Error.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useDebouncedState } from "../../hooks/useDebouncedState.js";
 import toast from "react-hot-toast";
+import { Button } from "/components/ui/button.jsx";
 
 const QsShare = () => {
   const [searchText, setSearchText] = useDebouncedState("", 1000);
@@ -27,7 +28,7 @@ const QsShare = () => {
         <h1 className="text-2xl md:text-4xl font-bold text-center text-lightBlack tracking-wider ">
           Sharing is Caring
         </h1>
-        <p className="text-center text-sm md:text-lg  text-secondary tracking-widest text-balance ">
+        <p className="text-center text-sm md:text-lg  text-grayish tracking-widest text-balance ">
           Share your question papers and help others
         </p>
         <div className="py-5">
@@ -67,6 +68,7 @@ const QsShare = () => {
             />
           ))}
       </div>
+      <Button variant="secondary" size="lg" className="mt-10" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to Top</Button>
     </div>
   );
 };

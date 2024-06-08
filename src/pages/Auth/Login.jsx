@@ -105,7 +105,7 @@ const navigate = useNavigate();
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="bg-primary hover:bg-opacity-80  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-primaryBlue hover:bg-opacity-80  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
                   Sign In

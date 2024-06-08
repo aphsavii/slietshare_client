@@ -76,14 +76,14 @@ const Register = () => {
           <h2 className="text-lg font-medium mb-4">Step {step} of 2</h2>
           <div className="flex mb-4">
             <div
-              className={`w-1/2 border-r border-gray-400 ${step === 1 ? "bg-primary text-white" : "bg-gray-200"
+              className={`w-1/2 border-r border-gray-400 ${step === 1 ? "bg-primaryBlue text-white" : "bg-gray-200"
                 } p-2 text-center cursor-pointer`}
               onClick={() => setStep(1)}
             >
               Step 1
             </div>
             <div
-              className={`w-1/2 ${step === 2 ? "bg-primary text-white" : "bg-gray-200"
+              className={`w-1/2 ${step === 2 ? "bg-primaryBlue text-white" : "bg-gray-200"
                 } p-2 text-center cursor-pointer`}
               onClick={() => {
                 if(!isValid) return;
@@ -102,12 +102,12 @@ const Register = () => {
                 >
                   Back
                 </button>
-                <button type="submit" className="bg-primary px-6 py-1.5 rounded-lg text-white hover:bg-primary">Register</button>
+                <button type="submit" className="bg-primaryBlue px-6 py-1.5 rounded-lg text-white hover:bg-primaryBlue">Register</button>
               </>
             )}
             {step < 2 && (
               <button type="submit" 
-                className="bg-primary px-6 py-1.5 rounded-lg text-white hover:bg-primary"
+                className="bg-primaryBlue px-6 py-1.5 rounded-lg text-white hover:bg-primaryBlue"
               >
                 Next
               </button>
@@ -267,7 +267,7 @@ const Step2 = ({ register, errors:errorsObj, password, setPassword }) => (
       }
     </div>
     <div id="note" className="max-w-[400px] mt-2">
-      <p className="text-xs text-alert md:text-sm ml-1 md:ml-2">Otp expiring in <span className="text-primary">{<Timer minutes={5}/>}</span>  </p>
+      <p className="text-xs text-alert md:text-sm ml-1 md:ml-2">Otp expiring in <span className="text-primaryBlue">{<Timer minutes={5}/>}</span>  </p>
     </div>
   </div>
 );
