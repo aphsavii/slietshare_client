@@ -68,7 +68,7 @@ const QsShare = () => {
             />
           ))}
       </div>
-      <Button variant="primary" size="lg" className="mt-10" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to Top</Button>
+      <Button variant="primary" size="default" className="mt-10" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to Top</Button>
     </div>
   );
 };
