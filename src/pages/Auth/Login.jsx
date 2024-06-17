@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {setLocalAuth} from "../../helpers/LocalAuth";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const navigate = useNavigate();
                       return emailPattern.test(value) && value.includes('sliet.ac.in') || "Invalid email format";
                     }
                   })}
-                  className="relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
                   id="email"
                   type="text"
                   placeholder="email"
@@ -92,7 +93,7 @@ const navigate = useNavigate();
                 </label>
                 <input
                   {...register("password", { required: "password is required" })}
-                  className=" relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className=" relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
                   id="password"
                   type="password"
                   placeholder="Password"
@@ -105,14 +106,14 @@ const navigate = useNavigate();
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="bg-primaryBlue hover:bg-opacity-80  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-primaryBlue hover:bg-opacity-80  text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primaryBlue"
                   type="submit"
                 >
                   Sign In
                 </button>
-                <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                <Link to={'/forgot-password'} className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                   Forgot Password?
-                </a>
+                </Link>
               </div>
             </form>
           </div>

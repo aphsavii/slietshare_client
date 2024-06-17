@@ -82,7 +82,7 @@ function UploadQs() {
               Subject Name
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
               id="subName"
               type="text"
               placeholder="Name of the subject" autoComplete="off"
@@ -104,7 +104,7 @@ function UploadQs() {
               Subject Code
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
               id="subCode"
               type="text"
               placeholder="Subject Code"
@@ -146,7 +146,7 @@ function UploadQs() {
               Date of Examination
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
               id="DOE"
               type="date"
               placeholder="Date of Examination"

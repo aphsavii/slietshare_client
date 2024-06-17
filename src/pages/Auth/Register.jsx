@@ -129,7 +129,7 @@ const Step1 = ({ register, errors,programme,setProgramme }) => (
         College Email
       </label>
       <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
         id="email"
         type="text"
         placeholder="email" autoComplete="off"
@@ -154,7 +154,7 @@ const Step1 = ({ register, errors,programme,setProgramme }) => (
         Full Name
       </label>
       <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
         id="fullName"
         type="text"
         placeholder="name"
@@ -210,7 +210,7 @@ const Step2 = ({ register, errors:errorsObj, password, setPassword }) => (
         type="password"
         id="password"
         name="password"
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
         placeholder="Password"
         {...register("password", { required: "Password is required" })}
         onChange={(e) => setPassword(e.target.value)}
@@ -233,7 +233,7 @@ const Step2 = ({ register, errors:errorsObj, password, setPassword }) => (
         type="password"
         id="confirmPassword"
         name="confirmPassword"
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
         placeholder="Confirm Password"
         {...register("confirmPassword", {
           required: "Confirm Password is required",
@@ -254,7 +254,7 @@ const Step2 = ({ register, errors:errorsObj, password, setPassword }) => (
         type="number"
         id="otp"
         name="otp"
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
         placeholder="OTP"
         maxLength={6}
         {...register("otp", { required: "OTP is required", minLength: { value: 6, message: "OTP must be 6 digits" }} )}

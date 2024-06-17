@@ -1,8 +1,8 @@
-import Btnsecondary from "../buttons/BtnSecondary";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserNav from "./UserNav";
+import { Button } from "/shadcn/ui/Button";
 const Navbar = () => {
   const isLoginPage = useLocation().pathname === '/login';
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -13,10 +13,10 @@ const Navbar = () => {
           <h1 className="text-white font-bold tracking-wider">SLIETshare</h1>
         </Link>
         {!isAuthenticated && !isLoginPage && <Link to="/login" className="absolute right-0">
-          <Btnsecondary text="Login" onClick={()=>{}}/>
+           <Button className="mr-1" variant="secondary" size="responsive">Login</Button>
         </Link>}
         {!isAuthenticated && isLoginPage && <Link to="/register" className="absolute right-0">
-          <Btnsecondary text="Register" onClick={()=>{}}/>
+          <Button className="mr-1" variant="secondary" size="responsive">Register</Button>
         </Link>}
       {isAuthenticated && 
         <div className="absolute right-2">

@@ -17,7 +17,7 @@ import NotAuthenticated from './pages/Auth/NotAuthenticated.jsx';
 import NotAdmin from './pages/Auth/NotAdmin.jsx';
 import Admin from './pages/admin/Admin.jsx';
 import UserQs from './pages/userProfile/UserQs.jsx';
-
+import ForgotPassword from './pages/Auth/ForgotPassword.jsx';
 
 // Route definitions
 const routes = createRoutesFromElements(
@@ -26,6 +26,7 @@ const routes = createRoutesFromElements(
     <Route path="" element={< QsShare />} />
     <Route path="login" element={< Login />} />
     <Route path="register" element={< Register />} />
+    <Route path="forgot-password" element={< ForgotPassword />} />
 
     {/* Admin Routes */}
     <Route element={<AdminRoutes />}>

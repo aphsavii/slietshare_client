@@ -7,7 +7,7 @@ import Error from "../../components/errors/Error.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useDebouncedState } from "../../hooks/useDebouncedState.js";
 import toast from "react-hot-toast";
-import { Button } from "/shadcn/ui/button.jsx";
+import { Button } from "/shadcn/ui/Button.jsx";
 
 const QsShare = () => {
   const [searchText, setSearchText] = useDebouncedState("", 1000);

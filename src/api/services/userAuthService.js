@@ -31,8 +31,7 @@ export const userAuthService = {
         const {data,error} = await apiHandler(async () => {
             return await axiosInstance.post("/user/generate-otp", req);
         });
-        if(error) return error;
-        return data;
+        return error ?? data ;
     },
     refreshTokens: async () => {
         const {data,error} = await apiHandler(async () => {
@@ -42,6 +41,12 @@ export const userAuthService = {
         setLocalAuth(data.user,data.accessToken,data.refreshToken);
         return data;
     },
+    forgotPassword: async (req) =>{
+        const {data, error} = await apiHandler(async ()=>{
+            return await axiosInstance.post('/user/forgot-password',req)
+        })
+        return data ?? error ;
+    }
 }
 
 export default userAuthService;
