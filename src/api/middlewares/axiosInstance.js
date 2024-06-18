@@ -4,6 +4,7 @@ import userAuthService from '../services/userAuthService';
 import {setLocalAuth} from '../../helpers/LocalAuth';
 
 const baseURL = window.location.origin.includes('localhost') ? 'http://localhost:5050' : 'https://slietshare-server.onrender.com/';
+if(window.location.origin.includes('slietshare-client-um2t')) baseURL = 'https://slietshare-server-2lbv.onrender.com';
 
 const axiosAuthInstance = axios.create({
     baseURL: baseURL,
