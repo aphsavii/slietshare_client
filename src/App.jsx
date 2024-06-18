@@ -18,6 +18,7 @@ import NotAdmin from './pages/Auth/NotAdmin.jsx';
 import Admin from './pages/admin/Admin.jsx';
 import UserQs from './pages/userProfile/UserQs.jsx';
 import ForgotPassword from './pages/Auth/ForgotPassword.jsx';
+import UserProfile from './pages/userProfile/UserProfile.jsx';
 
 // Route definitions
 const routes = createRoutesFromElements(
@@ -36,7 +37,7 @@ const routes = createRoutesFromElements(
     {/* Authenticated Routes */}
     <Route element={<AuthRoutes />}>
       <Route path="qs/upload" element={< UploadQs />} />
-      <Route path="user/:regno" element={< UserQs />} />
+      <Route path="user/:regno" element={< UserProfile />} />
     </Route>
 
     {/* Error Routes */}

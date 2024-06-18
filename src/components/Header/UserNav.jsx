@@ -6,6 +6,7 @@ import { logout } from "../../redux/slices/auth";
 import BtnGray from "../buttons/BtnGray";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { LogOut, User,Crown } from "lucide-react";
 
 function UserNav() {
   const dispatch = useDispatch();
@@ -14,51 +15,92 @@ function UserNav() {
   const [logginOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
 
-
   const handleLogOut = async () => {
     try {
       setLoggingOut(true);
       await userAuthService.logout();
       dispatch(logout());
-      sessionStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
+      sessionStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
       setLoggingOut(false);
       toast.success("Logged out successfully");
-      navigate('/');
+      navigate("/");
     } catch (error) {
       setLoggingOut(false);
       toast.error(error.toString());
     }
-  }
+  };
 
   return (
-
     <div onMouseEnter={() => setOffCanvas(true)} onMouseLeave={() => setOffCanvas(false)}>
-      <div className="rounded-full h-7 w-7  md:h-10 md:w-10 cursor-pointer" >
+      <div className="rounded-full h-7 w-7  md:h-10 md:w-10 cursor-pointer">
         <img src={user?.avatarUrl} alt="profile" className="rounded-full" />
       </div>
-      <div className={`absolute z-[5] right-[20%] ${offCanvas ? '' : 'hidden'}`}>
+      <div
+        className={`absolute z-[5] right-[0%] top-8 md:top-10 ${
+          offCanvas ? "" : "hidden"
+        }`}
+      >
         <div className="bg-white rounded-lg shadow-md p-4">
           <div className="flex items-center">
             <div className="rounded-full h-7 w-7 border-1 md:h-10 md:w-10">
-              <img src={user?.avatarUrl} alt="profile" className="rounded-full" />
+              <img
+                src={user?.avatarUrl}
+                alt="profile"
+                className="rounded-full"
+              />
             </div>
             <div className="ml-2">
-              <p className="text-sm -ml-2.5 md:ml-0 md:text-lg font-bold">{user?.fullName}</p>
+              <p className="text-sm -ml-2.5 md:ml-0 md:text-lg font-bold">
+                {user?.fullName}
+              </p>
               <p className="text-xs md:text-sm text-gray-500">{user?.email}</p>
             </div>
           </div>
-          <div className=" w-full flex justify-between mt-5">
-           {user?.role=="admin" && <Link to={'/admin'}><BtnGray text="admin" /></Link>}
-            <Link to={`/user/${user?.regno}`}><BtnGray text="Profile" /></Link>
-            <BtnGray onClick={handleLogOut} text="Logout" isLoading={logginOut} isDisabled={logginOut} />
+          <div className=" w-full flex flex-col mt-5 text-left text-sm md:text-base">
+            <ul className="list-none">
+              <li className=" text-lightBlack hover:text-primaryBlue">
+                {user?.role == "admin" && (
+                  <Link to={"/admin"}>
+                    <ShieldCheck
+                      color="#6b7280"
+                      size={16}
+                      className="inline mr-2"
+                    />
+                    admin
+                  </Link>
+                )}
+              </li>
+              <li className="border-t-[1px] py-1 md:py-2 rounded-md text-lightBlack hover:text-primaryBlue ">
+                <Link to={`/user/${user?.regno}`}>
+                  <User color="#6b7280" size={16} className="inline mr-2" />
+                  Profile
+                </Link>
+              </li>
+              <li className="border-t-[1px] py-1 md:py-2 rounded-md  text-lightBlack hover:text-primaryBlue">
+                <Link>
+                  <Crown color="#6b7280" size={16} className="inline mr-2" />
+                  Leaderboard
+                </Link>
+              </li>
+              <li className="border-t-[1px] py-1 md:py-2 rounded-md  text-lightBlack hover:text-alert">
+                <span
+                  className="cursor-pointer"
+                  onClick={handleLogOut}
+                  isLoading={logginOut}
+                  isDisabled={logginOut}
+                >
+                  <LogOut color="#6b7280" size={16} className="inline mr-2" />
+                  logout
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-
-  )
+  );
 }
 
-export default UserNav
+export default UserNav;
