@@ -88,8 +88,6 @@ function UserNav() {
                 <span
                   className="cursor-pointer"
                   onClick={handleLogOut}
-                  isLoading={logginOut}
-                  isDisabled={logginOut}
                 >
                   <LogOut color="#6b7280" size={16} className="inline mr-2" />
                   logout
