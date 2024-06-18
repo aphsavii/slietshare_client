@@ -7,7 +7,8 @@ import {
   BriefcaseBusiness,
   GraduationCap,
   FolderGit2,
-  SquareArrowOutUpRight,
+  ExternalLink,
+  Link
 } from "lucide-react";
 function UserProfile() {
   return (
@@ -94,7 +95,7 @@ function UserProfile() {
                   <div>
                     <a href="">
                     <h2 className="text-base lg:text-lg font-medium">
-                      SlietShare <SquareArrowOutUpRight className="inline ml-1 mb-1" size={15} />
+                      SlietShare <ExternalLink className="inline ml-1 mb-1" size={15} />
                     </h2>
                     </a>  
                     <div className="text-[10px] md:text-xs font-light leading-3">
@@ -139,6 +140,47 @@ function UserProfile() {
                   dolores tempora quasi nobis temporibus quae, natus
                   perferendis.
                 </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
+            <h2>
+              <Link className="inline mr-2 font-semibold" />
+              <span className="">Links</span>
+            </h2>
+            <div className="mt-3">
+              <div className="py-3">
+                <div className="flex items-center">
+                  <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
+                  <div className="flex gap-3 flex-col">
+                    <div>
+                      <h2 className="text-base lg:text-lg font-medium">
+                        Linkedin<ExternalLink className="inline ml-1 mb-1" size={15} />
+                      </h2>
+                      <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
+                          https://linkedin.com/in/aphsavii
+                      </div>
+                    </div>
+                    <div>
+                      <h2 className="text-base lg:text-lg font-medium">
+                        Github<ExternalLink className="inline ml-1 mb-1" size={15} />
+                      </h2>
+                      <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
+                          https://github.com/aphsavii
+                      </div>
+                    </div>
+                    <div>
+                      <h2 className="text-base lg:text-lg font-medium">
+                        Leetcode<ExternalLink className="inline ml-1 mb-1" size={15} />
+                      </h2>
+                      <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
+                          https://leetcode.com/aphsavii
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
               </div>
             </div>
           </div>
