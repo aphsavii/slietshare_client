@@ -10,15 +10,13 @@ import {
   FolderGit2,
   ExternalLink,
   Link,
-  Wrench,
-  UserRound,
+  Edit,
 } from "lucide-react";
-import Tag from "@/components/Tags/Tag";
-function UserProfile() {
+function Me() {
   return (
     <div className="container px-4 flex min-h-[600px] md:min-h-[800px] mx-auto ">
       <div className=" mx-auto  w-full flex flex-col lg:flex-row py-10 md:py-16 px-3 lg:px-0">
-        <div className="lg:max-w-[400px] flex flex-col gap-5 lg:gap-8">
+        <div className="max-w-[400px] flex flex-col gap-5 lg:gap-8">
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray">
             <div className="h-16 w-16 md:h-24 md:w-24 border border-black border-1 rounded-full"></div>
             <h3 className="text-xl lg:text-2xl font-bold mt-5 text-lightBlack">
@@ -38,7 +36,7 @@ function UserProfile() {
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray">
             <div>
               <h2 className="text-lg lg:text-xl font-semibold text-lightBlack mb-3 md:mb-4">
-                Personal Information
+                Personal Information <Edit className="inline ml-1 float-right cursor-pointer" size={16} />
               </h2>
               <div className="py-1 text-xs lg:text-sm text-grayish">
                 <Mail className="inline mr-4 text-primaryBlue" size={16} />
@@ -57,23 +55,10 @@ function UserProfile() {
         </div>
 
         <div className="w-full lg:px-8 mt-5 md:mt-0 flex flex-col gap-5 md:gap-8">
-
-          {/* About */}
-        <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
-            <h2>
-              <UserRound size={20} className="inline mr-2 font-semibold" />
-              <span className="">About</span>
-            </h2>
-              <div className="py-3 text-xs lg:text-sm font-normal">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero velit similique eum aut, ipsum, quidem consequuntur voluptas totam neque tempore, explicabo veniam at consectetur! Deleniti doloremque alias similique pariatur blanditiis eos, distinctio laborum deserunt delectus, atque eius doloribus, tempore nam aspernatur mollitia cum adipisci quasi ipsam? Sit numquam similique odit.
-              </div>
-          </div>
-
-        {/* Work Experiencce */}
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
             <h2>
-              <BriefcaseBusiness size={20} className="inline mr-2 font-semibold" />
-              <span className="">Work experience</span>
+              <BriefcaseBusiness className="inline mr-2 font-semibold" />
+              <span className="">Work experience <Edit className="inline ml-1 float-right cursor-pointer" size={16} /></span>
             </h2>
             <div className="mt-3">
               <div className="py-3">
@@ -85,7 +70,7 @@ function UserProfile() {
                     </h2>
                     <div className="text-[10px] md:text-xs font-light leading-3">
                       <span>Vaizle </span>
-                      <span className="mx-1">•</span>
+                      <span className="mx-1">•</span>2010215
                       <span> June 2023 - Present</span>
                     </div>
                   </div>
@@ -101,11 +86,10 @@ function UserProfile() {
             </div>
           </div>
 
-          {/* Projects */}
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
             <h2>
-              <FolderGit2 size={20} className="inline mr-2 font-semibold" />
-              <span className="">Projects</span>
+              <FolderGit2 className="inline mr-2 font-semibold" />
+              <span className="">Projects </span>
             </h2>
             <div className="mt-3">
               <div className="py-3">
@@ -133,10 +117,9 @@ function UserProfile() {
             </div>
           </div>
 
-          {/* Education */}
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
             <h2>
-              <GraduationCap size={20} className="inline mr-2 font-semibold" />
+              <GraduationCap className="inline mr-2 font-semibold" />
               <span className="">Education</span>
             </h2>
             <div className="mt-3">
@@ -165,21 +148,9 @@ function UserProfile() {
             </div>
           </div>
 
-            {/* Skills */}
-            <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
-            <h2>
-              <Wrench size={20} className="inline mr-2 font-semibold" />
-              <span className="">Skills</span>
-            </h2>
-          <div className="py-3 flex flex-wrap gapx-5 gapy-2">
-              <Tag text="React" />
-            </div>
-          </div>
-
-            {/* Social Links */}
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
             <h2>
-              <Link size={20} className="inline mr-2 font-semibold" />
+              <Link className="inline mr-2 font-semibold" />
               <span className="">Links</span>
             </h2>
             <div className="mt-3">
@@ -237,4 +208,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default Me;

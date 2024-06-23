@@ -12,4 +12,16 @@ const getBatchYears = () => {
   return [currentYear - 3, currentYear - 2, currentYear - 1, currentYear];
 }
 
-export { PROGRAMMES, TRADES, QUESTION_TYPES, getBatchYears };
+const getIcons= ()=>{
+  return {
+    linkedin:'/assets/icons/linkedin.png',
+    github:'/assets/icons/github.png',
+    leetcode:'/assets/icons/leetcode.png',
+    codeforces:'/assets/icons/codeforces.png',
+    hackerrank:'/assets/icons/hackerrank.png',
+    medium:'/assets/icons/medium.png',
+    stackoverflow:'/assets/icons/stackoverflow.png'
+  }
+}
+
+export { PROGRAMMES, TRADES, QUESTION_TYPES, getBatchYears, getIcons };

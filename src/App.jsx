@@ -19,7 +19,7 @@ import Admin from './pages/admin/Admin.jsx';
 import UserQs from './pages/userProfile/UserQs.jsx';
 import ForgotPassword from './pages/Auth/ForgotPassword.jsx';
 import UserProfile from './pages/userProfile/UserProfile.jsx';
-
+import Me from './pages/userProfile/Me.jsx';
 // Route definitions
 const routes = createRoutesFromElements(
   <Route path='/' element={<Layout />}>
@@ -38,6 +38,8 @@ const routes = createRoutesFromElements(
     <Route element={<AuthRoutes />}>
       <Route path="qs/upload" element={< UploadQs />} />
       <Route path="user/:regno" element={< UserProfile />} />
+      <Route path='qs/:regno' element={<UserQs />} />
+      <Route path="me" element={< Me />} />
     </Route>
 
     {/* Error Routes */}

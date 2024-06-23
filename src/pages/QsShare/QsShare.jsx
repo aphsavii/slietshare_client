@@ -8,10 +8,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useDebouncedState } from "../../hooks/useDebouncedState.js";
 import toast from "react-hot-toast";
 import { Button } from "/shadcn/ui/Button.jsx";
+import ConformationDialog from "../../components/dialogs/ConformationDialog";
 
 const QsShare = () => {
   const [searchText, setSearchText] = useDebouncedState("", 1000);
-
   const { isLoading, isError, data, error } = useQuery({ queryKey: ["qsData", searchText], queryFn: async () => await qsService.searchQs(searchText), enabled: searchText.length > 0, retry: false });
 
   if (isError) {
@@ -23,6 +23,7 @@ const QsShare = () => {
   }
 
   return (
+    <>
     <div className="container px-4 mx-auto py-10 md:py-16 ">
       <div className="mx-auto flex flex-col items-center ">
         <h1 className="text-2xl md:text-4xl font-bold text-center text-lightBlack tracking-wider ">
@@ -70,6 +71,7 @@ const QsShare = () => {
       </div>
       <Button variant="primary" size="default" className="mt-10" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to Top</Button>
     </div>
+    </>
   );
 };
 
