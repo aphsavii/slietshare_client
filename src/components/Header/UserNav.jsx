@@ -73,7 +73,7 @@ function UserNav() {
                 )}
               </li>
               <li className="border-t-[1px] py-1 md:py-2 rounded-md text-lightBlack hover:text-primaryBlue ">
-                <Link to={`/user/${user?.regno}`}>
+                <Link to={`/me`}>
                   <User color="#6b7280" size={16} className="inline mr-2" />
                   Profile
                 </Link>
