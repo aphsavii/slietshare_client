@@ -46,6 +46,19 @@ export const userAuthService = {
             return await axiosInstance.post('/user/forgot-password',req)
         })
         return data ?? error ;
+    },
+    getMyProfile: async () => {
+        const {data,error} = await apiHandler(async () => {
+            return await axiosInstance.get("/me",{withCredentials:true});
+        });
+        return data ?? error;
+    },
+    editMyProfile: async (req) => {
+        const {data,error} = await apiHandler(async () => {
+            
+            return await axiosInstance.post("/user/edit-profile",req,{withCredentials:true});
+        });
+        return data ?? error;
     }
 }
 
