@@ -72,7 +72,7 @@ const navigate = useNavigate();
                       return emailPattern.test(value) && value.includes('sliet.ac.in') || "Invalid email format";
                     }
                   })}
-                  className="relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
+                  className=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
                   id="email"
                   type="text"
                   placeholder="email"
@@ -93,7 +93,7 @@ const navigate = useNavigate();
                 </label>
                 <input
                   {...register("password", { required: "password is required" })}
-                  className=" relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
+                  className="  shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
                   id="password"
                   type="password"
                   placeholder="Password"

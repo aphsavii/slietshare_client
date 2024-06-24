@@ -21,11 +21,9 @@ function UploadQs() {
         else
         formData.append(key, data[key]);
       }
-      console.log(typeof formData);
       await qsService.uploadQs(formData);
       toast.success("Question uploaded successfully");
       reset();
-      // console.log(res);
     } catch (error) {
       console.log(error);
       toast.error(error.toString());
