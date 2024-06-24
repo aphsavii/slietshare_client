@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "/shadcn/ui/Button";
 import { getIcons } from "@/constant";
+import userService from "@/api/services/userService";
+import { useParams } from "react-router";
 import {
   MapPin,
   Mail,
@@ -13,28 +15,48 @@ import {
   Wrench,
   UserRound,
 } from "lucide-react";
-import Tag from "@/components/Tags/Tag";
+import SkillTag from "@/components/Tags/SkillTag";
+import toast from "react-hot-toast";
+import { textCapitalize } from "@/helpers";
+
 function UserProfile() {
+  const { regno } = useParams();
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    userService
+      .getUserDetails(regno)
+      .then((data) => {
+        console.log(data);
+        setUserData(data);
+      })
+      .catch((error) => {
+        toast.error("Error fetching user data");
+        console.log(error);
+      });
+  }, [regno]);
   return (
     <div className="container px-4 flex min-h-[600px] md:min-h-[800px] mx-auto ">
       <div className=" mx-auto  w-full flex flex-col lg:flex-row py-10 md:py-16 px-3 lg:px-0">
-        <div className="lg:max-w-[400px] flex flex-col gap-5 lg:gap-8">
+        <div className="lg:max-w-[400px] min-w-64 flex flex-col gap-5 ">
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray">
-            <div className="h-16 w-16 md:h-24 md:w-24 border border-black border-1 rounded-full"></div>
+            <div className={`h-16 w-16 md:h-24 md:w-24 border border-black border-1 bg-cover bg-no-repeat bg-center rounded-full bg-[url('${userData?.avatarUrl}')]`}></div>
             <h3 className="text-xl lg:text-2xl font-bold mt-5 text-lightBlack">
-              Aviansh Kumar
+              {userData?.fullName}
             </h3>
-            <h4 className="text-xs lg:text-sm text-lightBlack">GCS/2331080</h4>
+            <h4 className="text-xs lg:text-sm text-lightBlack">
+              {userData.trade}/{userData.regno}
+            </h4>
             <p className="text-xs lg:text-sm my-2 text-grayish">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
-              expedita veritatis ipsa tenetur saepe. At deleniti doloribus
-              facilis. Eius, illum.
+              {userData?.headLine}
             </p>
-            <Button className=" my-2  " variant="primary">
+            <div className="flex my-2 justify-between items-center">
+            <span className="text-xs lg:text-sm text-grayish"> 0 Followers</span>
+            <Button className="" variant="primary">
               Follow
             </Button>
+            </div>
           </div>
-
+          {/* Personal Info */}
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray">
             <div>
               <h2 className="text-lg lg:text-xl font-semibold text-lightBlack mb-3 md:mb-4">
@@ -42,193 +64,192 @@ function UserProfile() {
               </h2>
               <div className="py-1 text-xs lg:text-sm text-grayish">
                 <Mail className="inline mr-4 text-primaryBlue" size={16} />
-                <span>2010215@sliet.ac.in</span>
+                <span>{userData?.email}</span>
               </div>
-              <div className="py-1 text-xs lg:text-sm text-grayish">
+              {/* <div className="py-1 text-xs lg:text-sm text-grayish">
                 <Phone className="inline mr-4 text-primaryBlue" size={16} />
                 <span>8709073864</span>
-              </div>
-              <div className="py-1 text-xs lg:text-sm text-grayish">
+              </div> */}
+             {userData?.location && <div className="py-1 text-xs lg:text-sm text-grayish">
                 <MapPin className="inline mr-4 text-primaryBlue" size={16} />
-                <span>Patna, Bihar</span>
-              </div>
+                <span>{userData?.location}</span>
+              </div>}
             </div>
           </div>
+
+          {/* Social Links */}
+          {userData.socialLinks && (
+            <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
+              <h2>
+                <Link size={20} className="inline mr-2 font-semibold" />
+                <span className="">Links</span>
+              </h2>
+              <div className="mt-3">
+                <div className="py-3">
+                  <div className="flex  gap-3 flex-col">
+                    {Object.keys(userData.socialLinks).map(
+                      (platform) =>
+                        userData.socialLinks[platform] && (
+                          <div className="flex">
+                            <div
+                              className={`bg-[url('${
+                                getIcons()[platform]
+                              }')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1`}
+                            ></div>
+                            <div>
+                              <h2 className="text-base lg:text-lg font-medium">
+                                {textCapitalize(platform)}
+                                <ExternalLink
+                                  className="inline ml-1 mb-1"
+                                  size={15}
+                                />
+                              </h2>
+                              <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
+                                <span>{userData.socialLinks[platform]}</span>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="w-full lg:px-8 mt-5 md:mt-0 flex flex-col gap-5 md:gap-8">
-
+        <div className="w-full lg:px-8 mt-5 lg:mt-0 flex flex-col gap-5 ">
           {/* About */}
-        <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
-            <h2>
-              <UserRound size={20} className="inline mr-2 font-semibold" />
-              <span className="">About</span>
-            </h2>
+          {userData?.about && (
+            <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
+              <h2>
+                <UserRound size={20} className="inline mr-2 font-semibold" />
+                <span className="">About</span>
+              </h2>
               <div className="py-3 text-xs lg:text-sm font-normal">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero velit similique eum aut, ipsum, quidem consequuntur voluptas totam neque tempore, explicabo veniam at consectetur! Deleniti doloremque alias similique pariatur blanditiis eos, distinctio laborum deserunt delectus, atque eius doloribus, tempore nam aspernatur mollitia cum adipisci quasi ipsam? Sit numquam similique odit.
-              </div>
-          </div>
-
-        {/* Work Experiencce */}
-          <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
-            <h2>
-              <BriefcaseBusiness size={20} className="inline mr-2 font-semibold" />
-              <span className="">Work experience</span>
-            </h2>
-            <div className="mt-3">
-              <div className="py-3">
-                <div className="flex items-center">
-                  <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
-                  <div>
-                    <h2 className="text-base lg:text-lg font-medium">
-                      Software Engineer Intern
-                    </h2>
-                    <div className="text-[10px] md:text-xs font-light leading-3">
-                      <span>Vaizle </span>
-                      <span className="mx-1">•</span>
-                      <span> June 2023 - Present</span>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-xs lg:text-sm mt-3 font-normal">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facilis saepe accusantium delectus recusandae fugiat ea
-                  deleniti? Consequatur saepe placeat repellat impedit ipsam
-                  dolores tempora quasi nobis temporibus quae, natus
-                  perferendis.
-                </p>
+                {userData?.about}
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Work Experiencce */}
+          {userData?.workExperience && (
+            <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
+              <h2>
+                <BriefcaseBusiness
+                  size={20}
+                  className="inline mr-2 font-semibold"
+                />
+                <span className="">Work experience</span>
+              </h2>
+              <div className="mt-3">
+                {userData.workExperience.map((exp) => (
+                  <div className="py-3">
+                    <div className="flex items-center">
+                      <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
+                      <div>
+                        <h2 className="text-base lg:text-lg font-medium">
+                          {exp.position}
+                        </h2>
+                        <div className="text-[10px] md:text-xs font-light leading-3">
+                          <span>{exp.company} </span>
+                          <span className="mx-1">•</span>
+                          <span> June 2023 - Present</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs lg:text-sm mt-3 font-normal">
+                      {exp.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Projects */}
-          <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
-            <h2>
-              <FolderGit2 size={20} className="inline mr-2 font-semibold" />
-              <span className="">Projects</span>
-            </h2>
-            <div className="mt-3">
-              <div className="py-3">
-                <div className="flex items-center">
-                  <div>
-                    <a href="">
-                      <h2 className="text-base lg:text-lg font-medium">
-                        SlietShare{" "}
-                        <ExternalLink className="inline ml-1 mb-1" size={15} />
-                      </h2>
-                    </a>
-                    <div className="text-[10px] md:text-xs font-light leading-3">
-                      <span> June 2023 - Present</span>
+          {userData?.projects && (
+            <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
+              <h2>
+                <FolderGit2 size={20} className="inline mr-2 font-semibold" />
+                <span className="">Projects</span>
+              </h2>
+              <div className="mt-3">
+                {userData.projects.map((project) => (
+                  <div className="py-3">
+                    <div className="flex items-center">
+                      <div>
+                        <a href="">
+                          <h2 className="text-base lg:text-lg font-medium">
+                            {project.title}
+                            <ExternalLink
+                              className="inline ml-1 mb-1"
+                              size={15}
+                            />
+                          </h2>
+                        </a>
+                        <div className="text-[10px] md:text-xs font-light leading-3">
+                          <span>
+                            {" "}
+                            {project.startDate} - {project.endDate}
+                          </span>
+                        </div>
+                      </div>
                     </div>
+                    <p className="text-xs lg:text-sm mt-3 font-normal">
+                      {project.description}
+                    </p>
                   </div>
-                </div>
-                <p className="text-xs lg:text-sm mt-3 font-normal">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facilis saepe accusantium delectus recusandae fugiat ea
-                  deleniti? Consequatur saepe placeat repellat impedit ipsam
-                  dolores tempora quasi nobis temporibus quae, natus
-                  perferendis.
-                </p>
+                ))}
               </div>
             </div>
-          </div>
+          )}
 
           {/* Education */}
-          <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
-            <h2>
-              <GraduationCap size={20} className="inline mr-2 font-semibold" />
-              <span className="">Education</span>
-            </h2>
-            <div className="mt-3">
-              <div className="py-3">
-                <div className="flex items-center">
-                  <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
-                  <div>
-                    <h2 className="text-base lg:text-lg font-medium">
-                      Btech in Computer Science
-                    </h2>
-                    <div className="text-[10px] md:text-xs font-light leading-3">
-                      <span>SLIET Longowal </span>
-                      <span className="mx-1">•</span>
-                      <span> June 2023 - June 2026</span>
+          {userData?.education && (
+            <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
+              <h2>
+                <GraduationCap
+                  size={20}
+                  className="inline mr-2 font-semibold"
+                />
+                <span className="">Education</span>
+              </h2>
+              <div className="mt-3">
+                {userData.education.map((edu) => (
+                  <div className="py-3">
+                    <div className="flex items-center">
+                      <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
+                      <div>
+                        <h2 className="text-base lg:text-lg font-medium">
+
+                        </h2>
+                        <div className="text-[10px] md:text-xs font-light leading-3">
+                          <span>{edu.institute} </span>
+                          <span className="mx-1">•</span>
+                          <span> {edu.startDate} - {edu.endDate}</span>
+                        </div>
+                      </div>
                     </div>
+                    <p className="text-xs lg:text-sm mt-3 font-normal">
+                     edu?.description
+                    </p>
                   </div>
-                </div>
-                <p className="text-xs lg:text-sm mt-3 font-normal">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facilis saepe accusantium delectus recusandae fugiat ea
-                  deleniti? Consequatur saepe placeat repellat impedit ipsam
-                  dolores tempora quasi nobis temporibus quae, natus
-                  perferendis.
-                </p>
+                ))}
               </div>
             </div>
-          </div>
+          )}
 
-            {/* Skills */}
-            <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
+          {/* Skills */}
+          <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
             <h2>
               <Wrench size={20} className="inline mr-2 font-semibold" />
               <span className="">Skills</span>
             </h2>
-          <div className="py-3 flex flex-wrap gapx-5 gapy-2">
-              <Tag text="React" />
-            </div>
-          </div>
-
-            {/* Social Links */}
-          <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
-            <h2>
-              <Link size={20} className="inline mr-2 font-semibold" />
-              <span className="">Links</span>
-            </h2>
-            <div className="mt-3">
-              <div className="py-3">
-                <div className="flex  gap-3 flex-col">
-                  <div className="flex">
-                      <div
-                        className={`bg-[url('${getIcons()['linkedin']}')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1`}
-                      ></div>
-                    <div>
-                      <h2 className="text-base lg:text-lg font-medium">
-                        Linkedin
-                        <ExternalLink className="inline ml-1 mb-1" size={15} />
-                      </h2>
-                      <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
-                        https://linkedin.com/in/aphsavii
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex">
-                      <div
-                        className={`bg-[url('${getIcons()['github']}')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1`}
-                      ></div>
-                    <div>
-                      <h2 className="text-base lg:text-lg font-medium">
-                        Github
-                        <ExternalLink className="inline ml-1 mb-1" size={15} />
-                      </h2>
-                      <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
-                        https://github.com/aphsavii
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex">
-                      <div
-                        className={`bg-[url('${getIcons()['leetcode']}')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1`}
-                      ></div>
-                    <div>
-                      <h2 className="text-base lg:text-lg font-medium">
-                        Leetcode
-                        <ExternalLink className="inline ml-1 mb-1" size={15} />
-                      </h2>
-                      <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
-                        https://leetcode.com/aphsavii
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="py-3 flex flex-wrap gap-x-3 lg:gap-x-5 gap-y-2 lg:gap-y-3">
+              {userData?.skills && userData?.skills.map((skill) => (
+                <SkillTag text={skill?.skill} proficiency={skill?.proficiency} />
+              ))}
             </div>
           </div>
         </div>
