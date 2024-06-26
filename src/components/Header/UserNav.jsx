@@ -6,7 +6,7 @@ import { logout } from "../../redux/slices/auth";
 import BtnGray from "../buttons/BtnGray";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { LogOut, User,Crown } from "lucide-react";
+import { LogOut, User,Crown, ShieldCheck } from "lucide-react";
 
 function UserNav() {
   const dispatch = useDispatch();
