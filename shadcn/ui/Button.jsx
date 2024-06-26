@@ -64,6 +64,7 @@ const Button = React.forwardRef(({ className, loading = false, variant, size, as
       className={cn(buttonVariants({ variant, size, className }))}
       ref={ref}
       {...props}
+      disabled={loading}
     >
       {loading && <Spinner />}
       {children}

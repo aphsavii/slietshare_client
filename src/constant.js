@@ -14,13 +14,12 @@ const getBatchYears = () => {
 
 const getIcons= ()=>{
   return {
-    linkedin:'/assets/icons/linkedin.png',
+    twitter:'/assets/icons/twitter.png',
     github:'/assets/icons/github.png',
     leetcode:'/assets/icons/leetcode.png',
     codeforces:'/assets/icons/codeforces.png',
-    hackerrank:'/assets/icons/hackerrank.png',
-    medium:'/assets/icons/medium.png',
-    stackoverflow:'/assets/icons/stackoverflow.png'
+    codechef:'/assets/icons/codechef.png',
+    gfg:'/assets/icons/gfg.png',
   }
 }
 
