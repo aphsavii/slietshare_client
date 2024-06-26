@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Button } from "/shadcn/ui/Button";
 import { useSelector, useDispatch } from "react-redux";
 import EditBasicInfo from "./EditBasicInfo";
 import EditPersonalInfo from "./EditPersonalInfo";
 import EditSkills from "./EditSkills";
 import EditSocialLinks from "./EditSocialLinks";
 import EditAbout from "./EditAbout";
+import EditWorkExperience from "./EditWorkExperience";
+import EditProjects from "./EditProjects";
+import EditEducation from "./EditEducation";
 
 const EditProfileDialog = () => {
 let userData = useSelector((state) => state.userProfile.userData);
@@ -16,9 +17,14 @@ let activeDialog = useSelector((state) => state.userProfile.dialog);
     <>
     {activeDialog == "basic" && <EditBasicInfo />}
     {activeDialog == "personal" && <EditPersonalInfo />}
+    {activeDialog == "links" && <EditSocialLinks />}
     {activeDialog == "skills" && <EditSkills />}
-    {activeDialog == "social" && <EditSocialLinks />}
     {activeDialog == "about" && <EditAbout />}
+    {activeDialog == "work" && <EditWorkExperience />}
+    {activeDialog == "projects" && <EditProjects />}
+    {activeDialog == "education" && <EditEducation />}
+
+
 
        {/* {activeDialog == "education" && (
         <div className="fixed inset-0 flex items-start justify-center z-40 pt-40 md:items-center md:pt-0">
