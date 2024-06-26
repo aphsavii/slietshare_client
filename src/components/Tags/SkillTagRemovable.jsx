@@ -14,7 +14,7 @@ function SkillTagRemovable({
 
   return (
     <div title={text + ' '+ proficiency} className={`px-4 md:px-5 text-sm lg:text-base font-medium py-1 h-fit w-fit rounded-2xl lg:rounded-3xl border-[1px] ${skillProficiency[proficiency]}  ${className}`}>
-     <span> {text}</span> <span className='ml-3 text-gray-700' onClick={crossFunc}>X</span>
+     <span> {text}</span> <span className='ml-3 text-gray-500 cursor-pointer' onClick={crossFunc}>X</span>
     </div>
   )
 }

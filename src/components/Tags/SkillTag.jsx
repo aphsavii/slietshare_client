@@ -12,7 +12,7 @@ function SkillTag({
     };
 
   return (
-    <div title={text + ' '+ proficiency} className={`px-4 md:px-5 text-sm lg:text-base font-medium py-1 h-fit w-fit rounded-2xl lg:rounded-3xl border-[1px] ${skillProficiency[proficiency]}  ${className}`}>
+    <div title={text + ' '+ proficiency} className={`px-4 md:px-5 text-sm lg:text-base cursor-pointer font-medium py-1 h-fit w-fit rounded-2xl lg:rounded-3xl border-[1px] ${skillProficiency[proficiency]}  ${className}`}>
       {text}
     </div>
   )
