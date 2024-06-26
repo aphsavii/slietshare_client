@@ -18,6 +18,7 @@ import {
 import SkillTag from "@/components/Tags/SkillTag";
 import toast from "react-hot-toast";
 import { textCapitalize } from "@/helpers";
+import { toMonthYear } from "@/helpers";
 
 function UserProfile() {
   const { regno } = useParams();
@@ -39,14 +40,25 @@ function UserProfile() {
       <div className=" mx-auto  w-full flex flex-col lg:flex-row py-10 md:py-16 px-3 lg:px-0">
         <div className="lg:max-w-[400px] min-w-64 flex flex-col gap-5 ">
           <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray">
-            <div className={`h-16 w-16 md:h-24 md:w-24 border border-black border-1 bg-cover bg-no-repeat bg-center rounded-full bg-[url('${userData?.avatarUrl}')]`}></div>
+          <div
+                className={`h-16 w-16 md:h-24 md:w-24 border  bg-cover bg-no-repeat bg-center rounded-full`}
+                style={{ backgroundImage: `url(${userData?.avatarUrl})` }}
+              ></div>
             <h3 className="text-xl lg:text-2xl font-bold mt-5 text-lightBlack">
-              {userData?.fullName}
+              {userData?.fullName+" " }
+               {userData?.pronouns && (
+                  <span
+                    id="pronouns"
+                    className="text-gray-500 text-xs lg:text-sm font-normal"
+                  >
+                    ({userData.pronouns})
+                  </span>
+                )}
             </h3>
             <h4 className="text-xs lg:text-sm text-lightBlack">
               {userData.trade}/{userData.regno}
             </h4>
-            <p className="text-xs lg:text-sm my-2 text-grayish">
+            <p className="text-sm lg:text-base my-2 text-grayish">
               {userData?.headLine}
             </p>
             <div className="flex my-2 justify-between items-center">
@@ -88,14 +100,19 @@ function UserProfile() {
                 <div className="py-3">
                   <div className="flex  gap-3 flex-col">
                     {Object.keys(userData.socialLinks).map(
-                      (platform) =>
-                        userData.socialLinks[platform] && (
-                          <div className="flex">
+                      (platform,index) =>
+                        userData.socialLinks[platform] && platform !=="_id" && (
+                          <a key={index} href={userData.socialLinks[platform]}>
+                          <div target="_blank" className="flex">
                             <div
-                              className={`bg-[url('${
-                                getIcons()[platform]
-                              }')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1`}
-                            ></div>
+                              className={` h-10 w-10 bg-center bg-cover rounded-sm mr-4 my-1.5`}
+                            >
+                              <img
+                                className="h-full w-full object-cover"
+                                src={getIcons()[platform]}
+                                alt={platform}
+                              />
+                            </div>
                             <div>
                               <h2 className="text-base lg:text-lg font-medium">
                                 {textCapitalize(platform)}
@@ -105,10 +122,13 @@ function UserProfile() {
                                 />
                               </h2>
                               <div className="text-[10px] md:text-xs font-light leading-3 text-blue-600">
-                                <span>{userData.socialLinks[platform]}</span>
+                                <span>
+                                  {userData.socialLinks[platform]}
+                                </span>
                               </div>
                             </div>
                           </div>
+                        </a>
                         )
                     )}
                   </div>
@@ -143,8 +163,8 @@ function UserProfile() {
                 <span className="">Work experience</span>
               </h2>
               <div className="mt-3">
-                {userData.workExperience.map((exp) => (
-                  <div className="py-3">
+                {userData.workExperience.map((exp,index) => (
+                  <div key={index} className="py-3">
                     <div className="flex items-center">
                       <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
                       <div>
@@ -154,7 +174,9 @@ function UserProfile() {
                         <div className="text-[10px] md:text-xs font-light leading-3">
                           <span>{exp.company} </span>
                           <span className="mx-1">•</span>
-                          <span> June 2023 - Present</span>
+                          {" "}
+                                {toMonthYear(exp.startDate)} -{" "}
+                                {toMonthYear(exp.endDate)}
                         </div>
                       </div>
                     </div>
@@ -175,31 +197,25 @@ function UserProfile() {
                 <span className="">Projects</span>
               </h2>
               <div className="mt-3">
-                {userData.projects.map((project) => (
-                  <div className="py-3">
-                    <div className="flex items-center">
-                      <div>
-                        <a href="">
-                          <h2 className="text-base lg:text-lg font-medium">
-                            {project.title}
-                            <ExternalLink
-                              className="inline ml-1 mb-1"
-                              size={15}
-                            />
-                          </h2>
-                        </a>
-                        <div className="text-[10px] md:text-xs font-light leading-3">
-                          <span>
-                            {" "}
-                            {project.startDate} - {project.endDate}
-                          </span>
-                        </div>
-                      </div>
+                {userData.projects.map((project,index) => (
+                  <div key={index} className="py-3">
+                  <div className="flex items-center">
+                    <div>
+                      <a href={project?.link}>
+                        <h2 className="text-base lg:text-lg font-medium">
+                          {project.title}
+                          <ExternalLink
+                            className="inline ml-1 mb-1"
+                            size={15}
+                          />
+                        </h2>
+                      </a>
                     </div>
-                    <p className="text-xs lg:text-sm mt-3 font-normal">
-                      {project.description}
-                    </p>
                   </div>
+                  <p className="text-xs lg:text-sm mt-1 font-normal">
+                    {project.description}
+                  </p>
+                </div>
                 ))}
               </div>
             </div>
@@ -216,13 +232,13 @@ function UserProfile() {
                 <span className="">Education</span>
               </h2>
               <div className="mt-3">
-                {userData.education.map((edu) => (
-                  <div className="py-3">
+                {userData.education.map((edu,index) => (
+                  <div key={index} className="py-3">
                     <div className="flex items-center">
                       <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
                       <div>
                         <h2 className="text-base lg:text-lg font-medium">
-
+                          {edu?.degree}
                         </h2>
                         <div className="text-[10px] md:text-xs font-light leading-3">
                           <span>{edu.institute} </span>
