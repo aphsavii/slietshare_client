@@ -33,9 +33,9 @@ const buttonVariants = cva(
 );
 
 // Spinner component
-const Spinner = () => (
+const Spinner = ({variant,size}) => (
   <svg
-    className="animate-spin h-5 w-5 text-white inline mr-4"
+    className={`animate-spin h-5 w-5  inline ${size!=="icon"?'mr-4':'mr-0'} ${variant === "primary" ? "text-white" : "text-primaryBlue"}`}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -66,7 +66,7 @@ const Button = React.forwardRef(({ className, loading = false, variant, size, as
       {...props}
       disabled={loading}
     >
-      {loading && <Spinner />}
+      {loading && <Spinner variant={variant} size={size} />}
       {children}
     </Comp>
   );
