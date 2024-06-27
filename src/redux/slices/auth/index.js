@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {setLocalAuth,resetLocalAuth} from "../../../helpers/LocalAuth";
+import {setLocalAuth,resetLocalAuth, setAuthUser} from "../../../helpers/LocalAuth";
 
 const initialState = {
     isAuthenticated: false,
@@ -29,9 +29,13 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             state.user = null;
             state.accessToken = null;
+        },
+        updateUserAuthData:(state,action) =>{
+            state.user = action.payload;
+            setAuthUser(action.payload);
         }
     }
 }); 
 
-export const { loginSuccess, loginFailure, logout } = authSlice.actions;
+export const { loginSuccess, loginFailure, logout, updateUserAuthData } = authSlice.actions;
 export default authSlice.reducer;

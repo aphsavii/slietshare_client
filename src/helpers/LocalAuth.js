@@ -10,4 +10,7 @@ const setLocalAuth = (user, accessToken,refreshToken) => {
     localStorage.setItem('refreshToken', refreshToken);
 } 
  
-export  {resetLocalAuth,setLocalAuth}
+const setAuthUser = (user)=>{
+    localStorage.setItem('user', JSON.stringify(user));
+}
+export  {resetLocalAuth,setLocalAuth, setAuthUser}
