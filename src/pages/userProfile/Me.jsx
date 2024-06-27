@@ -14,6 +14,7 @@ import {
   Wrench,
   UserRound,
   Edit,
+  Delete,
 } from "lucide-react";
 import SkillTag from "@/components/Tags/SkillTag";
 import toast from "react-hot-toast";
@@ -27,8 +28,10 @@ function Me() {
   // edit dialog types :basic, personal, about, work, project, education, skills
   let userData = useSelector((state) => state.userProfile.userData);
   let activeDialog = useSelector((state) => state.userProfile.dialog);
+  const [deleting, setDeleting] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
+    if(userData?._id) return;
     userService
       .getMyProfile()
       .then((data) => {
@@ -43,6 +46,54 @@ function Me() {
   const setActiveDialog = (type) => {
     dispatch(setDialog(type));
   };
+
+  const deleteWorkExperience = async (index) => {
+    setDeleting('work');
+    try {
+      let newWorkExperience = [...userData.workExperience];
+      newWorkExperience.splice(index, 1);
+      const res = await userService.editMyProfile({ workExperience: newWorkExperience });
+      dispatch(updateUserData({ ...userData, ...res }));
+      toast.success("Work experience deleted successfully");
+    } catch (error) {
+      toast.error("Error deleting work experience");
+    }
+    finally{
+      setDeleting(false);
+    }
+  }
+
+  const deleteProject = async (index) => {
+    setDeleting('project');
+    try {
+      let newProjects = [...userData.projects];
+      newProjects.splice(index, 1);
+      const res = await userService.editMyProfile({ projects: newProjects });
+      dispatch(updateUserData({ ...userData, ...res }));
+      toast.success("Project deleted successfully");
+    } catch (error) {
+      toast.error("Error deleting project");
+    }
+    finally{
+      setDeleting(false);
+    }
+  }
+
+  const deleteEducation = async (index) => {
+    setDeleting('education');
+    try {
+      let newEducation = [...userData.education];
+      newEducation.splice(index, 1);
+      const res = await userService.editMyProfile({ education: newEducation });
+      dispatch(updateUserData({ ...userData, ...res }));
+      toast.success("Education deleted successfully");
+    } catch (error) {
+      toast.error("Error deleting education");
+    }
+    finally{
+      setDeleting(false);
+    }
+  }
 
   return (
     <>
@@ -206,11 +257,14 @@ function Me() {
                   {userData?.workExperience &&
                     userData.workExperience.map((exp, index) => (
                       <div key={index} className="py-3">
+                        <Button loading={deleting=="work"} onClick={() => deleteWorkExperience(index)} className="float-right p-1" variant="outline" size="icon">
+                         {!deleting &&<img className="w-4 h-4" src="assets/icons/delete.svg" alt="del" />}
+                        </Button>
                         <div className="flex items-center">
                           <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
                           <div>
                             <h2 className="text-base lg:text-lg font-medium">
-                              {exp.position}
+                             <span> {exp.position}</span>  
                             </h2>
                             <div className="text-[10px] md:text-xs font-light leading-3">
                               <span>{exp.company} </span>
@@ -250,6 +304,9 @@ function Me() {
                     userData.projects.map((project,index) => (
                       
                       <div key={index} className="py-3">
+                        <Button loading={deleting=="project"} onClick={() => deleteProject(index)} className="float-right p-1" variant="outline" size="icon">
+                         {!deleting &&<img className="w-4 h-4" src="assets/icons/delete.svg" alt="del" />}
+                        </Button>
                         <div className="flex items-center">
                           <div>
                             <a href={project?.link}>
@@ -293,6 +350,9 @@ function Me() {
                   {userData?.education &&
                     userData.education.map((edu,index) => (
                       <div key={index} className="py-3">
+                        <Button loading={deleting=="education"} onClick={() => deleteEducation(index)} className="float-right p-1" variant="outline" size="icon">
+                         {!deleting &&<img className="w-4 h-4" src="assets/icons/delete.svg" alt="del" />}
+                        </Button>
                         <div className="flex items-center">
                           <div className="bg-[url('/assets/icons/building.png')] h-10 w-10 bg-center bg-cover rounded-sm mr-4 mt-1"></div>
                           <div>
@@ -336,6 +396,7 @@ function Me() {
                 {userData?.skills &&
                   userData?.skills.map((skill) => (
                     <SkillTag
+                    key={skill?.skill}
                       text={skill?.skill}
                       proficiency={skill?.proficiency}
                     />
