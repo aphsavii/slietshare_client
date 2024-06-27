@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 
 function EditSkills() {
   let userData = useSelector((state) => state.userProfile.userData);
-  let activeDialog = useSelector((state) => state.userProfile.dialog);
   const[loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -47,7 +46,7 @@ function EditSkills() {
     try {
         setLoading(true);
         const res = await userService.editMyProfile({skills})
-        dispatch(updateUserData(res));
+        dispatch(updateUserData({...userData,...res}));
         toast.success("Skills updated successfully");
         setLoading(false);
         setDialogType(null);
@@ -99,6 +98,7 @@ function EditSkills() {
           <div className="mt-5 border-t py-3 md:py-5 flex flex-wrap gap-x-3 lg:gap-x-5 gap-y-2 lg:gap-y-3">
             {skills.length > 0 &&
               skills.map((skill, index) => (
+
                 <SkillTagRemovable
                   proficiency={skill.proficiency}
                   key={index}

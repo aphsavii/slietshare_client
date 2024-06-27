@@ -6,13 +6,16 @@ import { Edit2 } from "lucide-react";
 import useBodyScrollLock from "@/hooks/useBodyScrollLock";
 import userService from "@/api/services/userService";
 import { useForm } from "react-hook-form";
-import Loading from "../Loaders/Loading";
 import { updateUserData } from "@/redux/slices/userProfile";
 import toast from "react-hot-toast";
+import { updateUserAuthData } from "@/redux/slices/auth";
 
 function EditBasicInfo() {
   let userData = useSelector((state) => state.userProfile.userData);
+  let userAuth = useSelector((state)=>state.auth.user);
+
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -44,6 +47,7 @@ function EditBasicInfo() {
       const response = await userService.editBasicInfo(formData);
 
       dispatch(updateUserData({ ...userData, ...response }));
+      if(response?.avatarUrl) dispatch(updateUserAuthData({...userAuth,avatarUrl:response?.avatarUrl}));
       toast.success("Profile updated successfully");
       setDialogType(null);
     } catch (error) {
