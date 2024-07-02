@@ -8,14 +8,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useDebouncedState } from "../../hooks/useDebouncedState.js";
 import toast from "react-hot-toast";
 import { Button } from "/shadcn/ui/Button.jsx";
+import { useEffect } from "react";
 
 const QsShare = () => {
   const [searchText, setSearchText] = useDebouncedState("", 1000);
   const { isLoading, isError, data, error } = useQuery({ queryKey: ["qsData", searchText], queryFn: async () => await qsService.searchQs(searchText), enabled: searchText.length > 0, retry: false });
 
-  if (isError) {
-    console.log(error)
-  }
+  useEffect(() => {
+    if (isError) {
+      console.log(error);
+      toast.error("Error fetching data");
+    }
+  }, [isError]);
+  
   const copyToClipBoard = (qsUrl) => {
     toast.success("Link copied to clipboard");
     navigator.clipboard.writeText(qsUrl);
@@ -43,7 +48,6 @@ const QsShare = () => {
       {/* QS Container */}
       <div className="relative pt-5 md:pt-10 qs-container w-full flex flex-wrap justify-center lg:justify-normal gap-8 md:gap-14 min-h-96 md:min-h-[500px]">
         {isLoading && <Loading />}
-        {isError && <Error message={error} />}
 
         {data && data.length > 0 &&
           data.map((qs) => (

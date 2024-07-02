@@ -45,7 +45,7 @@ function EditWorkExperience() {
     };
   
     console.log(data);
-    const experience = [...workExperience, data];
+    const experience = [...workExperience, data];   
     try {
       const res = await userService.editMyProfile({workExperience:experience});
       setLoading(false);

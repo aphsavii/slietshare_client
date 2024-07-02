@@ -60,7 +60,7 @@ function UserNav() {
           </div>
           <div className=" w-full flex flex-col mt-5 text-left text-sm md:text-base">
             <ul className="list-none">
-              <li className=" text-lightBlack hover:text-primaryBlue">
+              <li className=" text-lightBlack hover:text-primaryBlue pb-2">
                 {user?.role == "admin" && (
                   <Link to={"/admin"}>
                     <ShieldCheck

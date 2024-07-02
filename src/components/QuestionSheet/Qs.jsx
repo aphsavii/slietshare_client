@@ -12,7 +12,7 @@ import ConformationDialog from "../dialogs/ConformationDialog";
 const Qs = ({qsId, uploader, subName, subCode, qsUrl, DOE, type, ctaText, ctaFunc, regno, isPending }) => {
   const [isDeleteting, setisDeleteting] = useState(false);
   const {pathname} = useLocation() ;
-const [isDialogOpen, setIsDialogOpen] = useState(true);
+const [isDialogOpen, setIsDialogOpen] = useState(false);
   const {  user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const deleteQs = async () => {

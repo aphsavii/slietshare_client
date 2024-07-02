@@ -11,4 +11,8 @@ const toMonthYear=(date)=>{
     return month+" "+year;
 }
 
-export {textCapitalize,toMonthYear }
+const isMobile = () => {  
+      return window.innerWidth < 768;
+}
+
+export {textCapitalize,toMonthYear,isMobile }

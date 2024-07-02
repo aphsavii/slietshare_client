@@ -101,7 +101,7 @@ function Me() {
       <div className="container px-4 flex min-h-[600px] md:min-h-[800px] mx-auto ">
         <div className=" mx-auto  w-full flex flex-col lg:flex-row py-10 md:py-16 px-3 lg:px-0">
           <div className="lg:max-w-[400px] min-w-64 lg:min-w-80 flex flex-col gap-5 ">
-            <div className="py-5 px-6 bg-white h-fit rounded-xl border  border-lightGray relative">
+            <div className="py-5 px-5 bg-white h-fit rounded-xl border  border-lightGray relative">
               <Edit
                 onClick={() => setActiveDialog("basic")}
                 className="float-right cursor-pointer"
@@ -111,16 +111,17 @@ function Me() {
                 className={`h-16 w-16 md:h-24 md:w-24 border  bg-cover bg-no-repeat bg-center rounded-full`}
                 style={{ backgroundImage: `url(${userData?.avatarUrl})` }}
               ></div>
-              <h3 className="text-xl lg:text-2xl font-bold mt-5 text-lightBlack">
+              <h3 className="text-xl lg:text-2xl   font-bold mt-5 text-lightBlack">
                 {userData?.fullName}{" "}
                 {userData?.pronouns && (
                   <span
                     id="pronouns"
-                    className="text-gray-500 text-xs lg:text-sm font-normal"
+                    className="text-gray-500 text-xs  font-normal"
                   >
                     ({userData.pronouns})
                   </span>
                 )}
+              {userData?.role=="admin" && <img title="Admin" className="h-5 w-5 inline ml-2 cursor-pointer" alt="admin" src="assets/icons/admin.webp"/>}
               </h3>
               <h4 className="text-xs lg:text-sm text-lightBlack ">
                 {userData.trade}/{userData.regno}
@@ -131,7 +132,7 @@ function Me() {
               <div className="flex my-2 justify-between items-center">
                 <span className="text-xs lg:text-sm text-grayish">
                   {" "}
-                  0 Followers
+                  {userData?.followers} followers
                 </span>
               </div>
             </div>
@@ -305,7 +306,7 @@ function Me() {
                       
                       <div key={index} className="py-3">
                         <Button loading={deleting=="project"} onClick={() => deleteProject(index)} className="float-right p-1" variant="outline" size="icon">
-                         {!deleting &&<img className="w-4 h-4" src="assets/icons/delete.svg" alt="del" />}
+                         {!deleting &&<img className="w-4 h-4"  src="assets/icons/delete.svg" alt="del" />}
                         </Button>
                         <div className="flex items-center">
                           <div>

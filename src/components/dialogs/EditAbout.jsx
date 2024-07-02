@@ -21,7 +21,7 @@ function EditAbout() {
   };
 
   const onSave = async () => {
-    if(about === userData?.about) return;z
+    if(about === userData?.about) return;
     try {
       setIsUpdating(true);
       const response = await userService.editMyProfile({ about });

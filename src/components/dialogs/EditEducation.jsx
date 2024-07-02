@@ -26,12 +26,12 @@ function EditEducation() {
     if(!institution || !degree || !startDate || !endDate) return toast.error("Please fill all mandatory fields.")
     setLoading(true);
     try {
-      let education = {
+      let education = [...userData?.education,{
         institute:institution,
         degree,
         startDate,
         endDate,
-      };
+      }];
       let res = await userService.editMyProfile({ education });
       dispatch(updateUserData({...userData,...res}));
       toast.success("Education added successfully");
