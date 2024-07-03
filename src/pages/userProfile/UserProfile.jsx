@@ -19,12 +19,15 @@ import SkillTag from "@/components/Tags/SkillTag";
 import toast from "react-hot-toast";
 import { textCapitalize, toMonthYear } from "@/helpers";
 import { SocketContext } from "@/api/sockets/socket";
+import { useSelector } from "react-redux";
 
 function UserProfile() {
+  const user = useSelector((state) => state.auth.user);
   const { regno } = useParams();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
   const socket = useContext(SocketContext);
+
 
   useEffect(() => {
     userService
@@ -48,7 +51,13 @@ function UserProfile() {
         isFollowing: true,
         followers: ++userData.followers,
       });
-      socket.emit("notification:set", { to: regno, type: "follow" });
+      socket.emit("notification:set", { to: regno, type: "follow", sender:{
+        fullName: user.fullName,
+        avatarUrl: user.avatarUrl,
+        regno: user.regno,
+        trade: user.trade,
+        batch: user.batch,
+      } });
       toast.success("You are now following " + userData.fullName.split(" ")[0]);
     } catch (error) {
       toast.error("Error following user");

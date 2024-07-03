@@ -31,7 +31,7 @@ const userService = {
         return data ?? error;
     },
     getUserDetails: async (regno) => {
-        const {data, error} = await apiHandler(()=> axiosAuthInstance.get('user/'+regno));
+        const {data, error} = await apiHandler(()=> axiosAuthInstance.get('/user/'+regno));
         return data ?? error ;
     },
     searchUsers : async(query)=>{
@@ -39,11 +39,15 @@ const userService = {
        return data ?? error;
     },
     follow: async (regno) =>{
-        const {data, error} = await apiHandler(()=>axiosAuthInstance.put("user/follow/"+regno));
+        const {data, error} = await apiHandler(()=>axiosAuthInstance.put("/user/follow/"+regno));
         return data ?? error;
     },
     unfollow: async (regno)=>{
-        const {data, error} = await apiHandler(()=>axiosAuthInstance.delete("user/unfollow/"+regno));
+        const {data, error} = await apiHandler(()=>axiosAuthInstance.delete("/user/unfollow/"+regno));
+        return data ?? error;
+    },
+    getUnreadNotifications : async()=>{
+        const {data,error} = await apiHandler(()=>axiosAuthInstance.get("/user/notifications/unread"));
         return data ?? error;
     }
 }

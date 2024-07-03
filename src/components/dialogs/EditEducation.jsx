@@ -45,7 +45,7 @@ function EditEducation() {
 
   useBodyScrollLock();
   return (
-    <div className="fixed inset-0 flex items-start justify-center z-40 pt-40 md:items-center md:pt-0">
+    <div className="fixed inset-0 flex  justify-center items-center z-40  md:items-center md:pt-0">
     <div
       className="absolute inset-0 bg-black opacity-50"
       onClick={() => setDialogType(null)}
@@ -54,55 +54,55 @@ function EditEducation() {
       <div className="w-full">
       <h2 className="text-gray-700 text-lg lg:text-xl mb-5  font-medium">Add Education</h2>
         <div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="block text-gray-700 text-sm font-medium mb-1  lg:text-base">Institution</label>
                 <input
                 onChange={(e) => setInstitution(e.target.value)}
                 type="text"
-                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-2 focus:outline-none"
+                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-1.5 focus:outline-none"
                 placeholder="Enter institution or school name"
                 />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="block text-gray-700 text-sm font-medium mb-1  lg:text-base">Degree</label>
                 <input
                 onChange={(e) => setDegree(e.target.value)}
                 type="text"
-                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-2 focus:outline-none"
+                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-1.5 focus:outline-none"
                 placeholder="Enter degree"
                 />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="block text-gray-700 text-sm font-medium mb-1  lg:text-base">Start date</label>
                 <input
                 onChange={(e) => setStartDate(e.target.value)}
                 type="date"
-                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-2 focus:outline-none"
+                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-1.5 focus:outline-none"
                 />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="block text-gray-700 text-sm font-medium mb-1  lg:text-base">End date</label>
                 <input
                 onChange={(e) => setEndDate(e.target.value)}
                 type="date"
-                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-2 focus:outline-none"
+                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-1.5 focus:outline-none"
                 />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="block text-gray-700 text-sm font-medium mb-1  lg:text-base">Description <span className=" text-gray-400 text-xs lg:text-sm">(optional)</span></label>
                 <textarea
                 onChange={(e) => setDescription(e.target.value)}
                 type="text"
-                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-2 focus:outline-none"
+                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-1.5 focus:outline-none"
                 placeholder="Enter description of your achievements in this degree"
                 />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="block text-gray-700 text-sm font-medium mb-1  lg:text-base">Grade <span className=" text-gray-400 text-xs lg:text-sm">(optional)</span></label>
                 <input
                 onChange={(e) => setGrade(e.target.value)}
                 type="text"
-                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-2 focus:outline-none"
+                className="w-full border shadow focus:ring-2 focus:ring-primaryBlue rounded-lg px-3 py-1.5 focus:outline-none"
                 placeholder="Enter grade"
                 />
             </div>
@@ -110,13 +110,13 @@ function EditEducation() {
       </div>
       <div className="mt-5">
         <Button
-          className="px-4 py-2 mr-3"
+          className="px-4 py-1.5 mr-3"
           variant="outline"
           onClick={() => setDialogType(null)}
         >
           Cancel
         </Button>
-        <Button loading={loading} onClick={handleAddEducation} variant="primary" className="px-4 py-2">
+        <Button loading={loading} onClick={handleAddEducation} variant="primary" className="px-4 py-1.5">
           Add
         </Button>
       </div>

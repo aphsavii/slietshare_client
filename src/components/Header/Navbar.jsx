@@ -24,22 +24,23 @@ const Navbar = () => {
             </Link>
           )}
           {isMobile() && (
-            <h2 className="-ml-5 text-white relative left-0 font-bold tracking-wider text-lg md:text-2xl">
-              SLIETshare
-            </h2>
+            <Link to="">
+              <h2 className="-ml-5 text-white relative left-0 font-bold tracking-wider text-lg md:text-2xl">
+                SLIETshare
+              </h2>
+            </Link>
           )}
         </div>
         <div id="links" className="mr-5 flex gap-x-3 md:mr-16 md:gap-x-6">
-        {isAuthenticated && <Menu  />}
-        <FileSpreadsheet className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer"/>
-          {isAuthenticated && <div className="flex gap-x-3  md:gap-x-6">
-            <UserSearch />
-          <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
-          <Notification />
-          </div>}
-          
-
-         
+          {isAuthenticated && <Menu />}
+          <FileSpreadsheet className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
+          {isAuthenticated && (
+            <div className="flex gap-x-3  md:gap-x-6">
+              <UserSearch />
+              <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
+              <Notification />
+            </div>
+          )}
         </div>
         {!isAuthenticated && !isLoginPage && (
           <Link to="/login" className="absolute right-0">
