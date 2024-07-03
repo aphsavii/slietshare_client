@@ -63,7 +63,7 @@ function EditWorkExperience() {
 
   useBodyScrollLock();
   return (
-    <div className="fixed inset-0 flex items-start justify-center z-40 pt-40 md:items-center md:pt-0">
+    <div className="fixed inset-0 flex  justify-center items-center z-40  md:items-center md:pt-0">
     <div
       className="absolute inset-0 bg-black opacity-50"
       onClick={() => setDialogType(null)}
@@ -74,7 +74,7 @@ function EditWorkExperience() {
         <div>
 
           <div className="mb-5">
-            <label htmlFor="company" className="text-gray-700 text-sm lg:text-base font-medium block mb-2">
+            <label htmlFor="company" className="text-gray-700 text-sm lg:text-base font-medium block mb-1">
               Company
             </label>
             <input
@@ -84,14 +84,14 @@ function EditWorkExperience() {
               className="w-full border shadow focus:outline-none focus:ring-2 focus:ring-primaryBlue rounded-lg px-4 py-2"
               placeholder="Company"
             />
-            <label htmlFor="position" className="text-gray-700 text-sm lg:text-base font-medium block mt-3 mb-2"> Position</label>
+            <label htmlFor="position" className="text-gray-700 text-sm lg:text-base font-medium block mt-2 mb-1"> Position</label>
             <input onChange={(e)=>setPosition(e.target.value)} type="text" id="position" className="w-full border shadow focus:outline-none focus:ring-2 focus:ring-primaryBlue rounded-lg px-4 py-2" placeholder="Position" />
 
-            <label htmlFor="startate" className="text-gray-700 text-sm lg:text-base font-medium block mt-3 mb-2"> Start Date</label>
+            <label htmlFor="startate" className="text-gray-700 text-sm lg:text-base font-medium block mt-2 mb-1"> Start Date</label>
             <input onChange={(e)=>setStartDate(e.target.value)} type="date" id="startate" className="w-full border shadow focus:outline-none focus:ring-2 focus:ring-primaryBlue rounded-lg px-4 py-2" placeholder="Start Date" />
 
             {!ongoing && <div id="endDate-block">
-            <label htmlFor="endate" className="text-gray-700 text-sm lg:text-base font-medium block mt-3 mb-2"> End Date</label>
+            <label htmlFor="endate" className="text-gray-700 text-sm lg:text-base font-medium block mt-2 mb-1"> End Date</label>
             <input defaultValue={""} onChange={(e)=>setEndDate(e.target.value)} type="date" id="endate" className="w-full border shadow focus:outline-none focus:ring-2 focus:ring-primaryBlue rounded-lg px-4 py-2" placeholder="End Date" />
             </div>}
 
@@ -99,7 +99,7 @@ function EditWorkExperience() {
               setOngoing(e.target.checked);
             }} className="mt-5" type="checkbox" name="ongoing" id="ongoing" /> <label htmlFor="ongoing" className="text-gray-600 text-sm lg:text-base font-medium">Currently Ongoing</label>
 
-            <label htmlFor="" className="text-gray-700 text-sm lg:text-base font-medium block mt-3 mb-2">Description</label>
+            <label htmlFor="" className="text-gray-700 text-sm lg:text-base font-medium block mt-2 mb-1">Description</label>
             <textarea onChange={(e)=>setDescription(e.target.value)} className="w-full border shadow focus:outline-none focus:ring-2 focus:ring-primaryBlue rounded-lg px-4 py-2" placeholder="Description" rows="4"></textarea>
             </div>
         </div>

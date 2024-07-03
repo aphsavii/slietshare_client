@@ -59,7 +59,7 @@ function EditSkills() {
 
   useBodyScrollLock();
   return (
-    <div className="fixed inset-0 flex items-start justify-center z-40 pt-40 md:items-center md:pt-0">
+    <div className="fixed inset-0 flex  justify-center items-center z-40  md:items-center md:pt-0">
       <div
         className="absolute inset-0 bg-black opacity-50"
         onClick={() => setDialogType(null)}

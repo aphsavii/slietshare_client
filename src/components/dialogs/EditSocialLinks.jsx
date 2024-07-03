@@ -53,20 +53,20 @@ function EditSocialLinks() {
   useBodyScrollLock();
   
   return (
-    <div className="fixed inset-0 flex items-start justify-center z-40 pt-40 md:items-center md:pt-0">
+    <div className="fixed inset-0 flex  justify-center items-center z-40  md:items-center md:pt-0">
       <div
         className="absolute inset-0 bg-black opacity-50"
         onClick={() => setDialogType(null)}
       ></div>
-      <div className="bg-white rounded-lg p-5 max-w-[330px] md:max-w-xl lg:max-w-4xl mx-auto absolute z-41">
+      <div className="bg-white rounded-lg p-5 max-w-[330px] md:max-w-xl lg:max-w-4xl mx-auto absolute z-41 overflow-scroll">
         <div className="w-full">
-          <h2 className="text-lightblack text-lg lg:text-xl mb-5  font-medium">
+          <h2 className="text-lightblack text-lg lg:text-xl mb-3 md:mb-5  font-medium">
             Add Profile Links
           </h2>
           {/* Github */}
           <label
             htmlFor="github-edit"
-            className="block mt-3 text-gray-700 font-medium   text-base lg:text-lg  mb-1"
+            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
           >
             Github
           </label>
@@ -82,7 +82,7 @@ function EditSocialLinks() {
           {/* Protfolio */}
           <label
             htmlFor="portfolio-edit"
-            className="block mt-3 text-gray-700 font-medium   text-base lg:text-lg  mb-1"
+            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
           >
             Portfolio
           </label>
@@ -98,7 +98,7 @@ function EditSocialLinks() {
           {/* Twitter */}
           <label
             type="text"
-            className="block mt-3 text-gray-700 font-medium   text-base lg:text-lg  mb-1"
+            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
           >
             Twitter
           </label>
@@ -114,7 +114,7 @@ function EditSocialLinks() {
           {/* Leetcode */}
           <label
             htmlFor="leetcode-edit"
-            className="block mt-3 text-gray-700 font-medium   text-base lg:text-lg  mb-1"
+            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
           >
             Leetcode
           </label>
@@ -130,7 +130,7 @@ function EditSocialLinks() {
           {/* codeforces */}
           <label
             htmlFor="codeforces-edit"
-            className="block mt-3 text-gray-700 font-medium   text-base lg:text-lg  mb-1"
+            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
           >
             Codeforces
           </label>
@@ -145,7 +145,7 @@ function EditSocialLinks() {
           {/* codechef */}
           <label
             htmlFor="codechef-edit"
-            className="block mt-3 text-gray-700 font-medium   text-base lg:text-lg  mb-1"
+            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
           >
             Codechef
           </label>
@@ -161,7 +161,7 @@ function EditSocialLinks() {
           {/* GFG */}
           <label
             htmlFor="codechef-edit"
-            className="block mt-3 text-gray-700 font-medium   text-base lg:text-lg  mb-1"
+            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
           >
             GFG
           </label>
