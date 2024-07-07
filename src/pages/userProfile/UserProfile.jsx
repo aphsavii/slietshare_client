@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import { textCapitalize, toMonthYear } from "@/helpers";
 import { SocketContext } from "@/api/sockets/socket";
 import { useSelector } from "react-redux";
+import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
 
 function UserProfile() {
   const user = useSelector((state) => state.auth.user);
@@ -28,6 +29,7 @@ function UserProfile() {
   const [loading, setLoading] = useState(false);
   const socket = useContext(SocketContext);
 
+  const [isUserDetailsLoaded, setIsUserDetailsLoaded] = useState(false);
 
   useEffect(() => {
     userService
@@ -35,9 +37,10 @@ function UserProfile() {
       .then((data) => {
         console.log(data);
         setUserData(data);
+        setIsUserDetailsLoaded(true);
       })
       .catch((error) => {
-        toast.error("Error fetching user data");
+        toast.error("Error fetching user data, please resfresh");
         console.log(error);
       });
   }, [regno]);
@@ -83,7 +86,9 @@ function UserProfile() {
   };
 
   return (
-    <div className="container px-4 flex min-h-[600px] md:min-h-[800px] mx-auto ">
+    <>
+    {!isUserDetailsLoaded && <UserProfileSkeleton />}
+   {isUserDetailsLoaded && <div className="container px-4 flex min-h-[600px] md:min-h-[800px] mx-auto ">
       <div className=" mx-auto  w-full flex flex-col lg:flex-row py-10 md:py-16 px-3 lg:px-0">
         <div className="lg:max-w-[450px] min-w-64 lg:min-w-80 flex flex-col gap-5 ">
           <div className="py-5 px-5 bg-white h-fit rounded-xl border border-1 border-lightGray">
@@ -170,7 +175,7 @@ function UserProfile() {
           </div>
 
           {/* Social Links */}
-          {userData.socialLinks && (
+          { (
             <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
               <h2>
                 <Link size={20} className="inline mr-2 font-semibold" />
@@ -179,7 +184,7 @@ function UserProfile() {
               <div className="mt-3">
                 <div className="py-3">
                   <div className="flex  gap-3 flex-col">
-                    {Object.keys(userData.socialLinks).map(
+                    {userData.socialLinks && Object.keys(userData.socialLinks).map(
                       (platform, index) =>
                         userData.socialLinks[platform] &&
                         platform !== "_id" && (
@@ -219,7 +224,7 @@ function UserProfile() {
 
         <div className="w-full lg:px-8 mt-5 lg:mt-0 flex flex-col gap-5 ">
           {/* About */}
-          {userData?.about && (
+          { (
             <div className="py-5 px-6 bg-white h-fit rounded-xl border border-1 border-lightGray w-full text-lg lg:text-xl font-semibold text-lightBlack">
               <h2>
                 <UserRound size={20} className="inline mr-2 font-semibold" />
@@ -355,7 +360,8 @@ function UserProfile() {
           </div>
         </div>
       </div>
-    </div>
+    </div>}
+    </>
   );
 }
 

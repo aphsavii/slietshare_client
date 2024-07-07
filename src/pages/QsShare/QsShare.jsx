@@ -3,12 +3,12 @@ import Qs from "../../components/QuestionSheet/Qs";
 import { saveAs } from "file-saver";
 import QsSearch from "../../components/QsSearch/QsSearch.jsx";
 import qsService from "../../api/services/qsService.js";
-import Error from "../../components/errors/Error.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { useDebouncedState } from "../../hooks/useDebouncedState.js";
 import toast from "react-hot-toast";
 import { Button } from "/shadcn/ui/Button.jsx";
 import { useEffect } from "react";
+import CtaSticky from "@/components/cta/CtaSticky";
 
 const QsShare = () => {
   const [searchText, setSearchText] = useDebouncedState("", 1000);
@@ -73,6 +73,7 @@ const QsShare = () => {
           ))}
       </div>
       <Button variant="primary" size="default" className="mt-10" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to Top</Button>
+      { <CtaSticky></CtaSticky>}
     </div>
     </>
   );

@@ -32,10 +32,12 @@ const Navbar = () => {
           )}
         </div>
         <div id="links" className="mr-5 flex gap-x-3 md:mr-16 md:gap-x-6">
-          {isAuthenticated && <Menu />}
-          <FileSpreadsheet className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
           {isAuthenticated && (
             <div className="flex gap-x-3  md:gap-x-6">
+              <Menu />
+              <Link to="/qs">
+                <FileSpreadsheet className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
+              </Link>
               <UserSearch />
               <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
               <Notification />

@@ -14,12 +14,12 @@ function Notification({}) {
   );
 
   useEffect(() => {
+    if (!socket) return;
     userService.getUnreadNotifications().then((res) => {
       console.log(res);
       setNotifications(res);
       setNotificationLength(res.length);
     });
-    if (!socket) return;
     socket.on("notification:new", (data) => {
       setNotifications([data, ...notifications]);
       setNotificationLength(notificationLength + 1);
@@ -39,7 +39,6 @@ function Notification({}) {
     setNotifications(updatedNotifications);
   };
 
-
   return (
     <Popover className="">
       <PopoverTrigger
@@ -57,7 +56,8 @@ function Notification({}) {
           </span>
         )}
       </PopoverTrigger>
-      <PopoverContent className="bg-white w-screen md:w-[400px] p-0 mt-3">
+      <PopoverContent className="bg-white  w-screen md:w-[400px] p-0 mt-2 lg:mt-3 relative">
+        <div className="absolute left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-500 hidden md:block"></div>
         <ul>
           {notifications.length > 0 &&
             notifications.map((notification) => (
@@ -67,9 +67,11 @@ function Notification({}) {
                 markAsRead={markAsRead}
               />
             ))}
-            {
-              notifications.length === 0 && <li className="text-center text-gray-500 my-10">No new notifications</li>
-            }
+          {notifications.length === 0 && (
+            <li className="text-center text-gray-500 my-10">
+              No new notifications
+            </li>
+          )}
         </ul>
       </PopoverContent>
     </Popover>

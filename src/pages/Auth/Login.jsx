@@ -34,12 +34,7 @@ const navigate = useNavigate();
     }
   }
   useEffect(() => {
-    if(isAuthenticated)
-    {
-      setTimeout(() => {
-        navigate('/');
-      },1000);
-    }
+    if(isAuthenticated)  navigate('/feed');
   }
     , [ isAuthenticated, navigate]);
   

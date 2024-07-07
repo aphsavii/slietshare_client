@@ -17,12 +17,11 @@ function Menu() {
               <span>Explore</span>
             </li>
           </Link>
-          
-          <Link>
+          {/* <Link>
             <li className='py-2 border-b hover:text-primaryBlue cursor-pointer'>
             <TextQuote className='inline text-gray-500 mr-1 h-5 w-5'/> <span>Create Tweet</span>
             </li>
-          </Link>
+          </Link> */}
           <Link>
             <li className='py-2 border-b hover:text-primaryBlue cursor-pointer'>
             <ImageUp className='inline text-gray-500 mr-1 h-5 w-5'/> <span>Create Post</span>
