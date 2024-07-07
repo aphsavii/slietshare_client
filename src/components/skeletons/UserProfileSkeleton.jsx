@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton } from "/shadcn/ui/skeleton";
+import { Skeleton } from "../../../shadcn/ui/skeleton.jsx";
 
 const UserProfileSkeleton = () => {
   return (

@@ -23,6 +23,7 @@ import EditProfileDialog from "@/components/dialogs/EditProfileDialog";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserData } from "@/redux/slices/userProfile";
 import { setDialog } from "@/redux/slices/userProfile";
+import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
 
 function Me() {
   // edit dialog types :basic, personal, about, work, project, education, skills
@@ -30,6 +31,7 @@ function Me() {
   let activeDialog = useSelector((state) => state.userProfile.dialog);
   const [deleting, setDeleting] = useState(false);
   const dispatch = useDispatch();
+  const [isDataAvailable, setIsDataAvailable] = useState(false);
   useEffect(() => {
     if(userData?._id) return;
     userService
@@ -37,9 +39,10 @@ function Me() {
       .then((data) => {
         console.log(data);
         dispatch(updateUserData(data));
+        setIsDataAvailable(true);
       })
       .catch((error) => {
-        toast.error("Error fetching user data");
+        toast.error("Error fetching user data, please refresh");
         console.log(error);
       });
   }, []);
@@ -98,7 +101,8 @@ function Me() {
   return (
     <>
       {activeDialog !== null && <EditProfileDialog />}
-      <div className="container px-4 flex min-h-[600px] md:min-h-[800px] mx-auto ">
+      {!isDataAvailable && <UserProfileSkeleton />}
+    { isDataAvailable &&  <div className="container px-4 flex min-h-[600px] md:min-h-[800px] mx-auto ">
         <div className=" mx-auto  w-full flex flex-col lg:flex-row py-10 md:py-16 px-3 lg:px-0">
           <div className="lg:max-w-[400px] min-w-64 lg:min-w-80 flex flex-col gap-5 ">
             <div className="py-5 px-5 bg-white h-fit rounded-xl border  border-lightGray relative">
@@ -406,7 +410,7 @@ function Me() {
             </div>
           </div>
         </div>
-      </div>
+      </div> }
     </>
   );
 }
