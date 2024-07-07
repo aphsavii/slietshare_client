@@ -9,11 +9,13 @@ const SocketProvider = ({ children }) => {
 
   const accessToken = useSelector((state) => state.auth.accessToken);
 
+  let socketUrl = window.location.origin.includes('localhost') ? 'http://localhost:5050' : 'https://slietshare-server.onrender.com/';
+  if(window.location.origin.includes('slietshare-client-um2t')) baseURL = 'https://slietshare-server-2lbv.onrender.com';  
 
   useEffect(() => {
     const initializeSocket = () => {
       if (accessToken) {
-        const newSocket = io("localhost:5050", {
+        const newSocket = io(socketUrl, {
           auth: { accessToken },
         //   autoConnect: false,
         });
