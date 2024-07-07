@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "/shadcn/ui/Button";
+import { Button } from "@/shadcn/ui/Button";
 const ConformationDialog = ({
   open = false,
   title = "",

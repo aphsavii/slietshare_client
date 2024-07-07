@@ -6,7 +6,7 @@ import qsService from "../../api/services/qsService.js";
 import { useQuery } from "@tanstack/react-query";
 import { useDebouncedState } from "../../hooks/useDebouncedState.js";
 import toast from "react-hot-toast";
-import { Button } from "/shadcn/ui/Button.jsx";
+import { Button } from "@/shadcn/ui/Button.jsx";
 import { useEffect } from "react";
 import CtaSticky from "@/components/cta/CtaSticky";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "/shadcn/ui/Button.jsx";
+import { Button } from "@/shadcn/ui/Button.jsx";
 import toast from "react-hot-toast";
 import userAuthService from "@/api/services/userAuthService";
 import { useNavigate } from "react-router";

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "/shadcn/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
 import { Bell } from "lucide-react";
 import { useContext } from "react";
 import { SocketContext } from "@/api/sockets/socket";

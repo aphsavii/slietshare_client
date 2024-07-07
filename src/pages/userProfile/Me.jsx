@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "/shadcn/ui/Button";
+import { Button } from "@/shadcn/ui/Button";
 import { getIcons } from "@/constant";
 import userService from "@/api/services/userService";
 import {

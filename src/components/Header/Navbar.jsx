@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserNav from "./UserNav";
-import { Button } from "/shadcn/ui/Button";
+import { Button } from "@/shadcn/ui/Button";
 import { isMobile } from "@/helpers";
 import { MessageSquare, FileSpreadsheet } from "lucide-react";
 import Notification from "../Notification/Notification";

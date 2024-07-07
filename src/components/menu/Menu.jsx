@@ -1,5 +1,5 @@
 import React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "/shadcn/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
 import { ListCollapse, FileUp, Telescope, ImageUp, TextQuote } from "lucide-react";
 import { Link } from "react-router-dom";
 function Menu() {

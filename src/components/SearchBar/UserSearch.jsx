@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "/shadcn/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
 import { UserRoundSearch, Search } from "lucide-react";
 import { useDebouncedState } from "@/hooks/useDebouncedState";
 import { useQuery } from "@tanstack/react-query";

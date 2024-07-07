@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "/shadcn/ui/Button";
+import { Button } from "@/shadcn/ui/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { setDialog } from "@/redux/slices/userProfile";
 import useBodyScrollLock from "@/hooks/useBodyScrollLock";
