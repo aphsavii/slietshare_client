@@ -352,6 +352,7 @@ function UserProfile() {
               {userData?.skills &&
                 userData?.skills.map((skill) => (
                   <SkillTag
+                    key={skill._id}
                     text={skill?.skill}
                     proficiency={skill?.proficiency}
                   />
