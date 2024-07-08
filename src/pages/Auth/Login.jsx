@@ -1,4 +1,3 @@
-import OverlayLoading from "../../components/Loaders/OverlayLoading";
 import userAuthService from "../../api/services/userAuthService";
 import {  useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -8,6 +7,7 @@ import {setLocalAuth} from "../../helpers/LocalAuth";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import FullScreenLoader from "@/components/Loaders/FullScreenLoader";
 
 const Login = () => {
 const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const navigate = useNavigate();
     }
   }
   useEffect(() => {
-    if(isAuthenticated)  navigate('/feed');
+    if(isAuthenticated)  navigate('/');
   }
     , [ isAuthenticated, navigate]);
   
@@ -42,8 +42,8 @@ const navigate = useNavigate();
   return (
     <>
       {isSubmitting && (
-        <OverlayLoading title="Logging in" message="Please wait a moment..." />
-      )}
+        <FullScreenLoader text={`Loggin you in...`} />
+       )}
 
       <div className="container px-4 flex items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">
         <div className="max-w-sm bg-white  rounded-lg shadow-md w-full md:max-w-md lg:max-w-lg mx-auto">

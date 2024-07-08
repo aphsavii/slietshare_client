@@ -1,3 +1,4 @@
+import React from "react";
 import {
   RouterProvider,
   Route,
@@ -6,51 +7,83 @@ import {
 } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import { useSelector } from "react-redux";
-import AppLoading from "./components/Loaders/AppLoading.jsx";
 import MsgDialog from "./components/popups/MsgDialog.jsx";
 import { Toaster } from "react-hot-toast";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, Suspense } from "react";
 import { SocketContext } from "./api/sockets/socket.jsx";
 
 // Route imports
 import AuthRoutes from "./components/routes/AuthRoutes/AuthRoutes.jsx";
 import AdminRoutes from "./components/routes/AdminRoutes/AdminRoutes.jsx";
-import QsShare from "./pages/QsShare/QsShare";
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
-import UploadQs from "./pages/upload/UploadQs.jsx";
 import PageNotFound from "./components/errors/PageNotFound.jsx";
 import NotAuthenticated from "./pages/Auth/NotAuthenticated.jsx";
 import NotAdmin from "./pages/Auth/NotAdmin.jsx";
-import Admin from "./pages/admin/Admin.jsx";
-import UserQs from "./pages/userProfile/UserQs.jsx";
 import ForgotPassword from "./pages/Auth/ForgotPassword.jsx";
-import UserProfile from "./pages/userProfile/UserProfile.jsx";
-import Me from "./pages/userProfile/Me.jsx";
-import Feed from "./pages/home/Feed.jsx";
+import FullScreenLoader from "./components/Loaders/FullScreenLoader.jsx";
+import UserProfileSkeleton from "./components/skeletons/UserProfileSkeleton.jsx";
+
+// Lazy Loaded Routes
+// import QsShare from "./pages/QsShare/QsShare";
+const QsShare = React.lazy(() => import("@/pages/QsShare/QsShare"));
+const UploadQs = React.lazy(() => import("@/pages/upload/UploadQs"));
+const Admin = React.lazy(() => import("@/pages/Admin/Admin"));
+const UserQs = React.lazy(() => import("@/pages/userProfile/UserQs"));
+const UserProfile = React.lazy(() => import("@/pages/userProfile/UserProfile"));
+const Me = React.lazy(() => import("@/pages/userProfile/Me"));
+const Feed = React.lazy(()=> import('@/pages/home/Feed'));
 
 // Route definitions
 const routes = createRoutesFromElements(
   <Route path="/" element={<Layout />}>
     {/* Non Authenticated Routes */}
-    <Route path="" element={<Login />} />
     <Route path="login" element={<Login />} />
     <Route path="register" element={<Register />} />
     <Route path="forgot-password" element={<ForgotPassword />} />
 
     {/* Admin Routes */}
     <Route element={<AdminRoutes />}>
-      <Route path="admin" element={<Admin />} />
+      <Route path="admin" element={
+        <Suspense>
+          <Admin />
+        </Suspense>
+      } />
     </Route>
 
     {/* Authenticated Routes */}
     <Route element={<AuthRoutes />}>
-      <Route path="feed" element={<Feed />} />
-      <Route path="qs" element={<QsShare />} />
+      <Route path="" element={
+        <Suspense fallback={<FullScreenLoader text={`Loggin you in...`}/>}>
+          <Feed />
+        </Suspense>
+      } />
+      <Route
+        path="qs"
+        element={
+          <Suspense fallback={<FullScreenLoader />}>
+            <QsShare />
+          </Suspense>
+        }
+      />
       <Route path="qs/upload" element={<UploadQs />} />
-      <Route path="user/:regno" element={<UserProfile />} />
+      <Route
+        path="user/:regno"
+        element={
+          <Suspense fallback={<UserProfileSkeleton />}>
+            <UserProfile />
+          </Suspense>
+        }
+      />
       <Route path="qs/:regno" element={<UserQs />} />
-      <Route path="me" element={<Me />} />
+      <Route
+        path="me"
+        element={
+          <Suspense fallback={<UserProfileSkeleton />}>
+            <Me />
+          </Suspense>
+        }
+      />
     </Route>
 
     {/* Error Routes */}
@@ -65,7 +98,6 @@ function App() {
   const router = createBrowserRouter(routes);
   const appLoading = useSelector((state) => state.loading.appLoading);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
   const socket = useContext(SocketContext);
 
   useEffect(() => {
@@ -81,7 +113,11 @@ function App() {
 
   return (
     <>
-      {appLoading ? <AppLoading /> : <RouterProvider router={router} />}
+      {appLoading ? (
+        <FullScreenLoader text={`Logging you in...`} />
+      ) : (
+        <RouterProvider router={router} />
+      )}
       <MsgDialog
         title="Important Note"
         active={isDialog}

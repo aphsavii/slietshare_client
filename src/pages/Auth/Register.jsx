@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import OverlayLoading from "../../components/Loaders/OverlayLoading";
 import Timer from "../../components/timer/Timer.jsx";
 import toast from "react-hot-toast";
+import FullScreenLoader from "@/components/Loaders/FullScreenLoader";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -68,8 +69,8 @@ const Register = () => {
 
   return (
     <>
-    {isSubmitting && step<2 && ( <OverlayLoading title="Sending Otp" message="Please wait a moment..." /> )}
-    {isSubmitting && step>1 && ( <OverlayLoading title="Registering" message="Please wait a moment..." /> )}
+    {isSubmitting && step<2 && ( <FullScreenLoader text={`Sending OTP...`} />)}
+    {isSubmitting && step>1 && (<FullScreenLoader text={`Registering...`} />)}
     <div className="container py-10  px-4 flex items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">
       <div className="max-w-sm bg-white p-6 rounded-lg shadow-md w-full md:max-w-md lg:max-w-lg mx-auto">
         <form onSubmit={handleSubmit(onsubmit)}>

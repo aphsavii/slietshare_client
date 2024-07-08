@@ -56,8 +56,8 @@ function Notification({}) {
           </span>
         )}
       </PopoverTrigger>
-      <PopoverContent className="bg-white  w-screen md:w-[400px] p-0 mt-2 lg:mt-3 relative">
-        <div className="absolute left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-500 hidden md:block"></div>
+      <PopoverContent className="bg-white  w-screen md:w-[400px] p-0 mt-2 lg:mt-3  ">
+        <div className="absolute left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-500 hidden md:block -mt-0.5"></div>
         <ul>
           {notifications.length > 0 &&
             notifications.map((notification) => (

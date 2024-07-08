@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import userAuthService from "../../api/services/userAuthService";
 import { logout } from "../../redux/slices/auth";
-import BtnGray from "../buttons/BtnGray";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { LogOut, User,Crown, ShieldCheck } from "lucide-react";
+import { LogOut, User, Crown, ShieldCheck } from "lucide-react";
+import { Avatar,AvatarFallback, AvatarImage } from "@/shadcn/ui/avatar";
 
 function UserNav() {
   const dispatch = useDispatch();
@@ -33,10 +33,20 @@ function UserNav() {
   };
 
   return (
-    <div onMouseEnter={() => setOffCanvas(true)} onMouseLeave={() => setOffCanvas(false)}>
-      <div className="rounded-full h-7 w-7  md:h-10 md:w-10 cursor-pointer">
-        <img src={user?.avatarUrl} alt="profile" className="rounded-full" />
-      </div>
+    <div
+      onMouseEnter={() => setOffCanvas(true)}
+      onMouseLeave={() => setOffCanvas(false)}
+    >
+      {/* <div className="rounded-full h-7 w-7  md:h-10 md:w-10 cursor-pointer">
+        <img src={user?.avatarUrl} alt="" className="rounded-full" />
+      </div> */}
+      <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
+        <AvatarImage src={user?.avatarUrl} />
+        <AvatarFallback>
+          <User color="#6b7280" size={24} />
+        </AvatarFallback>
+      </Avatar>
+
       <div
         className={`absolute z-[5] right-[0%] top-8 md:top-10 ${
           offCanvas ? "" : "hidden"
@@ -85,10 +95,7 @@ function UserNav() {
                 </Link>
               </li>
               <li className="border-t-[1px] py-1 md:py-2 rounded-md  text-lightBlack hover:text-alert">
-                <span
-                  className="cursor-pointer"
-                  onClick={handleLogOut}
-                >
+                <span className="cursor-pointer" onClick={handleLogOut}>
                   <LogOut color="#6b7280" size={16} className="inline mr-2" />
                   logout
                 </span>
