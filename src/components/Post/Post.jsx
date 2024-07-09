@@ -1,40 +1,59 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ThumbsUp, MessageSquare, Share2, Send, Search, X, Check } from 'lucide-react';
-import PostSkeleton from '@/components/skeletons/PostSkeleton.jsx';
+import React, { useState, useRef, useEffect } from "react";
+import {
+  ThumbsUp,
+  MessageSquare,
+  Share2,
+  Send,
+  User,
+  Smile,
+} from "lucide-react";
 
-const Post = () => {
-  const [liked, setLiked] = useState(false);
+// import EmojiPicker from "emoji-picker-react";
+const EmojiPicker = React.lazy(() => import("emoji-picker-react"));
+import { Avatar, AvatarImage, AvatarFallback } from "@/shadcn/ui/avatar";
+import { Button } from "@/shadcn/ui/Button";
+
+const Post = ({
+  post = {
+    _id: "6689674bfd956cc1700c847e",
+    title: "Muchas Gracias",
+    mediaUrl: [
+      "http://res.cloudinary.com/dkcyijvn1/image/upload/v1720280906/hzvbchkf12bx0etwsv9k.webp",
+    ],
+    tags: [],
+    createdAt: "2024-07-06T15:48:27.075Z",
+    createdBy: {
+      _id: "6638c652d1e66ca36e7035bc",
+      regno: 2331080,
+      fullName: "Avinash kumar",
+      trade: "GCS",
+    },
+  },
+}) => {
+  const [liked, setLiked] = useState(post?.isLiked);
   const [likeCount, setLikeCount] = useState(1287);
   const [showComments, setShowComments] = useState(false);
-  const [newComment, setNewComment] = useState('');
-  const [showSharePopup, setShowSharePopup] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [newComment, setNewComment] = useState("");
+
   const sharePopupRef = useRef(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const emojiPickerRef = useRef(null);
 
   // Dummy data
   const [postData, setPostData] = useState([]);
 
-  const allUsers = [
-    { id: 1, name: "Alice Johnson", avatar: "/api/placeholder/32/32" },
-    { id: 2, name: "Bob Williams", avatar: "/api/placeholder/32/32" },
-    { id: 3, name: "Carol Davis", avatar: "/api/placeholder/32/32" },
-    { id: 4, name: "David Brown", avatar: "/api/placeholder/32/32" },
-    { id: 5, name: "Eva Martinez", avatar: "/api/placeholder/32/32" },
-    { id: 6, name: "Frank Thompson", avatar: "/api/placeholder/32/32" },
-  ];
-
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (sharePopupRef.current && !sharePopupRef.current.contains(event.target)) {
-        setShowSharePopup(false);
+    const handleClickOutside = (event) => {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+        setShowEmojiPicker(false);
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [sharePopupRef]);
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleLike = () => {
     setLiked(!liked);
@@ -45,166 +64,127 @@ const Post = () => {
     e.preventDefault();
     if (newComment.trim()) {
       postData.comments.unshift({ user: "You", content: newComment.trim() });
-      setNewComment('');
+      setNewComment("");
     }
   };
 
-  const filteredUsers = allUsers.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleUserSelect = (user) => {
-    setSelectedUsers(prev => 
-      prev.some(u => u.id === user.id)
-        ? prev.filter(u => u.id !== user.id)
-        : [...prev, user]
-    );
+  const handleEmojiClick = (emojiObject) => {
+    setNewComment(newComment + emojiObject.emoji);
   };
 
-  const handleSendShare = () => {
-    console.log("Sharing post with:", selectedUsers.map(u => u.name).join(", "));
-    setShowSharePopup(false);
-    setSelectedUsers([]);
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
   };
+
+ 
 
   return (
     <>
-    {postData.length == 0 && <PostSkeleton/> }
-   { postData.length > 0 && <div className="max-w-xl mx-auto bg-white rounded-lg shadow-md overflow-hidden relative">
-      <div className="p-4">
-        <div className="flex items-center mb-4">
-          <img 
-            src="/api/placeholder/40/40" 
-            alt={postData?.user?.name} 
-            className="w-10 h-10 rounded-full mr-3"
-          />
-          <div>
-            <h3 className="font-semibold text-gray-800">{postData?.user?.name}</h3>
-            <p className="text-sm text-gray-600">{postData?.user?.title}</p>
+      <div className="mx-auto bg-white rounded-lg shadow-md overflow-hidden relative mb-5">
+        <div className="p-4">
+          <div className="flex items-center mb-4">
+            <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
+              <AvatarImage src={post?.createdBy?.avatarUrl} />
+              <AvatarFallback>
+                <User color="#6b7280" size={24} />
+              </AvatarFallback>
+            </Avatar>
+            <div className="ml-2">
+              <h3 className="font-semibold text-gray-800">
+                {post?.createdBy?.fullName}
+              </h3>
+              <p className="text-sm text-gray-600 ">
+                {post?.createdBy?.headLine}
+              </p>
+            </div>
+          </div>
+          <p className="text-gray-800 mb-4 ml-2">{post?.title}</p>
+          <div className="mb-4">
+            <img src={post?.mediaUrl[0]} className="w-full h-auto rounded-lg" />
+          </div>
+          <div className="flex justify-between text-gray-500 text-sm">
+            <span>{post?.likesCount} likes</span>
+            <span>
+              {post?.comments?.length} comments • {post?.shares ?? 0} shares
+            </span>
           </div>
         </div>
-        <p className="text-gray-800 mb-4">{postData?.content}</p>
-        <div className="mb-4">
-          <img 
-            src={postData?.image} 
-            alt="AI and Data Analysis Visualization" 
-            className="w-full h-auto rounded-lg"
-          />
-        </div>
-        <div className="flex justify-between text-gray-500 text-sm">
-          <span>{likeCount} likes</span>
-          <span>{postData?.comments?.length} comments • {postData?.shares} shares</span>
-        </div>
-      </div>
-      <div className="border-t border-gray-200">
-        <div className="flex justify-around p-2">
-          <button 
-            className={`flex items-center transition-colors duration-300 ease-in-out ${liked ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}
-            onClick={handleLike}
-          >
-            <ThumbsUp 
-              className={`mr-1 transition-all duration-300 ease-in-out ${liked ? 'fill-current' : ''}`} 
-              size={18} 
-            />
-            Like
-          </button>
-          <button 
-            className="flex items-center text-gray-600 hover:text-blue-600"
-            onClick={() => setShowComments(!showComments)}
-          >
-            <MessageSquare className="mr-1" size={18} />
-            Comment
-          </button>
-          <button 
-            className="flex items-center text-gray-600 hover:text-blue-600"
-            onClick={() => setShowSharePopup(true)}
-          >
-            <Share2 className="mr-1" size={18} />
-            Share
-          </button>
-        </div>
-      </div>
-      {showComments && (
-        <div className="p-4 bg-gray-50 transition-all duration-300 ease-in-out">
-          <form onSubmit={handleCommentSubmit} className="mb-4">
-            <textarea
-              className="w-full p-2 border border-gray-300 rounded-md"
-              rows="2"
-              placeholder="Write a comment..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            ></textarea>
-            <button 
-              type="submit" 
-              className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 ease-in-out flex items-center"
+        <div className="border-t border-gray-200">
+          <div className="flex justify-around p-2">
+            <button
+              className={`flex items-center transition-colors duration-300 ease-in-out ${
+                liked ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
+              }`}
+              onClick={handleLike}
             >
-              <Send size={16} className="mr-2" />
+              <ThumbsUp
+                className={`mr-1 transition-all duration-300 ease-in-out ${
+                  liked ? "fill-current" : ""
+                }`}
+                size={18}
+              />
+              Like
+            </button>
+            <button
+              className="flex items-center text-gray-600 hover:text-blue-600"
+              onClick={() => setShowComments(!showComments)}
+            >
+              <MessageSquare className="mr-1" size={18} />
               Comment
             </button>
-          </form>
-          <div className="space-y-4">
-            {postData.comments.map((comment, index) => (
-              <div key={index} className="bg-white p-3 rounded-md shadow-sm">
-                <p className="font-semibold text-sm text-gray-800">{comment.user}</p>
-                <p className="text-gray-600">{comment.content}</p>
-              </div>
-            ))}
+            <button
+              className="flex items-center text-gray-600 hover:text-blue-600"
+              onClick={() => setShowSharePopup(true)}
+            >
+              <Share2 className="mr-1" size={18} />
+              Share
+            </button>
           </div>
         </div>
-      )}
-      {showSharePopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div ref={sharePopupRef} className="bg-white rounded-lg p-4 w-80 max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Share Post</h3>
-              <button onClick={() => setShowSharePopup(false)} className="text-gray-500 hover:text-gray-700">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="mb-4">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search users..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
-              </div>
-            </div>
-            <div className="max-h-60 overflow-y-auto mb-4">
-              {filteredUsers.map(user => (
-                <div 
-                  key={user.id} 
-                  className={`flex items-center justify-between p-2 hover:bg-gray-100 cursor-pointer rounded-md ${
-                    selectedUsers.some(u => u.id === user.id) ? 'bg-blue-100' : ''
-                  }`}
-                  onClick={() => handleUserSelect(user)}
-                >
-                  <div className="flex items-center">
-                    <img src={user.avatar} alt={user.name} className="w-8 h-8 rounded-full mr-2" />
-                    <span className="text-sm">{user.name}</span>
-                  </div>
-                  {selectedUsers.some(u => u.id === user.id) && (
-                    <Check className="text-blue-500" size={20} />
+        {showComments && (
+          <div className="p-4 bg-gray-50 transition-all duration-300 ease-in-out">
+            <form onSubmit={handleCommentSubmit} className="mb-4 relative">
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-md"
+                rows="2"
+                placeholder="Write a comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              ></textarea>
+              <div className="flex items-center justify-between mt-2">
+                <div className="relative" ref={emojiPickerRef}>
+                  <Smile
+                    className="cursor-pointer text-primaryBlue"
+                    size={24}
+                    onClick={toggleEmojiPicker}
+                  />
+                  {showEmojiPicker && (
+                    <div className="absolute bottom-full left-0 z-10 animate-in fade-in duration-200">
+                      <React.Suspense fallback={<div className="p-1 bg-white ">Loading...</div>}>
+                        <EmojiPicker onEmojiClick={handleEmojiClick} />
+                      </React.Suspense>
+                    </div>
                   )}
+                </div>
+                <Button variant="primary" className="px-2.5">
+                  <Send size={16} className="mr-1.5" />
+                  Comment
+                </Button>
+              </div>
+            </form>
+            <div className="space-y-4">
+              {post.comments.map((comment, index) => (
+                <div key={index} className="bg-white p-3 rounded-md shadow-sm">
+                  <p className="font-semibold text-sm text-gray-800">
+                    {comment.user}
+                  </p>
+                  <p className="text-gray-600">{comment.content}</p>
                 </div>
               ))}
             </div>
-            {selectedUsers.length > 0 && (
-              <button 
-                onClick={handleSendShare}
-                className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 ease-in-out flex items-center justify-center"
-              >
-                <Send size={16} className="mr-2" />
-                Send to {selectedUsers.length} user{selectedUsers.length > 1 ? 's' : ''}
-              </button>
-            )}
           </div>
-        </div>
-      )}
-    </div>}
+        )}
+      </div>
     </>
   );
 };

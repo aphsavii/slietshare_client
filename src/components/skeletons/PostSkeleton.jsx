@@ -3,7 +3,7 @@ import { Skeleton } from "@/shadcn/ui/skeleton.jsx";
 
 const PostSkeleton = () => {
   return (
-    <div className="  rounded-lg ">
+    <div className="rounded-lg ">
       <div className="p-4 bg-white rounded-lg mb-5">
         <div className="flex items-center mb-4">
           <Skeleton className="w-10 h-10 rounded-full mr-3" />{" "}

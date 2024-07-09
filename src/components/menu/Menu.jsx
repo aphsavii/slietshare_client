@@ -9,7 +9,7 @@ function Menu() {
         {" "}
         <ListCollapse className="text-white h-4 w-4 md:h-7 md:w-7 " />
       </PopoverTrigger>
-      <PopoverContent className="bg-white w-40 md:w-[200px] py-5 px-2 md:px-4">
+      <PopoverContent className="bg-white w-40 md:w-[200px] py-5 px-2 md:px-4 mt-2 lg:mt-3.5">
         <ul className="text-sm md:text-base text-gray-700">
           <Link>
             <li className="py-2 border-b hover:text-primaryBlue cursor-pointer">

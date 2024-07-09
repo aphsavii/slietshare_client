@@ -16,7 +16,6 @@ function Notification({}) {
   useEffect(() => {
     if (!socket) return;
     userService.getUnreadNotifications().then((res) => {
-      console.log(res);
       setNotifications(res);
       setNotificationLength(res.length);
     });
