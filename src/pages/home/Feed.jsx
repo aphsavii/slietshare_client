@@ -28,6 +28,10 @@ function Feed() {
     }
   }, [fetchNextPage, inView, error, status, hasNextPage]);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
 
   return (
     <div className="container min-h-[600px] md:min-h-[800px] mx-auto px-5 py-10">

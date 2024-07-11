@@ -14,7 +14,7 @@ import {
   Link,
   Wrench,
   UserRound,
-  User
+  User,
 } from "lucide-react";
 import SkillTag from "@/components/Tags/SkillTag";
 import toast from "react-hot-toast";
@@ -22,8 +22,7 @@ import { textCapitalize, toMonthYear } from "@/helpers";
 import { SocketContext } from "@/api/sockets/socket";
 import { useSelector } from "react-redux";
 import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
-import { Avatar,AvatarFallback, AvatarImage } from "@/shadcn/ui/avatar";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/shadcn/ui/avatar";
 
 function UserProfile() {
   const user = useSelector((state) => state.auth.user);

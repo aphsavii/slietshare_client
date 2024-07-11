@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   ThumbsUp,
   MessageSquare,
@@ -7,63 +7,95 @@ import {
   User,
   Smile,
 } from "lucide-react";
+import { SocketContext } from "@/api/sockets/socket";
 
 // import EmojiPicker from "emoji-picker-react";
 const EmojiPicker = React.lazy(() => import("emoji-picker-react"));
 import { Avatar, AvatarImage, AvatarFallback } from "@/shadcn/ui/avatar";
 import { Button } from "@/shadcn/ui/Button";
+import { useSelector } from "react-redux";
+import postService from "@/api/services/postService";
+import { timeAgo, trimText } from "@/helpers";
+import toast from "react-hot-toast";
+const Post = ({post}) => {
+  const socket = useContext(SocketContext);
+  const { user } = useSelector((state) => state.auth);
 
-const Post = ({
-  post = {
-    _id: "6689674bfd956cc1700c847e",
-    title: "Muchas Gracias",
-    mediaUrl: [
-      "http://res.cloudinary.com/dkcyijvn1/image/upload/v1720280906/hzvbchkf12bx0etwsv9k.webp",
-    ],
-    tags: [],
-    createdAt: "2024-07-06T15:48:27.075Z",
-    createdBy: {
-      _id: "6638c652d1e66ca36e7035bc",
-      regno: 2331080,
-      fullName: "Avinash kumar",
-      trade: "GCS",
-    },
-  },
-}) => {
   const [liked, setLiked] = useState(post?.isLiked);
-  const [likeCount, setLikeCount] = useState(1287);
+  const [likeCount, setLikeCount] = useState(post.likesCount);
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [comments, setCommnets] = useState(post.comments);
 
-  const sharePopupRef = useRef(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const emojiPickerRef = useRef(null);
 
-  // Dummy data
-  const [postData, setPostData] = useState([]);
+  const headLineLength = screen.width < 768 ? 35 : 70;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
         setShowEmojiPicker(false);
       }
     };
-  
-    document.addEventListener('mousedown', handleClickOutside);
+
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const handleLike = () => {
-    setLiked(!liked);
-    setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+  const handleLike = async () => {
+    if (!liked) {
+      setLiked(!liked);
+      setLikeCount(likeCount + 1);
+      socket.emit("post:like", {
+        postId: post._id,
+        sender: {
+          fullName: user.fullName,
+          avatarUrl: user.avatarUrl,
+          regno: user.regno,
+          trade: user.trade,
+          batch: user.batch,
+        },
+        to: post.createdBy.regno.toString(),
+      });
+    } else {
+      setLikeCount(likeCount - 1);
+      setLiked(!liked);
+      await postService.postUnlike(post._id);
+    }
   };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
+    socket.emit("post:comment", {
+      postId: post._id,
+      sender: {
+        fullName: user?.fullName,
+        avatarUrl: user.avatarUrl,
+        regno: user.regno,
+        trade: user.trade,
+        batch: user.batch,
+      },
+      to: post.createdBy.regno.toString(),
+      content: newComment,
+    });
     if (newComment.trim()) {
-      postData.comments.unshift({ user: "You", content: newComment.trim() });
+      comments.unshift({
+        userDetails: {
+          fullName: user?.fullName,
+          avatarUrl: user.avatarUrl,
+          regno: user.regno,
+          trade: user.trade,
+          batch: user.batch,
+          headLine: user.headLine,
+        },
+        content: newComment.trim(),
+      });
       setNewComment("");
     }
   };
@@ -75,8 +107,11 @@ const Post = ({
   const toggleEmojiPicker = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
-
- 
+  const sharePost = () => {
+    const postUrl = location.origin+"/post/"+post._id;
+    navigator.clipboard.writeText(postUrl);
+    toast.success("Post link copied");
+  };
 
   return (
     <>
@@ -93,8 +128,11 @@ const Post = ({
               <h3 className="font-semibold text-gray-800">
                 {post?.createdBy?.fullName}
               </h3>
-              <p className="text-sm text-gray-600 ">
-                {post?.createdBy?.headLine}
+              <p className="text-sm text-gray-600 -mt-1">
+                {trimText(post?.createdBy?.headLine, headLineLength)}
+              </p>
+              <p className="text-xs  text-gray-500">
+                {timeAgo(post.createdAt)}
               </p>
             </div>
           </div>
@@ -103,7 +141,7 @@ const Post = ({
             <img src={post?.mediaUrl[0]} className="w-full h-auto rounded-lg" />
           </div>
           <div className="flex justify-between text-gray-500 text-sm">
-            <span>{post?.likesCount} likes</span>
+            <span>{likeCount} likes</span>
             <span>
               {post?.comments?.length} comments • {post?.shares ?? 0} shares
             </span>
@@ -134,7 +172,7 @@ const Post = ({
             </button>
             <button
               className="flex items-center text-gray-600 hover:text-blue-600"
-              onClick={() => setShowSharePopup(true)}
+              onClick={sharePost}
             >
               <Share2 className="mr-1" size={18} />
               Share
@@ -160,7 +198,11 @@ const Post = ({
                   />
                   {showEmojiPicker && (
                     <div className="absolute bottom-full left-0 z-10 animate-in fade-in duration-200">
-                      <React.Suspense fallback={<div className="p-1 bg-white ">Loading...</div>}>
+                      <React.Suspense
+                        fallback={
+                          <div className="p-1 bg-white ">Loading...</div>
+                        }
+                      >
                         <EmojiPicker onEmojiClick={handleEmojiClick} />
                       </React.Suspense>
                     </div>
@@ -174,11 +216,32 @@ const Post = ({
             </form>
             <div className="space-y-4">
               {post.comments.map((comment, index) => (
-                <div key={index} className="bg-white p-3 rounded-md shadow-sm">
-                  <p className="font-semibold text-sm text-gray-800">
-                    {comment.user}
+                <div
+                  key={index}
+                  className="bg-white py-3 px-4 rounded-md shadow "
+                >
+                  <div className="flex justify-between">
+                    <div className="flex items-center ">
+                      <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
+                        <AvatarImage src={comment.userDetails.avatarUrl} />
+                        <AvatarFallback>
+                          <User color="#6b7280" size={24} />
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="font-semibold text-base text-gray-800 ml-1">
+                        {comment.userDetails.fullName}
+                        <p className="text-xs text-gray-500 font-normal -mt-0.5">
+                          {comment.userDetails.headLine}
+                        </p>
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-400 ">
+                      {timeAgo(comment.createdAt)}
+                    </span>
+                  </div>
+                  <p className="text-gray-800 mt-0.5 text-sm ml-8 md:ml-11">
+                    {comment.content}
                   </p>
-                  <p className="text-gray-600">{comment.content}</p>
                 </div>
               ))}
             </div>

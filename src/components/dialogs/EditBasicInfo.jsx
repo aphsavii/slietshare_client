@@ -12,7 +12,7 @@ import { updateUserAuthData } from "@/redux/slices/auth";
 
 function EditBasicInfo() {
   let userData = useSelector((state) => state.userProfile.userData);
-  let userAuth = useSelector((state)=>state.auth.user);
+  let userAuth = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
 
@@ -43,11 +43,14 @@ function EditBasicInfo() {
       const formData = new FormData();
       for (let key in data) {
         formData.append(key, data[key]);
-      }     
+      }
       const response = await userService.editBasicInfo(formData);
 
       dispatch(updateUserData({ ...userData, ...response }));
-      if(response?.avatarUrl) dispatch(updateUserAuthData({...userAuth,avatarUrl:response?.avatarUrl}));
+      if (response?.avatarUrl)
+        dispatch(
+          updateUserAuthData({ ...userAuth, avatarUrl: response?.avatarUrl })
+        );
       toast.success("Profile updated successfully");
       setDialogType(null);
     } catch (error) {
@@ -123,11 +126,18 @@ function EditBasicInfo() {
                 id="headline"
                 cols="25"
                 rows="3"
-                value={userData?.headLine}
-                {...register("headLine", { required: "heeadline is required" })}
+                placeholder="Add a headline"
+                defaultValue={userData?.headLine}
+                {...register("headLine", {
+                  required: "Headline is required",
+                  maxLength: {
+                    value: 150,
+                    message: "Max 150 characters allowed",
+                  },
+                })}
               ></textarea>
               {errors?.headLine && (
-                <p className="absolute ml-1 mt-0.5 text-xs text-alert">
+                <p className="absolute ml-1 -mt-0.5 text-xs text-alert">
                   {errors?.headLine?.message}
                 </p>
               )}

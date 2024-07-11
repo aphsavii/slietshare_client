@@ -23,6 +23,7 @@ const navigate = useNavigate();
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
+      await new Promise((resolve,reject)=> setTimeout(()=> resolve(),40000));
       const res = await userAuthService.login({ email, password });
       const { loggedInUser, accessToken, refreshToken } = res;
       dispatch(loginSuccess({ user: loggedInUser, accessToken, refreshToken }));

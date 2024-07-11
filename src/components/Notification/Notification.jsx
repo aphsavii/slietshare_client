@@ -20,6 +20,7 @@ function Notification({}) {
       setNotificationLength(res.length);
     });
     socket.on("notification:new", (data) => {
+      console.log(data);
       setNotifications([data, ...notifications]);
       setNotificationLength(notificationLength + 1);
     });
@@ -55,9 +56,9 @@ function Notification({}) {
           </span>
         )}
       </PopoverTrigger>
-      <PopoverContent className="bg-white  w-screen md:w-[400px] p-0 mt-2 lg:mt-3  ">
+      <PopoverContent className="bg-white  w-screen md:w-[400px] p-0 mt-2 lg:mt-3.5  ">
         <div className="absolute left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-500 hidden md:block -mt-0.5"></div>
-        <ul>
+        <ul className="">
           {notifications.length > 0 &&
             notifications.map((notification) => (
               <NotificationTab

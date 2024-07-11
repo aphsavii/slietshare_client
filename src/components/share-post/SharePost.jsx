@@ -7,6 +7,8 @@ function SharePost({ postId }) {
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const sharePopupRef = useRef(null);
+
 
   const filteredUsers = allUsers.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())

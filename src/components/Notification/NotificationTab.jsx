@@ -7,10 +7,8 @@ function NotificationTab({
 }) {
    const notificationText = {
         follow : "Followed you",
-        postLike : "Liked your post",
-        postComment : "Commented on your post", 
-        tweetLike : "Liked your tweet",
-        tweetCommnet : "Commented on your tweet"
+        like : "Liked your post",
+        comment : "Commented on your post", 
     }
     const [isread, setIsread] = useState(false);
     const notificationCta = notification.message.type == "follow" ? `/user/`+notification.sender.regno : notification.message.postUrl;

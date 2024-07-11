@@ -40,6 +40,7 @@ const Register = React.lazy(() => import("@/pages/Auth/Register.jsx"));
 const ForgotPassword = React.lazy(() =>
   import("@/pages/Auth/ForgotPassword.jsx")
 );
+const PostPage = React.lazy(() => import("@/pages/post/PostPage.jsx"));
 
 // Route definitions
 const routes = createRoutesFromElements(
@@ -93,7 +94,14 @@ const routes = createRoutesFromElements(
           </Suspense>
         }
       />
-      <Route path="qs/upload" element={<UploadQs />} />
+      <Route
+        path="qs/upload"
+        element={
+          <Suspense fallback={<FullScreenLoader />}>
+            <UploadQs />
+          </Suspense>
+        }
+      />
       <Route
         path="user/:regno"
         element={
@@ -106,8 +114,17 @@ const routes = createRoutesFromElements(
       <Route
         path="me"
         element={
-          <Suspense fallback={<UserProfileSkeleton />}>
+          <Suspense fallback={<FullScreenLoader />}>
             <Me />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path="post/:postId"
+        element={
+          <Suspense fallback={<FullScreenLoader />}>
+            <PostPage />
           </Suspense>
         }
       />
