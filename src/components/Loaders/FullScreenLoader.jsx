@@ -2,7 +2,7 @@ import React from 'react';
 
 const FullScreenLoader = ({text="Loading your content..."}) => {
   return (
-    <div className="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center" style={{ top: '64px' }}>
+    <div className="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center">
       <style>{`
         @keyframes fadeInScale {
           0% {
