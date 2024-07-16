@@ -48,7 +48,7 @@ function UserNav() {
       </Avatar>
 
       <div
-        className={`absolute z-[5] right-[0%] top-8 md:top-10 ${
+        className={`absolute z-[500] right-[0%] top-8 md:top-10 ${
           offCanvas ? "" : "hidden"
         }`}
       >

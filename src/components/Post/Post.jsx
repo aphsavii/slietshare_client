@@ -5,19 +5,21 @@ import {
   Share2,
   Send,
   User,
-  Smile,
 } from "lucide-react";
 import { SocketContext } from "@/api/sockets/socket";
+import { Link } from "react-router-dom";
+import EmojiPicker from "../emoji-picker/EmojiPicker";
 
 // import EmojiPicker from "emoji-picker-react";
-const EmojiPicker = React.lazy(() => import("emoji-picker-react"));
 import { Avatar, AvatarImage, AvatarFallback } from "@/shadcn/ui/avatar";
 import { Button } from "@/shadcn/ui/Button";
 import { useSelector } from "react-redux";
 import postService from "@/api/services/postService";
 import { timeAgo, trimText } from "@/helpers";
 import toast from "react-hot-toast";
-const Post = ({post}) => {
+import PostDropdown from "../post-dropdown/PostDropdown";
+
+const Post = ({ post }) => {
   const socket = useContext(SocketContext);
   const { user } = useSelector((state) => state.auth);
 
@@ -27,26 +29,15 @@ const Post = ({post}) => {
   const [newComment, setNewComment] = useState("");
   const [comments, setCommnets] = useState(post.comments);
 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const emojiPickerRef = useRef(null);
 
   const headLineLength = screen.width < 768 ? 35 : 70;
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        emojiPickerRef.current &&
-        !emojiPickerRef.current.contains(event.target)
-      ) {
-        setShowEmojiPicker(false);
-      }
-    };
+  const [isPostOwner, setIsPostOwner] = useState(false);
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+
+  useEffect(() => {
+    if (user.regno === post.createdBy.regno) setIsPostOwner(true);
+  }, [user]);
 
   const handleLike = async () => {
     if (!liked) {
@@ -72,6 +63,7 @@ const Post = ({post}) => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
+    if(newComment.trim() === "") return;
     socket.emit("post:comment", {
       postId: post._id,
       sender: {
@@ -100,15 +92,8 @@ const Post = ({post}) => {
     }
   };
 
-  const handleEmojiClick = (emojiObject) => {
-    setNewComment(newComment + emojiObject.emoji);
-  };
-
-  const toggleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker);
-  };
   const sharePost = () => {
-    const postUrl = location.origin+"/post/"+post._id;
+    const postUrl = location.origin + "/post/" + post._id;
     navigator.clipboard.writeText(postUrl);
     toast.success("Post link copied");
   };
@@ -117,20 +102,27 @@ const Post = ({post}) => {
     <>
       <div className="mx-auto bg-white rounded-lg shadow-md overflow-hidden relative mb-5">
         <div className="p-4">
+          {isPostOwner && (
+            <PostDropdown className="float-right text-gray-600 cursor-pointer" />
+          )}
           <div className="flex items-center mb-4">
-            <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
-              <AvatarImage src={post?.createdBy?.avatarUrl} />
-              <AvatarFallback>
-                <User color="#6b7280" size={24} />
-              </AvatarFallback>
-            </Avatar>
+            <Link to={`/user/${post?.createdBy?.regno}`}>
+              <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
+                <AvatarImage src={post?.createdBy?.avatarUrl} />
+                <AvatarFallback>
+                  <User color="#6b7280" size={24} />
+                </AvatarFallback>
+              </Avatar>
+            </Link>
             <div className="ml-2">
-              <h3 className="font-semibold text-gray-800">
-                {post?.createdBy?.fullName}
-              </h3>
-              <p className="text-sm text-gray-600 -mt-1">
-                {trimText(post?.createdBy?.headLine, headLineLength)}
-              </p>
+              <Link to={`/user/${post?.createdBy?.regno}`}>
+                <h3 className="font-semibold text-gray-800 hover:underline ">
+                  {post?.createdBy?.fullName}
+                </h3>
+                <p className="text-sm text-gray-600 -mt-1">
+                  {trimText(post?.createdBy?.headLine, headLineLength)}
+                </p>
+              </Link>
               <p className="text-xs  text-gray-500">
                 {timeAgo(post.createdAt)}
               </p>
@@ -143,7 +135,13 @@ const Post = ({post}) => {
           <div className="flex justify-between text-gray-500 text-sm">
             <span>{likeCount} likes</span>
             <span>
-              {post?.comments?.length} comments • {post?.shares ?? 0} shares
+              <span
+                className="hover:underline cursor-pointer"
+                onClick={() => setShowComments(!showComments)}
+              >
+                {post?.comments?.length} comments
+              </span>{" "}
+              • {post?.shares ?? 0} shares
             </span>
           </div>
         </div>
@@ -181,7 +179,7 @@ const Post = ({post}) => {
         </div>
         {showComments && (
           <div className="p-4 bg-gray-50 transition-all duration-300 ease-in-out">
-            <form onSubmit={handleCommentSubmit} className="mb-4 relative">
+            <div className="mb-4 relative">
               <textarea
                 className="w-full p-2 border border-gray-300 rounded-md"
                 rows="2"
@@ -190,30 +188,15 @@ const Post = ({post}) => {
                 onChange={(e) => setNewComment(e.target.value)}
               ></textarea>
               <div className="flex items-center justify-between mt-2">
-                <div className="relative" ref={emojiPickerRef}>
-                  <Smile
-                    className="cursor-pointer text-primaryBlue"
-                    size={24}
-                    onClick={toggleEmojiPicker}
-                  />
-                  {showEmojiPicker && (
-                    <div className="absolute bottom-full left-0 z-10 animate-in fade-in duration-200">
-                      <React.Suspense
-                        fallback={
-                          <div className="p-1 bg-white ">Loading...</div>
-                        }
-                      >
-                        <EmojiPicker onEmojiClick={handleEmojiClick} />
-                      </React.Suspense>
-                    </div>
-                  )}
+                <div className="relative" >
+                  <EmojiPicker setText={setNewComment}/>
                 </div>
-                <Button variant="primary" className="px-2.5">
+                <Button onClick={handleCommentSubmit} variant="primary" className="px-2.5">
                   <Send size={16} className="mr-1.5" />
                   Comment
                 </Button>
               </div>
-            </form>
+            </div>
             <div className="space-y-4">
               {post.comments.map((comment, index) => (
                 <div
@@ -221,20 +204,24 @@ const Post = ({post}) => {
                   className="bg-white py-3 px-4 rounded-md shadow "
                 >
                   <div className="flex justify-between">
-                    <div className="flex items-center ">
-                      <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
-                        <AvatarImage src={comment.userDetails.avatarUrl} />
-                        <AvatarFallback>
-                          <User color="#6b7280" size={24} />
-                        </AvatarFallback>
-                      </Avatar>
-                      <span className="font-semibold text-base text-gray-800 ml-1">
-                        {comment.userDetails.fullName}
-                        <p className="text-xs text-gray-500 font-normal -mt-0.5">
-                          {comment.userDetails.headLine}
-                        </p>
-                      </span>
-                    </div>
+                    <Link to={`/user/${comment?.userDetails?.regno}`}>
+                      <div className="flex items-center ">
+                        <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
+                          <AvatarImage src={comment.userDetails.avatarUrl} />
+                          <AvatarFallback>
+                            <User color="#6b7280" size={24} />
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="font-semibold text-base text-gray-800 ml-1">
+                          <span className="hover:underline">
+                            {comment.userDetails.fullName}
+                          </span>
+                          <p className="text-xs text-gray-500 font-normal -mt-0.5">
+                            {comment.userDetails.headLine}
+                          </p>
+                        </span>
+                      </div>
+                    </Link>
                     <span className="text-xs text-gray-400 ">
                       {timeAgo(comment.createdAt)}
                     </span>

@@ -1,9 +1,15 @@
-import React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
-import { ListCollapse, FileUp, Telescope, ImageUp, TextQuote } from "lucide-react";
+import { ListCollapse, FileUp, Telescope, ImageUp, } from "lucide-react";
+import React, { useState, Suspense } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toggleCreatePost } from "@/redux/slices/popups";
+
 function Menu() {
+  const dispatch = useDispatch();
   return (
+    <>
+
     <Popover className="">
       <PopoverTrigger className="">
         {" "}
@@ -23,7 +29,9 @@ function Menu() {
             </li>
           </Link> */}
           <Link>
-            <li className='py-2 border-b hover:text-primaryBlue cursor-pointer'>
+            <li className='py-2 border-b hover:text-primaryBlue cursor-pointer' onClick={()=>{
+              dispatch(toggleCreatePost())
+            }}>
             <ImageUp className='inline text-gray-500 mr-1 h-5 w-5'/> <span>Create Post</span>
             </li>
           </Link>
@@ -36,6 +44,7 @@ function Menu() {
         </ul>
       </PopoverContent>
     </Popover>
+    </>
   );
 }
 

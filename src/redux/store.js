@@ -3,13 +3,15 @@ import authReducer from './slices/auth';
 import appLoadingReducer from './slices/appLoading';
 import qsSliceReducer from './slices/qs';
 import userProfile from './slices/userProfile';
+import popupReducer from './slices/popups';
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         loading: appLoadingReducer,
         qs: qsSliceReducer,
-        userProfile: userProfile
+        userProfile: userProfile,
+        popup : popupReducer
     }
 });
 

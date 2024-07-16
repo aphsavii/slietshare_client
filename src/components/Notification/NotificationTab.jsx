@@ -1,3 +1,4 @@
+import { timeAgo } from '@/helpers';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -38,8 +39,11 @@ function NotificationTab({
                     {notification.sender.trade} / {notification.sender.regno}
                   </span>
                 </div>
-                <div className="text-xs -mt-2 ml-10 text-gray-500 text-left">
+                <div className="text-xs -mt-2 ml-10 text-gray-500 flex w-full justify-between pr-10">
                   { notificationText[notification.message.type] }
+                  <span>
+                    {timeAgo(notification.message.timestamp)}
+                  </span>
                 </div>
                 </Link>
               </li>
