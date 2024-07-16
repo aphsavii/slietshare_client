@@ -6,6 +6,12 @@ const postService = {
     const {data,error} = await apiHandler(()=> axiosAuthInstance.get(`post/${postId}`))
     return data ?? error;
   },
+  createPost : async (formData) => {
+    const { data, error } = await apiHandler(() =>
+      axiosAuthInstance.put("post/create", formData)
+    );
+    return data ?? error;
+  },
   postUnlike: async (postId) => {
     const { data, error } =  await apiHandler(() =>
        axiosAuthInstance.delete(`post/unlike/${postId}`)
