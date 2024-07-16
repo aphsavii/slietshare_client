@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Form</h1>
+    <div class="image-container">
+
+    </div>
+    <form action="">
+        <input type="file" name="file" id="file" multiple>
+        <input type="submit">
+    </form>
+</body>
+<script>
+    const file = document.getElementById('file');
+    const imageContainer = document.querySelector('.image-container');
+
+    file.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            imageContainer.appendChild(img);
+        }
+
+        reader.readAsDataURL(file);
+    });
+
+</script>
+</html>

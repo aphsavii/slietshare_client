@@ -11,14 +11,14 @@ const buttonVariants = cva(
       variant: {
         primary: "bg-primaryBlue text-white shadow hover:bg-primaryBlue/90",
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        secondary: "bg-white text-primaryBlue shadow hover:bg-white/90",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-white text-primaryBlue shadow-sm hover:bg-secondary/80",
+        outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground ",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2",
+        default: "h-9 px-4 py-1",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
@@ -33,9 +33,9 @@ const buttonVariants = cva(
 );
 
 // Spinner component
-const Spinner = () => (
+const Spinner = ({variant,size}) => (
   <svg
-    className="animate-spin h-5 w-5 text-white inline mr-4"
+    className={`animate-spin h-5 w-5  inline ${size!=="icon"?'mr-4':'mr-0'} ${variant === "primary" ? "text-white" : "text-primaryBlue"}`}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -64,8 +64,9 @@ const Button = React.forwardRef(({ className, loading = false, variant, size, as
       className={cn(buttonVariants({ variant, size, className }))}
       ref={ref}
       {...props}
+      disabled={loading}
     >
-      {loading && <Spinner />}
+      {loading && <Spinner variant={variant} size={size} />}
       {children}
     </Comp>
   );

@@ -1,4 +1,3 @@
-import OverlayLoading from "../../components/Loaders/OverlayLoading";
 import userAuthService from "../../api/services/userAuthService";
 import {  useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -8,6 +7,7 @@ import {setLocalAuth} from "../../helpers/LocalAuth";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import FullScreenLoader from "@/components/Loaders/FullScreenLoader";
 
 const Login = () => {
 const dispatch = useDispatch();
@@ -34,12 +34,7 @@ const navigate = useNavigate();
     }
   }
   useEffect(() => {
-    if(isAuthenticated)
-    {
-      setTimeout(() => {
-        navigate('/');
-      },1000);
-    }
+    if(isAuthenticated)  navigate('/');
   }
     , [ isAuthenticated, navigate]);
   
@@ -47,8 +42,8 @@ const navigate = useNavigate();
   return (
     <>
       {isSubmitting && (
-        <OverlayLoading title="Logging in" message="Please wait a moment..." />
-      )}
+        <FullScreenLoader text={`Loggin you in...`} />
+       )}
 
       <div className="container px-4 flex items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">
         <div className="max-w-sm bg-white  rounded-lg shadow-md w-full md:max-w-md lg:max-w-lg mx-auto">
@@ -72,7 +67,7 @@ const navigate = useNavigate();
                       return emailPattern.test(value) && value.includes('sliet.ac.in') || "Invalid email format";
                     }
                   })}
-                  className="relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
+                  className=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
                   id="email"
                   type="text"
                   placeholder="email"
@@ -93,7 +88,7 @@ const navigate = useNavigate();
                 </label>
                 <input
                   {...register("password", { required: "password is required" })}
-                  className=" relative shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
+                  className="  shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primaryBlue"
                   id="password"
                   type="password"
                   placeholder="Password"

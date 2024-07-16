@@ -11,7 +11,7 @@ const MsgDialog = ({ active, title = "", text = "" }) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 flex items-start justify-center z-50 pt-40 md:items-center md:pt-0">
+        <div className="fixed inset-0 flex items-start justify-center z-40 pt-40 md:items-center md:pt-0">
           <div className="absolute inset-0 bg-black opacity-50" onClick={handleCloseDialog}></div>
           <div className="bg-white rounded-lg p-5 max-w-[330px] md:max-w-md mx-auto relative z-10">
             <div className="flex justify-between items-center mb-4">
