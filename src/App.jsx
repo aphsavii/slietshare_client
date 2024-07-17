@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import { useSelector } from "react-redux";
-import MsgDialog from "./components/popups/MsgDialog.jsx";
+// import MsgDialog from "./components/popups/MsgDialog.jsx";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useContext, Suspense } from "react";
 import { SocketContext } from "./api/sockets/socket.jsx";
@@ -183,11 +183,11 @@ function App() {
       ) : (
         <RouterProvider router={router} />
       )}
-      <MsgDialog
+      {/* <MsgDialog
         title="Important Note"
         active={isDialog}
         text="We've just started and there's not much of the data of question papers around here. So, please do upload some if you have previous papers and please make sure to upload upcoming papers as well. We help our juniors, our seniors will help us. Together we Can..."
-      />
+      /> */}
       <Toaster position="top-center" />
     </>
   );
