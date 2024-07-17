@@ -22,6 +22,7 @@ export default {
       colors: {
         body: '#ebebeb00',
         lightBlack: '#333333',
+        lightGray: '#d4d2d2',
         primaryBlue: '#0073b1',
         grayish: '#6b7280',
         alert: '#dc3545',

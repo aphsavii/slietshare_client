@@ -27,6 +27,7 @@ function UserQs() {
   return (
     <>
       {loading && <Loading />}
+      
       <div className="container py-10 px-4  items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">
         <h2 className='w-full text-center text-xl md:text-3xl font-bold text-primaryBlue my-5'>Questions Uploaded </h2>
         <div className='w-full flex  gap-5 flex-wrap justify-center'>
