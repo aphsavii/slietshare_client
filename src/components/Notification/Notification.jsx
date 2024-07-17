@@ -20,7 +20,6 @@ function Notification({}) {
       setNotificationLength(res.length);
     });
     socket.on("notification:new", (data) => {
-      console.log(data);
       setNotifications([data, ...notifications]);
       setNotificationLength(notificationLength + 1);
     });
