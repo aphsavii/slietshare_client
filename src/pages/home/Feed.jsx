@@ -7,7 +7,8 @@ import { useInView } from "react-intersection-observer";
 import FeedService from "@/api/services/FeedService";
 import PostSkeleton from "@/components/skeletons/PostSkeleton.jsx";
 import PostSidebar from "@/components/post-sidebar/PostSidebar";
-
+import { useDispatch } from "react-redux";
+import { toggleCreatePost } from "@/redux/slices/popups";
 function Feed() {
   const {
     data,
@@ -27,6 +28,7 @@ function Feed() {
   });
 
   const { ref, inView } = useInView();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (error) console.error(error);
@@ -52,7 +54,12 @@ function Feed() {
           <div className="" ref={ref}>
             {isFetchingNextPage && <PostSkeleton />}
             {data && !hasNextPage && (
+              <>
               <p className="text-center text-gray-500">No more posts</p>
+              <p className="text-center text-gray-500">You are most welcome to <span onClick={()=>dispatch(toggleCreatePost())} className="text-primaryBlue underline cursor-pointer">
+              create one</span></p>
+              </>
+              
             )}
           </div>
         </div>
