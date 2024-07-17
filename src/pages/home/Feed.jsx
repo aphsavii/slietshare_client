@@ -5,19 +5,26 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import FeedService from "@/api/services/FeedService";
-import PostSkeleton from '@/components/skeletons/PostSkeleton.jsx';
+import PostSkeleton from "@/components/skeletons/PostSkeleton.jsx";
+import PostSidebar from "@/components/post-sidebar/PostSidebar";
 
 function Feed() {
-  const { data, error, status, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useInfiniteQuery({
-      queryKey: ["posts"],
-      queryFn: ({ pageParam = 1 }) =>
-        FeedService.getFeedPosts({ pageParam, limit: 5 }),
-      initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length ? allPages.length + 1 : undefined;
-      },
-    });
+  const {
+    data,
+    error,
+    status,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: ({ pageParam = 1 }) =>
+      FeedService.getFeedPosts({ pageParam, limit: 5 }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
 
   const { ref, inView } = useInView();
 
@@ -27,10 +34,6 @@ function Feed() {
       fetchNextPage();
     }
   }, [fetchNextPage, inView, error, status, hasNextPage]);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
 
   return (
@@ -47,15 +50,19 @@ function Feed() {
               </React.Fragment>
             ))}
           <div className="" ref={ref}>
-            {isFetchingNextPage && <PostSkeleton/>}
-            { data && !hasNextPage  && <p className="text-center text-gray-500">No more posts</p>}
+            {isFetchingNextPage && <PostSkeleton />}
+            {data && !hasNextPage && (
+              <p className="text-center text-gray-500">No more posts</p>
+            )}
           </div>
         </div>
         {!isMobile() && (
           <div
             id="suggested-profiles"
-            className="w-1/3 border h-[240px] bg-white sticky right-0 top-0 rounded-lg"
-          ></div>
+            className="w-1/3 border min-h-[140px] h-fit bg-white sticky right-0 top-0 rounded-lg hidden lg:block"
+          >
+            <PostSidebar />
+          </div>
         )}
       </div>
     </div>

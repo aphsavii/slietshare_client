@@ -3,6 +3,7 @@ const textCapitalize = (text) => {
 };
 
 const toMonthYear = (date) => {
+  if(!date) return "";
   if (date === "Present") return date;
   const d = new Date(date);
   const year = d.getFullYear();
@@ -15,6 +16,7 @@ const isMobile = () => {
 };
 
 const timeAgo = (dateString) => {
+  if(!dateString) return "";
   const now = new Date();
   const past = new Date(dateString);
   const diffInSeconds = Math.floor((now - past) / 1000);
@@ -46,6 +48,7 @@ const timeAgo = (dateString) => {
 };
 
 const trimText = (text, length) => {
+  if(!text) return "";
   return text.length > length ? text.slice(0, length)+ "..." : text;
 };
 

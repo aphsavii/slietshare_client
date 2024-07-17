@@ -7,13 +7,11 @@ import Post from "@/components/Post/Post";
 function PostPage() {
   const { postId } = useParams("postId");
   const navigate = useNavigate;
-  console.log(postId);
   const [postData, setPostData] = useState(null);
   useEffect(() => {
     postService
       .getPostById(postId)
       .then((data) => {
-        console.log(data);
         setPostData(data);
       })
       .catch((err) => {

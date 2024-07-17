@@ -8,6 +8,7 @@ import { MessageSquare, FileSpreadsheet } from "lucide-react";
 import Notification from "../Notification/Notification";
 import UserSearch from "../SearchBar/UserSearch";
 import Menu from "../menu/Menu";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const isLoginPage = useLocation().pathname === "/login";
@@ -39,7 +40,7 @@ const Navbar = () => {
                 <FileSpreadsheet className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
               </Link>
               <UserSearch />
-              <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
+              <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" onClick={()=>toast.success('Coming soon...')} />
               <Notification />
             </div>
           )}

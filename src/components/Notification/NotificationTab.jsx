@@ -12,7 +12,7 @@ function NotificationTab({
         comment : "Commented on your post", 
     }
     const [isread, setIsread] = useState(false);
-    const notificationCta = notification.message.type == "follow" ? `/user/`+notification.sender.regno : notification.message.postUrl;
+    const notificationCta = notification.message.type == "follow" ? `/user/`+notification.sender.regno : '/post/'+notification.message.postId;
     const navigate = useNavigate();
 
   return (

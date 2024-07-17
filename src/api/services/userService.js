@@ -49,7 +49,11 @@ const userService = {
     getUnreadNotifications : async()=>{
         const {data,error} = await apiHandler(()=>axiosAuthInstance.get("/user/notifications/unread"));
         return data ?? error;
-    }
+    },
+    suggestedProfiles: async()=>{
+        const {data,error} = await apiHandler(()=>axiosAuthInstance.get("/user/suggested-profiles"));
+        return data ?? error;
+    },
 }
 
 export default userService;
