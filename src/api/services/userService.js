@@ -10,23 +10,13 @@ const userService = {
     },
     editBasicInfo: async(req)=>{
         const {data,error} = await apiHandler(async () => {
-            return await axiosAuthInstance.post("/user/edit-basic-profile", req, {
-                withCredentials: true,
-                headers: {
-                    'Cache-Control': 'max-age=3600',
-                }
-            });
+            return await axiosAuthInstance.post("/user/edit-basic-profile", req);
         });
         return data ?? error;
     },
     editMyProfile: async (req) => {
         const {data,error} = await apiHandler(async () => {
-            return await axiosAuthInstance.post("/user/edit-profile", req, {
-                withCredentials: true,
-                headers: {
-                    'Cache-Control': 'max-age=3600',
-                }
-            });
+            return await axiosAuthInstance.post("/user/edit-profile", req);
         });
         return data ?? error;
     },
