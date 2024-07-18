@@ -37,7 +37,10 @@ function Me() {
   const dispatch = useDispatch();
   const [isDataAvailable, setIsDataAvailable] = useState(false);
   useEffect(() => {
-    if (userData?._id) return;
+    if (userData?._id) {
+      setIsDataAvailable(true);
+      return;
+    }
     userService
       .getMyProfile()
       .then((data) => {
@@ -103,7 +106,7 @@ function Me() {
   return (
     <>
       {activeDialog !== null && (
-        <Suspense >
+        <Suspense>
           <EditProfileDialog />
         </Suspense>
       )}

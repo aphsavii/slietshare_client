@@ -37,7 +37,6 @@ function UserProfile() {
     userService
       .getUserDetails(regno)
       .then((data) => {
-        console.log(data);
         setUserData(data);
         setIsUserDetailsLoaded(true);
       })
