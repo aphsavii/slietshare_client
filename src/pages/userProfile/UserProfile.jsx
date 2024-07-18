@@ -355,7 +355,7 @@ function UserProfile() {
                               <span className="mx-1">•</span>
                               <span>
                                 {" "}
-                                {edu.startDate} - {edu.endDate}
+                                {toMonthYear(edu.startDate)} - {toMonthYear(edu.endDate)}
                               </span>
                             </div>
                           </div>
