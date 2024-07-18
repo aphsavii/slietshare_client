@@ -291,13 +291,13 @@ function Me() {
                           <Button
                             loading={deleting == "work"}
                             onClick={() => deleteWorkExperience(index)}
-                            className="float-right p-1"
+                            className="float-right  md:p-1 h-6 w-6 md:h-8 md:w-8"
                             variant="outline"
                             size="icon"
                           >
                             {!deleting && (
                               <img
-                                className="w-4 h-4"
+                                className="w-3 h-3 md:h-4 md:w-4"
                                 src="assets/icons/delete.svg"
                                 alt="del"
                               />
@@ -352,13 +352,13 @@ function Me() {
                           <Button
                             loading={deleting == "project"}
                             onClick={() => deleteProject(index)}
-                            className="float-right p-1"
+                            className="float-right  md:p-1 h-6 w-6 md:h-8 md:w-8"
                             variant="outline"
                             size="icon"
                           >
                             {!deleting && (
                               <img
-                                className="w-4 h-4"
+                                className="h-3 w-3 md:h-4 md:w-4"
                                 src="assets/icons/delete.svg"
                                 alt="del"
                               />
@@ -409,13 +409,13 @@ function Me() {
                           <Button
                             loading={deleting == "education"}
                             onClick={() => deleteEducation(index)}
-                            className="float-right p-1"
+                            className="float-right  md:p-1 h-6 w-6 md:h-8 md:w-8"
                             variant="outline"
                             size="icon"
                           >
                             {!deleting && (
                               <img
-                                className="w-4 h-4"
+                                className="h-3 w-3 md:w-4 md:h-4"
                                 src="assets/icons/delete.svg"
                                 alt="del"
                               />
