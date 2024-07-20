@@ -20,6 +20,7 @@ const getIcons= ()=>{
     codeforces:'/assets/icons/codeforces.png',
     codechef:'/assets/icons/codechef.png',
     gfg:'/assets/icons/gfg.png',
+    portfolio:'/assets/icons/portfolio.png',
   }
 }
 
