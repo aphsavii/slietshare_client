@@ -19,10 +19,10 @@ export function PostDropdown() {
   
   return (
     <>
-      {
+      {isDialogOpen &&
         <ConformationDialog
           loading={isDeleteting}
-          open={isDialogOpen}
+          setIsOpen={setIsDialogOpen}
           title="Delete Post"
           description="Are you sure you want to delete this post?"
           ctaText="Delete"

@@ -3,11 +3,9 @@ import { useState } from "react";
 import BtnPrimary from "../buttons/BtnPrimary";
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import qsService from "../../api/services/qsService";
+import { useSelector } from "react-redux";
 import ButtonLoader from "../Loaders/ButtonLoader";
-import { deletePendingQs, deleteUserQs } from "../../redux/slices/qs";
-import { toast } from "react-hot-toast";
+
 import ConformationDialog from "../dialogs/ConformationDialog";
 const Qs = ({
   qsId,
@@ -21,39 +19,36 @@ const Qs = ({
   ctaFunc,
   regno,
   isPending,
+  onDelete = async () => {},
 }) => {
   const [isDeleteting, setisDeleteting] = useState(false);
   const { pathname } = useLocation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const [deleted, setDeleted] = useState(false);
+
   const deleteQs = async () => {
-    try {
-      setisDeleteting(true);
-      await qsService.deleteQs(qsId);
-      dispatch(deletePendingQs(qsId));
-      dispatch(deleteUserQs(qsId));
-      setisDeleteting(false);
-      toast.success("Question paper deleted successfully");
-    } catch (error) {
-      toast.error(error.toString());
-      setisDeleteting(false);
-    }
+    setisDeleteting(true);
+      await onDelete();
+    setisDeleteting(false);
+    setIsDialogOpen(false);
+    setDeleted(true);
   };
+
 
   return (
     <>
-      {
+      {isDialogOpen && (
         <ConformationDialog
           loading={isDeleteting}
-          open={isDialogOpen}
+          setIsOpen={setIsDialogOpen}
           title="Deleting Question Paper"
           description="Are you sure you want to delete this question paper?"
           ctaText="Delete"
           onConfirm={deleteQs}
         />
-      }
-      <div className=" flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border h-fit rounded-xl w-64 md:w-72">
+      )}
+      {!deleted && <div className=" flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border h-fit rounded-xl w-64 md:w-72">
         <a href={qsUrl} download target="_blank">
           <div className="h-32 md:h-48 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40 ">
             <img
@@ -90,22 +85,21 @@ const Qs = ({
               <img src="assets/icons/pending.svg" alt="pending" />
             </span>
           )}
-          {(user?.regno == regno || user?.role == "admin") &&
-            pathname != "/" && (
-              <span
-                onClick={() => setIsDialogOpen(true)}
-                className="cursor-pointer h-5 w-5 mt-2"
-                title="Delete"
-              >
-                {isDeleteting ? (
-                  <ButtonLoader />
-                ) : (
-                  <img src="/assets/icons/delete.svg" alt="delete" />
-                )}
-              </span>
-            )}
+          {user?.regno == regno && pathname == "/me" && (
+            <span
+              onClick={() => setIsDialogOpen(true)}
+              className="cursor-pointer h-5 w-5 mt-2"
+              title="Delete"
+            >
+              {isDeleteting ? (
+                <ButtonLoader />
+              ) : (
+                <img src="/assets/icons/delete.svg" alt="delete" />
+              )}
+            </span>
+          )}
         </div>
-      </div>
+      </div>}
     </>
   );
 };
