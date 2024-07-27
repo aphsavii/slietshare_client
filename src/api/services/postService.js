@@ -24,6 +24,13 @@ const postService = {
       axiosAuthInstance.delete(`post/comment/${postId}/${commentId}`)
     );
     return data ?? error;
+  },
+
+  getUserPosts: async ({pageParam,limit, regno}) => {
+    const { data, error } = await apiHandler(() =>
+      axiosAuthInstance.get(`post/user/${regno}?page=${pageParam}&limit=${limit}`)
+    );
+    return data ?? error;
   }
 };
 

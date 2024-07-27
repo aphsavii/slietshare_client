@@ -20,8 +20,8 @@ const qsService = {
         if(error) return error;
         return data;
     },
-    getUserQs: async(regno)=>{
-        const {data, error} = await apiHandler (()=> axiosAuthInstance.get("qs/user/"+regno,{withCredentials:true}));
+    getUserQs: async({pageParam,limit, regno})=>{
+        const {data, error} = await apiHandler (()=> axiosAuthInstance.get(`qs/user/${regno}?page=${pageParam}&limit=${limit}`,{withCredentials:true}));
         return data ?? error;
     }
 

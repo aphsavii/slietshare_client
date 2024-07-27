@@ -15,7 +15,7 @@ function UserQs() {
   let { regno } = useParams();
   useEffect(() => {
     setLoading(true);
-    qsService.getUserQs(regno).then((res) => {
+    qsService.getUserQs({pageParam:1,limit:6,regno}).then((res) => {
       setLoading(false);
       dispatch(updateUserQs(res));
     }).catch((error) => {
