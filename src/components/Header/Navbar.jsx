@@ -14,8 +14,8 @@ const Navbar = () => {
   const isLoginPage = useLocation().pathname === "/login";
   const { isAuthenticated } = useSelector((state) => state.auth);
   return (
-    <div className="w-full bg-primaryBlue sticky z-[30] top-0">
-      <nav className="container mx-auto relative  text-center flex items-center justify-between  h-10 md:h-16  text-lg md:text-2xl  bg-primaryBlue ">
+    <div className="w-full bg-primaryBlue sticky z-[30] top-0 shadow-lg">
+      <nav className="container mx-auto relative  text-center flex items-center justify-between  h-[8vh] md:h-[8vh]  text-lg md:text-2xl  bg-primaryBlue ">
         <div>
           {!isMobile() && (
             <Link to="">
@@ -40,7 +40,9 @@ const Navbar = () => {
                 <FileSpreadsheet className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
               </Link>
               <UserSearch />
-              <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" onClick={()=>toast.success('Coming soon...')} />
+              <Link to="/chat">
+              <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
+              </Link>
               <Notification />
             </div>
           )}

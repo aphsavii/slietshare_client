@@ -30,7 +30,7 @@ const Post = ({ post }) => {
   const [comments, setCommnets] = useState(post.comments);
 
 
-  const headLineLength = screen.width < 768 ? 35 : 70;
+  const headLineLength = screen.width < 768 ? 35 : 60;
 
   const [isPostOwner, setIsPostOwner] = useState(false);
 

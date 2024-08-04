@@ -14,11 +14,18 @@ function Notification({}) {
   );
 
   useEffect(() => {
+    try {
+      userService.getUnreadNotifications().then((res) => {
+        setNotifications(res);
+        setNotificationLength(res.length);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },[]);
+
+  useEffect(() => {
     if (!socket) return;
-    userService.getUnreadNotifications().then((res) => {
-      setNotifications(res);
-      setNotificationLength(res.length);
-    });
     socket.on("notification:new", (data) => {
       setNotifications([data, ...notifications]);
       setNotificationLength(notificationLength + 1);
