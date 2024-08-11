@@ -12,12 +12,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import userService from "@/api/services/userService";
 import { SocketContext } from "@/api/sockets/socket";
-import { addMessage, removeUnread, setChats, setChatSeen, setMessages } from "@/redux/slices/chats";
+import {
+  addMessage,
+  removeUnread,
+  setChats,
+  setChatSeen,
+  setMessages,
+} from "@/redux/slices/chats";
 import { Button } from "@/shadcn/ui/Button";
 import { CircleCheck, Eye } from "lucide-react";
 import chatService from "@/api/services/chatService";
 import toast from "react-hot-toast";
 import { setSelectedChat } from "@/redux/slices/chats";
+import ChatSkeleton from "@/components/skeletons/ChatSkeleton";
+import MessageUsers from "@/components/dialogs/MessageUsers";
 
 const Chat = () => {
   const user = useSelector((state) => state.auth.user);
@@ -33,6 +41,7 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
   const scrollAreaRef = useRef(null);
   const selectedChatRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     selectedChatRef.current = selectedChat;
@@ -52,14 +61,14 @@ const Chat = () => {
 
   const onSelectChat = (chat) => {
     dispatch(setSelectedChat(chat));
-    if(!chat) return;
-    if(chat.isUnreadMessages){
+    if (!chat) return;
+    if (chat.isUnreadMessages) {
       dispatch(removeUnread(chat.regno));
       socket.emit("conversation:read", chat.regno);
     }
-    // console.log(chat);
-    // if (!selectedChat) return;
+
     if (!allMessages[chat.regno]) {
+      setLoading(true);
       chatService
         .getConversation(chat.regno)
         .then((res) => {
@@ -70,6 +79,8 @@ const Chat = () => {
         .catch((error) => {
           toast.error("Failed to fetch messages");
           console.log(error);
+        }).finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -98,7 +109,7 @@ const Chat = () => {
     chatService
       .getConversation(regno)
       .then((res) => {
-        dispatch(setMessages({ regno:+regno, messages: res.conversation }));
+        dispatch(setMessages({ regno: +regno, messages: res.conversation }));
       })
       .catch((error) => {
         toast.error("Failed to fetch messages");
@@ -132,8 +143,9 @@ const Chat = () => {
     if (searchText.trim() === "") {
       setFilteredChats(chats);
     } else {
+      console.log(chats);
       const filtered = chats.filter((chat) =>
-        chat?.user.fullName.toLowerCase().includes(searchText.toLowerCase())
+        chat?.fullName.toLowerCase().includes(searchText.toLowerCase())
       );
       setFilteredChats(filtered);
     }
@@ -164,8 +176,11 @@ const Chat = () => {
   };
 
   useBodyScrollLock();
+  const [visisble, setVisible] = useState(false);
 
   return (
+    <>
+   { <MessageUsers visisble={visisble} setVisible={setVisible} />}
     <div className="mx-auto h-[92vh]">
       <div className="container h-full px-0 bg-white rounded-lg shadow-lg overflow-hidden flex">
         <div
@@ -185,6 +200,7 @@ const Chat = () => {
             filteredChats={filteredChats}
             onSelectChat={onSelectChat}
             selectedChatId={selectedChat}
+            setVisible={setVisible}
           />
         </div>
 
@@ -197,11 +213,19 @@ const Chat = () => {
             <>
               <ChatHeader
                 chat={selectedChat}
-                onBack={() => setSelectedChat(null)}
+                onBack={() => {
+                  dispatch(setSelectedChat(null));
+                }}
               />
               <ScrollArea className="flex-grow" ref={scrollAreaRef}>
+                <div className="w-full my-3 flex justify-center">
+                  <span className="text-center px-4 py-0.5 text-xs md:text-sm bg-blue-400 rounded-xl mx-auto w-fit text-white">
+                    Chats will disappear after 7 days
+                  </span>
+                </div>
                 <div className="flex flex-col p-4">
-                  {allMessages && allMessages[selectedChat.regno] &&
+                  {allMessages &&
+                    allMessages[selectedChat.regno] &&
                     allMessages[selectedChat.regno].map((msg) => (
                       <ChatMessage
                         key={msg.messageId}
@@ -209,10 +233,11 @@ const Chat = () => {
                         isOwnMessage={msg?.messageId?.includes(user.regno)}
                       />
                     ))}
-                  { allMessages[selectedChat.regno] &&
+                  {loading && <ChatSkeleton />}
+                  {allMessages[selectedChat.regno] &&
                     allMessages[selectedChat.regno][
                       allMessages[selectedChat.regno].length - 1
-                    ]?.messageId.includes(user.regno) && (
+                    ]?.messageId?.includes(user.regno) && (
                       <div className="w-full flex justify-end -mt-3 items-center  text-[11px] md:text-[13px] gap-0.5  text-gray-400 pr-1">
                         {isRead == true ? (
                           <>
@@ -238,7 +263,9 @@ const Chat = () => {
           ) : (
             <div className="flex items-center justify-center h-full flex-col">
               <p className="text-gray-500">Select a chat to start messaging</p>
-              <Button size="responsive" variant="primary" className="my-2">
+              <Button size="responsive" variant="primary" className="my-2"
+              onClick={() => setVisible(true)}
+              >
                 Select Person
               </Button>
             </div>
@@ -246,6 +273,7 @@ const Chat = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
