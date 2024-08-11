@@ -83,7 +83,6 @@ const Chat = () => {
   useEffect(() => {
     const regno = new URLSearchParams(location.search).get("user");
     if (!regno) return;
-    console.log(regno)
     userService
       .searchUsers(regno)
       .then((res) => {
@@ -99,7 +98,7 @@ const Chat = () => {
     chatService
       .getConversation(regno)
       .then((res) => {
-        dispatch(setMessages({ regno, messages: res.conversation }));
+        dispatch(setMessages({ regno:+regno, messages: res.conversation }));
       })
       .catch((error) => {
         toast.error("Failed to fetch messages");
@@ -134,7 +133,7 @@ const Chat = () => {
       setFilteredChats(chats);
     } else {
       const filtered = chats.filter((chat) =>
-        chat.user.fullName.toLowerCase().includes(searchText.toLowerCase())
+        chat?.user.fullName.toLowerCase().includes(searchText.toLowerCase())
       );
       setFilteredChats(filtered);
     }
@@ -202,18 +201,18 @@ const Chat = () => {
               />
               <ScrollArea className="flex-grow" ref={scrollAreaRef}>
                 <div className="flex flex-col p-4">
-                  {allMessages[selectedChat.regno] &&
+                  {allMessages && allMessages[selectedChat.regno] &&
                     allMessages[selectedChat.regno].map((msg) => (
                       <ChatMessage
                         key={msg.messageId}
                         message={msg}
-                        isOwnMessage={msg.messageId.includes(user.regno)}
+                        isOwnMessage={msg?.messageId?.includes(user.regno)}
                       />
                     ))}
-                  {allMessages[selectedChat.regno] &&
+                  { allMessages[selectedChat.regno] &&
                     allMessages[selectedChat.regno][
                       allMessages[selectedChat.regno].length - 1
-                    ].messageId.includes(user.regno) && (
+                    ]?.messageId.includes(user.regno) && (
                       <div className="w-full flex justify-end -mt-3 items-center  text-[11px] md:text-[13px] gap-0.5  text-gray-400 pr-1">
                         {isRead == true ? (
                           <>
