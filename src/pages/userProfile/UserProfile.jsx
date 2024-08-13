@@ -3,6 +3,7 @@ import { Button } from "@/shadcn/ui/Button";
 import { getIcons } from "@/constant";
 import userService from "@/api/services/userService";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import {
   MapPin,
   Mail,
@@ -11,7 +12,6 @@ import {
   GraduationCap,
   FolderGit2,
   ExternalLink,
-  Link,
   Wrench,
   UserRound,
   User,
@@ -148,10 +148,11 @@ function UserProfile() {
                     )}
                     {userData?.isFollowing && (
                       <div className="flex items-center">
+                        <Link to={`/chat?user=`+userData.regno}>
                         <Button className="mr-2.5" variant="primary">
-                          {" "}
                           <Send size={20} />
                         </Button>
+                        </Link>
                         <Button
                           className=""
                           onClick={unFollow}

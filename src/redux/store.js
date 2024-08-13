@@ -4,6 +4,7 @@ import appLoadingReducer from './slices/appLoading';
 import qsSliceReducer from './slices/qs';
 import userProfile from './slices/userProfile';
 import popupReducer from './slices/popups';
+import chatsReducer from './slices/chats';
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         loading: appLoadingReducer,
         qs: qsSliceReducer,
         userProfile: userProfile,
-        popup : popupReducer
+        popup : popupReducer,
+        chats: chatsReducer
     }
 });
 

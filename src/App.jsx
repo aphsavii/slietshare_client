@@ -28,6 +28,7 @@ const UserQs = React.lazy(() => import("@/pages/userProfile/UserQs"));
 const UserProfile = React.lazy(() => import("@/pages/userProfile/UserProfile"));
 const Me = React.lazy(() => import("@/pages/userProfile/Me"));
 const Feed = React.lazy(() => import("@/pages/home/Feed"));
+const Chat = React.lazy(() => import("@/pages/Chat/Chat"));
 
 const PageNotFound = React.lazy(() =>
   import("@/components/errors/PageNotFound.jsx")
@@ -125,6 +126,15 @@ const routes = createRoutesFromElements(
         element={
           <Suspense fallback={<FullScreenLoader />}>
             <PostPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path="chat"
+        element={
+          <Suspense fallback={<FullScreenLoader />}>
+            <Chat />
           </Suspense>
         }
       />
