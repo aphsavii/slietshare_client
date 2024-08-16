@@ -16,8 +16,7 @@ const QsShare = () => {
 
   useEffect(() => {
     if (isError) {
-      console.log(error);
-      toast.error("Error fetching data");
+      toast.error(error);
     }
   }, [isError]);
   
