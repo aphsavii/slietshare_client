@@ -130,16 +130,16 @@ const LeaderboardTable = ({ data, platform }) => {
               ) : (
                 <>
                   <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.rating}
+                    {user.rating ?? "_"}
                   </td>
                   <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.maxRating}
+                    {user.maxRating ?? "_"}
                   </td>
                   <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.rank}
+                    {user.rank ?? "_"}
                   </td>
                   <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.maxRank}
+                    {user.maxRank ?? "_"}
                   </td>
                 </>
               )}
