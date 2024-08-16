@@ -1,5 +1,5 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
-import { ListCollapse, FileUp, Telescope, ImageUp, } from "lucide-react";
+import { ListCollapse, FileUp, Telescope, ImageUp,Crown } from "lucide-react";
 import React, { useState, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -21,6 +21,13 @@ function Menu() {
             <li className="py-2 border-b hover:text-primaryBlue cursor-pointer">
               <Telescope className="inline text-gray-500 mr-1 h-5 w-5" />{" "}
               <span>Explore</span>
+            </li>
+          </Link>
+          
+          <Link to={"/leaderboard"}>
+            <li className="py-2 border-b hover:text-primaryBlue cursor-pointer">
+              <Crown className="inline text-gray-500 mr-1 h-5 w-5" />{" "}
+              <span>Leaderboard</span>
             </li>
           </Link>
           {/* <Link>

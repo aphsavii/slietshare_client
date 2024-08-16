@@ -88,12 +88,7 @@ function UserNav() {
                   Profile
                 </Link>
               </li>
-              <li className="border-t-[1px] py-1 md:py-2 rounded-md  text-lightBlack hover:text-primaryBlue">
-                <Link>
-                  <Crown color="#6b7280" size={16} className="inline mr-2" />
-                  Leaderboard
-                </Link>
-              </li>
+              
               <li className="border-t-[1px] py-1 md:py-2 rounded-md  text-lightBlack hover:text-alert">
                 <span className="cursor-pointer" onClick={handleLogOut}>
                   <LogOut color="#6b7280" size={16} className="inline mr-2" />
