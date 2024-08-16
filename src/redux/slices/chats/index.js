@@ -20,8 +20,19 @@ const chatsSlice = createSlice({
     },
     addMessage(state, action) {
       const regno = action.payload.regno;
+      if(state.selectedChat?.regno != regno) {
+        state.chats.forEach((chat) => {
+          if (chat.regno == regno){
+            chat.isUnreadMessages = true;
+            chat.lastMessage.content=action.payload.message.content;
+          }
+        });
+      }
+
       if (state?.messages[regno])
+      {
         state.messages[regno].push(action.payload.message);
+      }
       else {
         state.messages[regno] = [action.payload.message];
       }

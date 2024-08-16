@@ -124,8 +124,8 @@ const Chat = () => {
     socket.on("message:received", (data) => {
       const regno = data.messageId.split("-")[0];
       // dispatch(setChats())
-
       dispatch(addMessage({ regno, message: data }));
+      
       if (selectedChatRef.current?.regno == regno) {
         socket.emit("conversation:read", regno);
       }
