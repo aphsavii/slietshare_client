@@ -1,46 +1,65 @@
 import React, { useState } from "react";
 import { Button } from "@/shadcn/ui/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { setDialog } from "@/redux/slices/userProfile";
+import { setDialog, updateUserData } from "@/redux/slices/userProfile";
 import useBodyScrollLock from "@/hooks/useBodyScrollLock";
-import { updateUserData } from "@/redux/slices/userProfile";
 import userService from "@/api/services/userService";
 import toast from "react-hot-toast";
+import { validateProfile } from "@/helpers/validateProfiles";
 
 function EditSocialLinks() {
-  let userData = useSelector((state) => state.userProfile.userData);
-  let activeDialog = useSelector((state) => state.userProfile.dialog);
+  const userData = useSelector((state) => state.userProfile.userData);
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
-  const [github, setGithub] = useState(userData?.socialLinks?.github);
-  const [portfolio, setPortfolio] = useState(userData?.socialLinks?.portfolio);
-  const [twitter, setTwitter] = useState(userData?.socialLinks?.twitter);
-  const [leetcode, setLeetcode] = useState(userData?.socialLinks?.leetcode);
-  const [codeforces, setCodeforces] = useState(userData?.socialLinks?.codeforces);
-  const [codechef, setCodechef] = useState(userData?.socialLinks?.codechef);
-  const [gfg, setGfg] = useState(userData?.socialLinks?.gfg);
+  const [socialLinks, setSocialLinks] = useState({
+    github: userData?.socialLinks?.github || "",
+    portfolio: userData?.socialLinks?.portfolio || "",
+    twitter: userData?.socialLinks?.twitter || "",
+    leetcode: userData?.socialLinks?.leetcode || "",
+    codeforces: userData?.socialLinks?.codeforces || "",
+    codechef: userData?.socialLinks?.codechef || "",
+    gfg: userData?.socialLinks?.gfg || "",
+  });
+  const [errors, setErrors] = useState({});
 
+  useBodyScrollLock();
+
+  const validateLink = async (name, value) => {
+    if (!value) {
+      setErrors(prev => ({ ...prev, [name]: null }));
+      return;
+    }
+
+    const isValid = await validateProfile(value, name);
+    if (!isValid) {
+      setErrors(prev => ({ ...prev, [name]: "Invalid link" }));
+    } else {
+      setErrors(prev => ({ ...prev, [name]: null }));
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSocialLinks(prev => ({ ...prev, [name]: value }));
+    validateLink(name, value);
+  };
 
   const setDialogType = (type) => {
     dispatch(setDialog(type));
   };
 
   const onSave = async () => {
+    const hasErrors = Object.values(errors).some(error => error !== null);
+    if (hasErrors) {
+      toast.error("Please correct the invalid links before saving.");
+      return;
+    }
+
     try {
       setLoading(true);
-      const res = await userService.editMyProfile({
-          socialLinks:{
-            github,
-            portfolio,
-            twitter,
-            leetcode,
-            codeforces,
-            codechef,
-            gfg
-          }
-      });
-      dispatch(updateUserData({...userData, ...res}));
+      const res = await userService.editMyProfile({ socialLinks });
+      dispatch(updateUserData({ ...userData, ...res }));
       toast.success("Social Links updated successfully");
       setLoading(false);
       setDialogType(null);
@@ -50,131 +69,50 @@ function EditSocialLinks() {
     }
   };
 
-  useBodyScrollLock();
-  
+  const renderInput = (name, label) => (
+    <div className="mb-4">
+      <label
+        htmlFor={`${name}-edit`}
+        className="block text-gray-700 font-medium text-base lg:text-lg mb-1"
+      >
+        {label}
+      </label>
+      <input
+        type="text"
+        id={`${name}-edit`}
+        name={name}
+        value={socialLinks[name]}
+        onChange={handleInputChange}
+        className={`w-full lg:min-w-[600px] p-2 rounded shadow appearance-none border focus:outline-none focus:ring-2 ${
+          errors[name] ? 'border-red-500 focus:ring-red-500' : 'focus:ring-primaryBlue'
+        }`}
+      />
+      {errors[name] && (
+        <p className="mt-1 text-red-500 text-xs">{errors[name]}</p>
+      )}
+    </div>
+  );
+
   return (
-    <div className="fixed inset-0 flex  justify-center items-center z-40  md:items-center md:pt-0">
+    <div className="fixed inset-0 flex justify-center items-center z-40 md:items-center md:pt-0">
       <div
         className="absolute inset-0 bg-black opacity-50"
         onClick={() => setDialogType(null)}
       ></div>
-      <div className="bg-white rounded-lg p-5 max-w-[330px] md:max-w-xl lg:max-w-4xl mx-auto absolute z-41 overflow-scroll">
+      <div className="bg-white rounded-lg p-5 max-w-[330px] md:max-w-xl lg:max-w-4xl mx-auto absolute z-41 overflow-auto max-h-[90vh]">
         <div className="w-full">
-          <h2 className="text-lightblack text-lg lg:text-xl mb-3 md:mb-5  font-medium">
+          <h2 className="text-lightblack text-lg lg:text-xl mb-4 font-medium">
             Add Profile Links
           </h2>
-          {/* Github */}
-          <label
-            htmlFor="github-edit"
-            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
-          >
-            Github
-          </label>
-          <input
-          onChange={(e) => setGithub(e.target.value)}
-          defaultValue={userData?.socialLinks?.github}
-            type="text"
-            className="lg:min-w-[600px] p-1 rounded shadow appearance-none border focus:outline-none focus:ring-2 focus:ring-primaryBlue"
-            name="github-edit"
-            id="github-edit"
-          />
-
-          {/* Protfolio */}
-          <label
-            htmlFor="portfolio-edit"
-            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
-          >
-            Portfolio
-          </label>
-          <input
-          onChange={(e) => setPortfolio(e.target.value)}
-            type="text"
-            className="lg:min-w-[600px] p-1 rounded shadow appearance-none border focus:outline-none focus:ring-2 focus:ring-primaryBlue"
-            name="portfolio-edit"
-            id="portfolio-edit"
-            defaultValue={userData?.socialLinks?.portfolio}
-          />
-
-          {/* Twitter */}
-          <label
-            type="text"
-            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
-          >
-            Twitter
-          </label>
-          <input
-            onChange={(e) => setTwitter(e.target.value)}
-            type="text"
-            className="lg:min-w-[600px] p-1 rounded shadow appearance-none border focus:outline-none focus:ring-2 focus:ring-primaryBlue"
-            name="twitter-edit"
-            id="twitter-edit"
-            defaultValue={userData?.socialLinks?.twitter}
-          />
-
-          {/* Leetcode */}
-          <label
-            htmlFor="leetcode-edit"
-            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
-          >
-            Leetcode
-          </label>
-          <input
-            type="text"
-            onChange={(e) => setLeetcode(e.target.value)}
-            className="lg:min-w-[600px] p-1 rounded shadow appearance-none border focus:outline-none focus:ring-2 focus:ring-primaryBlue"
-            name="leetcode-edit"
-            id="leetcode-edit"
-            defaultValue={userData?.socialLinks?.leetcode}
-          />
-
-          {/* codeforces */}
-          <label
-            htmlFor="codeforces-edit"
-            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
-          >
-            Codeforces
-          </label>
-          <input
-            type="text"
-            onChange={(e) => setCodeforces(e.target.value)}
-            className="lg:min-w-[600px] p-1 rounded shadow appearance-none border focus:outline-none focus:ring-2 focus:ring-primaryBlue"
-            name="codeforces-edit"
-            id="codeforces-edit"
-            defaultValue={userData?.socialLinks?.codeforces}
-          />
-          {/* codechef */}
-          <label
-            htmlFor="codechef-edit"
-            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
-          >
-            Codechef
-          </label>
-          <input
-            type="text"
-            onChange={(e) => setCodechef(e.target.value)}
-            className="lg:min-w-[600px] p-1 rounded shadow appearance-none border focus:outline-none focus:ring-2 focus:ring-primaryBlue"
-            name="codechef-edit"
-            id="codechef-edit"
-            defaultValue={userData?.socialLinks?.codechef}
-          />
-
-          {/* GFG */}
-          <label
-            htmlFor="codechef-edit"
-            className="block mt-2 text-gray-700 font-medium   text-base lg:text-lg  mb-0.5"
-          >
-            GFG
-          </label>
-          <input
-            type="text"
-            onChange={(e) => setGfg(e.target.value)}
-            className="lg:min-w-[600px] p-1 rounded shadow appearance-none border focus:outline-none focus:ring-2 focus:ring-primaryBlue"
-            name="gfg-edit"
-            id="gfg-edit"
-            defaultValue={userData?.socialLinks?.gfg}
-          />
+          {renderInput("github", "Github")}
+          {renderInput("portfolio", "Portfolio")}
+          {renderInput("twitter", "Twitter")}
+          {renderInput("leetcode", "Leetcode")}
+          {renderInput("codeforces", "Codeforces")}
+          {renderInput("codechef", "Codechef")}
+          {renderInput("gfg", "GFG")}
         </div>
-        <p className="mt-4 text-[10px] lg:text-xs text-gray-500 ml-2">
+        <p className="mt-4 text-xs text-gray-500">
           If you don't have any of these, leave that blank
         </p>
         <div className="mt-5">
@@ -185,7 +123,13 @@ function EditSocialLinks() {
           >
             Cancel
           </Button>
-          <Button loading={loading} onClick={onSave} variant="primary" className="px-4 py-2">
+          <Button
+            loading={loading}
+            onClick={onSave}
+            variant="primary"
+            className="px-4 py-2"
+            disabled={Object.values(errors).some(error => error !== null)}
+          >
             Save
           </Button>
         </div>
