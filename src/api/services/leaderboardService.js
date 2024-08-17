@@ -9,6 +9,10 @@ const leaderboardService = {
     getCodeforcesLeaderboard : async()=>{
         const {data,error} = await apiHandler(()=> axiosAuthInstance.get(`leaderboard/codeforces`));
         return data ?? error;
+    },
+    getLeetcodeLeaderboard : async()=>{
+        const {data,error} = await apiHandler(()=> axiosAuthInstance.get(`leaderboard/leetcode`));
+        return data ?? error;
     }
 }
 

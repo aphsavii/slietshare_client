@@ -3,7 +3,6 @@ import { ExternalLink, Trophy, Medal } from "lucide-react";
 import leaderboardService from "@/api/services/leaderboardService";
 import { Link } from "react-router-dom";
 import LeaderboardSkeleton from "@/components/skeletons/LeaderboardSkeleton";
-import { set } from "react-hook-form";
 
 const TabButton = ({ active, onClick, children }) => (
   <button
@@ -50,9 +49,119 @@ const LeaderboardTable = ({ data, platform }) => {
     }
   };
 
+  const renderTableHeader = () => {
+    switch (platform) {
+      case "gfg":
+        return (
+          <>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Score
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Problems Solved
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Max Streak
+            </th>
+          </>
+        );
+      case "codeforces":
+        return (
+          <>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Rating
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Max Rating
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Rank
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Max Rank
+            </th>
+          </>
+        );
+      case "leetcode":
+        return (
+          <>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Contest Rating
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Global Rank
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Questions Solved
+            </th>
+            <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
+              Stars
+            </th>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderTableData = (user) => {
+    switch (platform) {
+      case "gfg":
+        return (
+          <>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.gfgData.score}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.gfgData.problemsSolved}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.gfgData.streak}
+            </td>
+          </>
+        );
+      case "codeforces":
+        return (
+          <>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.rating ?? "_"}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.maxRating ?? "_"}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.rank ?? "_"}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.maxRank ?? "_"}
+            </td>
+          </>
+        );
+      case "leetcode":
+        return (
+          <>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.leetcodeData.constestRating.toFixed(2)}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.leetcodeData.globalRank}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.leetcodeData.questionsSolved}
+            </td>
+            <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
+              {user.leetcodeData.stars}
+            </td>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="overflow-x-auto max-w-full">
-      <table className="w-full bg-white border border-gray-300 shadow-lg rounded-lg overflow-hidden ">
+      <table className="w-full bg-white border border-gray-300 shadow-lg rounded-lg overflow-hidden">
         <thead>
           <tr className="bg-gray-800 text-white">
             <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
@@ -61,36 +170,9 @@ const LeaderboardTable = ({ data, platform }) => {
             <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
               Name
             </th>
-            {platform === "gfg" ? (
-              <>
-                <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-                  Score
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-                  Problems Solved
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-                  Max Streak
-                </th>
-              </>
-            ) : (
-              <>
-                <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-                  Rating
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-                  Max Rating
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-                  Rank
-                </th>
-                <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-                  Max Rank
-                </th>
-              </>
-            )}
+            {renderTableHeader()}
             <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-              Coding Profile
+              Profile
             </th>
           </tr>
         </thead>
@@ -115,41 +197,10 @@ const LeaderboardTable = ({ data, platform }) => {
                   {user.fullName}
                 </Link>
               </td>
-              {platform === "gfg" ? (
-                <>
-                  <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.gfgData.score}
-                  </td>
-                  <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.gfgData.problemsSolved}
-                  </td>
-                  <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.gfgData.streak}
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.rating ?? "_"}
-                  </td>
-                  <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.maxRating ?? "_"}
-                  </td>
-                  <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.rank ?? "_"}
-                  </td>
-                  <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-                    {user.maxRank ?? "_"}
-                  </td>
-                </>
-              )}
+              {renderTableData(user)}
               <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center whitespace-nowrap">
                 <a
-                  href={`https://${
-                    platform === "gfg"
-                      ? "auth.geeksforgeeks.org/user/" + user.gfgData.username
-                      : "codeforces.com/profile/" + user.codeforcesData.username
-                  }`}
+                  href={user.socialLinks[platform]}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:text-blue-800"
@@ -169,6 +220,7 @@ const Leaderboard = () => {
   const [selectedPlatform, setSelectedPlatform] = useState("gfg");
   const [gfgData, setGfgData] = useState([]);
   const [codeforcesData, setCodeforcesData] = useState([]);
+  const [leetcodeData, setLeetcodeData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -176,16 +228,24 @@ const Leaderboard = () => {
       setIsLoading(true);
 
       try {
-        if (selectedPlatform === "codeforces") {
-          if (codeforcesData.length === 0) {
-            const data = await leaderboardService.getCodeforcesLeaderboard();
-            setCodeforcesData(data);
-          }
-        } else {
-          if (gfgData.length === 0) {
-            const data = await leaderboardService.getGFGLeaderboard();
-            setGfgData(data);
-          }
+        switch (selectedPlatform) {
+          case "codeforces":
+            if (codeforcesData.length === 0) {
+              const data = await leaderboardService.getCodeforcesLeaderboard();
+              setCodeforcesData(data);
+            }
+            break;
+          case "leetcode":
+            if (leetcodeData.length === 0) {
+              const data = await leaderboardService.getLeetcodeLeaderboard();
+              setLeetcodeData(data);
+            }
+            break;
+          default:
+            if (gfgData.length === 0) {
+              const data = await leaderboardService.getGFGLeaderboard();
+              setGfgData(data);
+            }
         }
         setIsLoading(false);
       } catch (error) {
@@ -214,13 +274,25 @@ const Leaderboard = () => {
         >
           Codeforces
         </TabButton>
+        <TabButton
+          active={selectedPlatform === "leetcode"}
+          onClick={() => setSelectedPlatform("leetcode")}
+        >
+          LeetCode
+        </TabButton>
       </div>
 
       {isLoading ? (
         <LeaderboardSkeleton platform={selectedPlatform} />
       ) : (
         <LeaderboardTable
-          data={selectedPlatform === "gfg" ? gfgData : codeforcesData}
+          data={
+            selectedPlatform === "gfg"
+              ? gfgData
+              : selectedPlatform === "codeforces"
+              ? codeforcesData
+              : leetcodeData
+          }
           platform={selectedPlatform}
         />
       )}
