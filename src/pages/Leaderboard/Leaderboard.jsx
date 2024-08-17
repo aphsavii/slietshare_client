@@ -59,7 +59,7 @@ const LeaderboardTable = ({ data, platform }) => {
               Rank
             </th>
             <th className="py-2 px-3 sm:py-3 sm:px-4 border-b text-xs sm:text-sm whitespace-nowrap">
-              Username
+              Name
             </th>
             {platform === "gfg" ? (
               <>
