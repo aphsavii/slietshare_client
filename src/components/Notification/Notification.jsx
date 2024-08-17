@@ -9,9 +9,7 @@ import userService from "@/api/services/userService";
 function Notification({}) {
   const [notifications, setNotifications] = useState([]);
   const socket = useContext(SocketContext);
-  const [notificationLength, setNotificationLength] = useState(
-    6
-  );
+  const [notificationLength, setNotificationLength] = useState(0);
 
   useEffect(() => {
     try {
