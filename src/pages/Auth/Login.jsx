@@ -42,7 +42,7 @@ const navigate = useNavigate();
   return (
     <>
       {isSubmitting && (
-        <FullScreenLoader text={`Loggin you in...`} />
+        <FullScreenLoader text={`Logging you in...`} />
        )}
 
       <div className="container px-4 flex items-center justify-center min-h-[600px] md:min-h-[800px] mx-auto">

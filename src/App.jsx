@@ -83,7 +83,7 @@ const routes = createRoutesFromElements(
       <Route
         path=""
         element={
-          <Suspense fallback={<FullScreenLoader text={`Loggin you in...`} />}>
+          <Suspense fallback={<FullScreenLoader text={`Loading your content`} />}>
             <Feed />
           </Suspense>
         }
