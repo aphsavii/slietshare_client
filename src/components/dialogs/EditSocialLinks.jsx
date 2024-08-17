@@ -25,9 +25,10 @@ function EditSocialLinks() {
   useBodyScrollLock();
 
   const validateProfile = async (link, platform) => {
+    platform = platform.toLowerCase();
+    if(platform == "portfolio" || platform == "github" || platform == "twitter" || platform == "codechef") return true;
     const userName = getLastRouteSegment(link);
     try {
-      console.log('jii')
       const res = await userService.validateProfile(
         userName,
         platform.toLowerCase()
