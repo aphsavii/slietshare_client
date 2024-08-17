@@ -17,7 +17,6 @@ import { trimText } from "@/helpers";
 
 const CreatePost = ({ onClose }) => {
   const [postText, setPostText] = useState("");
-  const [visibility, setVisibility] = useState("Anyone");
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -31,7 +30,7 @@ const CreatePost = ({ onClose }) => {
   };
 
   const createPost = async () => {
-    if(!postText.trim() && !selectedImage) {
+    if(!postText.trim() || !selectedImage) {
         toast.error("Title and Media is required");
         return;
     }
@@ -48,6 +47,7 @@ const CreatePost = ({ onClose }) => {
         toast.success("Post created successfully");
         onClose();
       }
+      toast.success("post created successfully");
     } catch (error) {
       console.log(error);
       toast.error("Failed to create post");
