@@ -141,16 +141,16 @@ const LeaderboardTable = ({ data, platform }) => {
         return (
           <>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.leetcodeData.constestRating.toFixed(2)}
+              {user.leetcodeData?.constestRating?.toFixed(2) ?? "_"}
             </td>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.leetcodeData.globalRank}
+              {user.leetcodeData?.globalRank ?? "_"}
             </td>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.leetcodeData.questionsSolved}
+              {user.leetcodeData?.questionsSolved ?? "_"}
             </td>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.leetcodeData.stars}
+              {user.leetcodeData?.stars ?? "_"}
             </td>
           </>
         );
