@@ -252,7 +252,7 @@ const Chat = () => {
                   <div ref={messagesEndRef} />
                 </div>
               </ScrollArea>
-              <div className="p-4 bg-white">
+              <div className="p-4 pb-10 md:pb-0 bg-white">
                 <ChatInput
                   message={message}
                   setMessage={setMessage}
