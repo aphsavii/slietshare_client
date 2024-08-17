@@ -217,7 +217,7 @@ const LeaderboardTable = ({ data, platform }) => {
 };
 
 const Leaderboard = () => {
-  const [selectedPlatform, setSelectedPlatform] = useState("gfg");
+  const [selectedPlatform, setSelectedPlatform] = useState("leetcode");
   const [gfgData, setGfgData] = useState([]);
   const [codeforcesData, setCodeforcesData] = useState([]);
   const [leetcodeData, setLeetcodeData] = useState([]);
@@ -263,10 +263,10 @@ const Leaderboard = () => {
       </h1>
       <div className="mb-4 sm:mb-6 flex justify-center space-x-2 sm:space-x-4">
         <TabButton
-          active={selectedPlatform === "gfg"}
-          onClick={() => setSelectedPlatform("gfg")}
+          active={selectedPlatform === "leetcode"}
+          onClick={() => setSelectedPlatform("leetcode")}
         >
-          GeeksforGeeks
+          LeetCode
         </TabButton>
         <TabButton
           active={selectedPlatform === "codeforces"}
@@ -275,10 +275,10 @@ const Leaderboard = () => {
           Codeforces
         </TabButton>
         <TabButton
-          active={selectedPlatform === "leetcode"}
-          onClick={() => setSelectedPlatform("leetcode")}
+          active={selectedPlatform === "gfg"}
+          onClick={() => setSelectedPlatform("gfg")}
         >
-          LeetCode
+          GeeksforGeeks
         </TabButton>
       </div>
 
