@@ -55,7 +55,7 @@ function Notification({}) {
         className=""
       >
         {" "}
-        <Bell className="text-white h-4 w-4 md:h-7 md:w-7 relative" />
+        <Bell className="text-white h-5 w-5 md:h-7 md:w-7 relative" />
         {notificationLength > 0 && (
           <span className="absolute h-3 w-4 md:h-4 md:w-6 bg-red-500 rounded-full top-4 md:top-4 text-white font-medium text-[10px] leading-3 md:text-xs">
             {notifications.length}

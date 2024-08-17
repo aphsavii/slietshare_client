@@ -28,7 +28,7 @@ function UserSearch() {
         <PopoverTrigger>
           {" "}
          
-          <UserRoundSearch className="text-white h-4 w-4 md:h-7 md:w-7" />
+          <UserRoundSearch className="text-white h-5 w-5 md:h-7 md:w-7" />
         </PopoverTrigger>
         <PopoverContent className="bg-white w-screen min-h-[200px] md:w-[400px] lg:mt-3.5">
         <div className="absolute left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-500 hidden md:block -mt-[18px]"></div>

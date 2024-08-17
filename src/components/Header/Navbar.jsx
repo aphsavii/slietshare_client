@@ -37,11 +37,11 @@ const Navbar = () => {
             <div className="flex gap-x-3  md:gap-x-6">
               <Menu />
               <Link to="/qs">
-                <FileSpreadsheet className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
+                <FileSpreadsheet className="text-white h-5 w-5 md:h-7 md:w-7 cursor-pointer" />
               </Link>
               <UserSearch />
               <Link to="/chat">
-              <MessageSquare className="text-white h-4 w-4 md:h-7 md:w-7 cursor-pointer" />
+              <MessageSquare className="text-white h-5 w-5 md:h-7 md:w-7 cursor-pointer" />
               </Link>
               <Notification />
             </div>
