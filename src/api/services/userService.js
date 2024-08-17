@@ -44,6 +44,12 @@ const userService = {
         const {data,error} = await apiHandler(()=>axiosAuthInstance.get("/user/suggested-profiles"));
         return data ?? error;
     },
+    validateProfile: async (username, platform) => {
+        const {data,error} = await apiHandler(async () => {
+            return await axiosAuthInstance.post("/user/validate-profile", {username, platform}       );
+        });
+        return data ?? error;
+    },
 }
 
 export default userService;

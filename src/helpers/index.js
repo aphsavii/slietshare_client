@@ -75,4 +75,10 @@ const trimText = (text, length) => {
   return text.length > length ? text.slice(0, length)+ "..." : text;
 };
 
-export { textCapitalize, toMonthYear, isMobile, timeAgo,trimText, formatTimestamp };
+const getLastRouteSegment = (url) => {
+  url = url.replace(/\/$/, "");
+  const segments = url.split("/");
+  return segments[segments.length - 1];
+};
+
+export { textCapitalize, toMonthYear, isMobile, timeAgo,trimText, formatTimestamp, getLastRouteSegment };

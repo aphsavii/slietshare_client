@@ -5,8 +5,7 @@ import { setDialog, updateUserData } from "@/redux/slices/userProfile";
 import useBodyScrollLock from "@/hooks/useBodyScrollLock";
 import userService from "@/api/services/userService";
 import toast from "react-hot-toast";
-import { validateProfile } from "@/helpers/validateProfiles";
-
+import { getLastRouteSegment } from "@/helpers";
 function EditSocialLinks() {
   const userData = useSelector((state) => state.userProfile.userData);
   const dispatch = useDispatch();
@@ -25,23 +24,37 @@ function EditSocialLinks() {
 
   useBodyScrollLock();
 
+  const validateProfile = async (link, platform) => {
+    const userName = getLastRouteSegment(link);
+    try {
+      console.log('jii')
+      const res = await userService.validateProfile(
+        userName,
+        platform.toLowerCase()
+      );
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const validateLink = async (name, value) => {
     if (!value) {
-      setErrors(prev => ({ ...prev, [name]: null }));
+      setErrors((prev) => ({ ...prev, [name]: null }));
       return;
     }
 
     const isValid = await validateProfile(value, name);
     if (!isValid) {
-      setErrors(prev => ({ ...prev, [name]: "Invalid link" }));
+      setErrors((prev) => ({ ...prev, [name]: "Invalid link" }));
     } else {
-      setErrors(prev => ({ ...prev, [name]: null }));
+      setErrors((prev) => ({ ...prev, [name]: null }));
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSocialLinks(prev => ({ ...prev, [name]: value }));
+    setSocialLinks((prev) => ({ ...prev, [name]: value }));
     validateLink(name, value);
   };
 
@@ -50,7 +63,7 @@ function EditSocialLinks() {
   };
 
   const onSave = async () => {
-    const hasErrors = Object.values(errors).some(error => error !== null);
+    const hasErrors = Object.values(errors).some((error) => error !== null);
     if (hasErrors) {
       toast.error("Please correct the invalid links before saving.");
       return;
@@ -84,7 +97,9 @@ function EditSocialLinks() {
         value={socialLinks[name]}
         onChange={handleInputChange}
         className={`w-full lg:min-w-[600px] p-2 rounded shadow appearance-none border focus:outline-none focus:ring-2 ${
-          errors[name] ? 'border-red-500 focus:ring-red-500' : 'focus:ring-primaryBlue'
+          errors[name]
+            ? "border-red-500 focus:ring-red-500"
+            : "focus:ring-primaryBlue"
         }`}
       />
       {errors[name] && (
@@ -128,7 +143,7 @@ function EditSocialLinks() {
             onClick={onSave}
             variant="primary"
             className="px-4 py-2"
-            disabled={Object.values(errors).some(error => error !== null)}
+            disabled={Object.values(errors).some((error) => error !== null)}
           >
             Save
           </Button>
