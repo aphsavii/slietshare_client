@@ -18,6 +18,7 @@ import postService from "@/api/services/postService";
 import { timeAgo, trimText } from "@/helpers";
 import toast from "react-hot-toast";
 import PostDropdown from "../post-dropdown/PostDropdown";
+import { useLocation } from "react-router-dom";
 
 const Post = ({ post }) => {
   const socket = useContext(SocketContext);
@@ -33,7 +34,7 @@ const Post = ({ post }) => {
   const headLineLength = screen.width < 768 ? 35 : 60;
 
   const [isPostOwner, setIsPostOwner] = useState(false);
-
+  const location = useLocation();
 
   useEffect(() => {
     if (user.regno === post.createdBy.regno) setIsPostOwner(true);
@@ -98,12 +99,14 @@ const Post = ({ post }) => {
     toast.success("Post link copied");
   };
 
+  const [removePost,setRemovePost] = useState(false);
+
   return (
     <>
-      <div className="mx-auto bg-white rounded-lg shadow-md overflow-hidden relative mb-5">
+     {!removePost && <div className="mx-auto bg-white rounded-lg shadow-md overflow-hidden relative mb-5">
         <div className="p-4">
-          {isPostOwner && (
-            <PostDropdown className="float-right text-gray-600 cursor-pointer" />
+          {isPostOwner && location?.pathname =="/me" && (
+            <PostDropdown removePost={setRemovePost} postId = {post._id} className="float-right text-gray-600 cursor-pointer" />
           )}
           <div className="flex items-center mb-4">
             <Link to={`/user/${post?.createdBy?.regno}`}>
@@ -235,6 +238,7 @@ const Post = ({ post }) => {
           </div>
         )}
       </div>
+}
     </>
   );
 };

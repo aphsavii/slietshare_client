@@ -10,13 +10,27 @@ import {
 import { Ellipsis } from "lucide-react";
 import ConformationDialog from "../dialogs/ConformationDialog";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import postService from "@/api/services/postService";
+import toast from "react-hot-toast";
 
-export function PostDropdown() {
+export function PostDropdown({postId, removePost}) {
   const [isDeleteting, setisDeleteting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const dispatch = useDispatch();
-  
+
+  const handleDeletePost = async () => {
+    setisDeleteting(true);
+    try {
+      await postService.deletePost(postId);
+      setIsDialogOpen(false);
+      removePost(true);
+      toast.success("Post deleted successfully");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setisDeleteting(false);
+    }
+  }
+
   return (
     <>
       {isDialogOpen &&
@@ -26,6 +40,7 @@ export function PostDropdown() {
           title="Delete Post"
           description="Are you sure you want to delete this post?"
           ctaText="Delete"
+          onConfirm={handleDeletePost}
         />
       }{" "}
       <DropdownMenu>
@@ -36,8 +51,8 @@ export function PostDropdown() {
           <DropdownMenuLabel>Post Settings</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Archive Post</DropdownMenuItem>
-            <DropdownMenuItem className="">Delete Post</DropdownMenuItem>
+            {/* <DropdownMenuItem>Archive Post</DropdownMenuItem> */}
+            <DropdownMenuItem className="" onClick={()=>setIsDialogOpen(true)}>Delete Post</DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

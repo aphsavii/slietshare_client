@@ -28,6 +28,8 @@ function UserPosts({ regno }) {
   const { ref, inView } = useInView();
   const dispatch = useDispatch();
 
+
+
   useEffect(() => {
     if (error) console.error(error);
     if (status === "success" && inView && hasNextPage) {
@@ -50,9 +52,7 @@ function UserPosts({ regno }) {
         {isFetchingNextPage && <PostSkeleton />}
         {data?.pages[0].length === 0 && (
           <div className="py-20">
-            <p className="text-center text-gray-500">
-              No posts
-            </p>
+            <p className="text-center text-gray-500">No posts</p>
             <p className="text-center text-gray-500">
               You are most welcome to{" "}
               <span
@@ -64,7 +64,7 @@ function UserPosts({ regno }) {
             </p>
           </div>
         )}
-        {data?.pages[0].length>0 && !hasNextPage && (
+        {data?.pages[0].length > 0 && !hasNextPage && (
           <div className="py-10">
             <p className="text-center text-gray-500">No more posts</p>
             <p className="text-center text-gray-500">
@@ -82,5 +82,4 @@ function UserPosts({ regno }) {
     </div>
   );
 }
-
 export default UserPosts;

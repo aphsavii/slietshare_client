@@ -12,6 +12,12 @@ const postService = {
     );
     return data ?? error;
   },
+  deletePost: async (postId) => {
+    const { data, error } = await apiHandler(() =>
+      axiosAuthInstance.delete(`post/delete/${postId}`)
+    );
+    return data ?? error;
+  },
   postUnlike: async (postId) => {
     const { data, error } =  await apiHandler(() =>
        axiosAuthInstance.delete(`post/unlike/${postId}`)
