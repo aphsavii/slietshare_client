@@ -47,7 +47,6 @@ const CreatePost = ({ onClose }) => {
         toast.success("Post created successfully");
         onClose();
       }
-      toast.success("post created successfully");
     } catch (error) {
       console.log(error);
       toast.error("Failed to create post");
