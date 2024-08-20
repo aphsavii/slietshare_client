@@ -9,7 +9,7 @@ const SocketProvider = ({ children }) => {
 
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  let socketUrl = window.location.origin.includes('localhost') ? 'http://localhost:5050' : 'https://slietshare-server.onrender.com/';
+  let socketUrl = window.location.origin.includes('localhost') ? 'http://localhost:5050' : 'https://api.slietshare.online';
   if(window.location.origin.includes('slietshare-client-um2t')) socketUrl = 'https://slietshare-server-2lbv.onrender.com';  
 
   useEffect(() => {
