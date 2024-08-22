@@ -132,8 +132,8 @@ const Post = ({ post }) => {
             </div>
           </div>
           <p className="text-gray-800 mb-4 ml-2">{post?.title}</p>
-          <div className="mb-4">
-            <img src={post?.mediaUrl[0]} className="w-full h-auto rounded-lg" />
+          <div className="mb-4  overflow-hidden object-contain max-w-full flex justify-center rounded-lg">
+            <img src={post?.mediaUrl[0]} className="max-h-[400px] " />
           </div>
           <div className="flex justify-between text-gray-500 text-sm">
             <span>{likeCount} likes</span>

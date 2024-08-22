@@ -44,7 +44,9 @@ function UserProfile() {
       .catch((error) => {
         toast.error("Error fetching user data, please resfresh");
         console.log(error);
+        return;
       });
+      userService.userProfileView(regno);
   }, [regno]);
 
   const follow = async () => {

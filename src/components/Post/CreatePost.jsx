@@ -89,11 +89,13 @@ const CreatePost = ({ onClose }) => {
 
           {selectedImage && (
             <div className="mt-4 relative">
+              <div className="w-full flex justify-center">
               <img
                 src={selectedImage}
                 alt="Selected"
-                className="max-w-full h-auto rounded-md"
+                className="max-w-full max-h-[400px] rounded-md"
               />
+              </div>
               <Button
                 variant="ghost"
                 size="icon"

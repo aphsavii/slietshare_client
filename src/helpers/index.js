@@ -48,7 +48,7 @@ const timeAgo = (dateString) => {
 };
 
 function formatTimestamp(timestamp) {
-  const date = new Date(timestamp);
+  const date = new Date(+timestamp);
   const now = new Date();
 
   const options = { hour: '2-digit', minute: '2-digit', hour12: false };

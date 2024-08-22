@@ -50,6 +50,18 @@ const userService = {
         });
         return data ?? error;
     },
+    userProfileView: async (regno) => {
+        const {data,error} = await apiHandler(async () => {
+            return await axiosAuthInstance.post("/user/view-profile/"+regno);
+        });
+        return data ?? error;
+    },
+    getProfileViews: async () => {
+        const {data,error} = await apiHandler(async () => {
+            return await axiosAuthInstance.get("/user/profile-views");
+        });
+        return data ?? error;
+    },
 }
 
 export default userService;
