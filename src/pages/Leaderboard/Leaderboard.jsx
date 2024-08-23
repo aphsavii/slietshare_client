@@ -124,20 +124,20 @@ const LeaderboardTable = ({ data, platform }) => {
         return (
           <>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.rating ?? "_"}
+              {user.codeforcesData.rating ?? "_"}
             </td>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.maxRating ?? "_"}
+              {user.codeforcesData.maxRating ?? "_"}
             </td>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.rank ?? "_"}
+              {user.codeforcesData.rank ?? "_"}
             </td>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
-              {user.maxRank ?? "_"}
+              {user.codeforcesData.maxRank ?? "_"}
             </td>
           </>
         );
-      case "leetcode":
+      case "leetcode":  
         return (
           <>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
