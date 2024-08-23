@@ -42,12 +42,22 @@ function UserProfile() {
         setIsUserDetailsLoaded(true);
       })
       .catch((error) => {
-        toast.error("Error fetching user data, please resfresh");
+        toast.error("Error fetching user data, please refresh");
         console.log(error);
         return;
       });
-      userService.userProfileView(regno);
   }, [regno]);
+
+  useEffect(() => {
+    if (
+      user.regno != regno &&
+      userData?.regno != undefined &&
+      userData.role == "admin"
+    ) {
+      console.log(userData);
+      userService.userProfileView(regno);
+    }
+  }, [userData]);
 
   const follow = async () => {
     setLoading(true);
@@ -150,10 +160,10 @@ function UserProfile() {
                     )}
                     {userData?.isFollowing && (
                       <div className="flex items-center">
-                        <Link to={`/chat?user=`+userData.regno}>
-                        <Button className="mr-2.5" variant="primary">
-                          <Send size={20} />
-                        </Button>
+                        <Link to={`/chat?user=` + userData.regno}>
+                          <Button className="mr-2.5" variant="primary">
+                            <Send size={20} />
+                          </Button>
                         </Link>
                         <Button
                           className=""
@@ -394,7 +404,7 @@ function UserProfile() {
                       ))}
                   </div>
                 </div>
-            <ProfileTabs regno={userData.regno}/>
+                <ProfileTabs regno={userData.regno} />
               </div>
             </div>
           </div>
