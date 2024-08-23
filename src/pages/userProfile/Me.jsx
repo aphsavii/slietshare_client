@@ -117,7 +117,7 @@ function Me() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [userData]);
 
   return (
     <>
