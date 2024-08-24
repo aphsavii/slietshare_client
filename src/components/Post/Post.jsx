@@ -94,7 +94,7 @@ const Post = ({ post }) => {
   };
 
   const sharePost = () => {
-    const postUrl = location.origin + "/post/" + post._id;
+    const postUrl = window.location.origin + "/post/" + post._id;
     navigator.clipboard.writeText(postUrl);
     toast.success("Post link copied");
   };

@@ -70,6 +70,9 @@ const QsShare = () => {
               }}
             />
           ))}
+          {
+           data && data?.length === 0 && !isLoading && <p className=" w-full text-lg text-red-500 text-center">No Questions found</p>
+          }
       </div>
       <Button variant="primary" size="default" className="mt-10" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to Top</Button>
       { <CtaSticky></CtaSticky>}
