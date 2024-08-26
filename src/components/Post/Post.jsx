@@ -131,7 +131,7 @@ const Post = ({ post }) => {
               </p>
             </div>
           </div>
-          <p className="text-gray-800 mb-4 ml-2">{post?.title}</p>
+          <p className="text-gray-800 mb-4 ml-2" style={{ whiteSpace: 'pre-wrap' }}>{post?.title}</p>
           <div className="mb-4  overflow-hidden object-contain max-w-full flex justify-center rounded-lg">
             <a target="_blank" href={post?.mediaUrl[0]}>
             <img src={post?.mediaUrl[0]} className="max-h-[400px] " />
