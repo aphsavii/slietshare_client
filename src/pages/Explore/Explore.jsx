@@ -309,6 +309,7 @@ const Explore = () => {
                         <h3 className="text-lg font-semibold text-center hover:underline">
                           {user.fullName}
                         </h3>
+                        <p className="text-xs text-gray-400">{`${user.trade}'`+user.batch.toString().slice(2,4)}</p>
                         <p className="text-sm text-gray-500 text-center truncate max-w-full ">
                           {user.headLine}
                         </p>
