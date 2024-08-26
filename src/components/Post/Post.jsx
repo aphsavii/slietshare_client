@@ -9,8 +9,6 @@ import {
 import { SocketContext } from "@/api/sockets/socket";
 import { Link } from "react-router-dom";
 import EmojiPicker from "../emoji-picker/EmojiPicker";
-
-// import EmojiPicker from "emoji-picker-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/shadcn/ui/avatar";
 import { Button } from "@/shadcn/ui/Button";
 import { useSelector } from "react-redux";
@@ -28,8 +26,8 @@ const Post = ({ post }) => {
   const [likeCount, setLikeCount] = useState(post.likesCount);
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
-  const [comments, setCommnets] = useState(post.comments);
-
+  const [comments, setComments] = useState(post.comments);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const headLineLength = screen.width < 768 ? 35 : 60;
 
@@ -78,7 +76,7 @@ const Post = ({ post }) => {
       content: newComment,
     });
     if (newComment.trim()) {
-      comments.unshift({
+      setComments([{
         userDetails: {
           fullName: user?.fullName,
           avatarUrl: user.avatarUrl,
@@ -88,7 +86,7 @@ const Post = ({ post }) => {
           headLine: user.headLine,
         },
         content: newComment.trim(),
-      });
+      }, ...comments]);
       setNewComment("");
     }
   };
@@ -99,148 +97,165 @@ const Post = ({ post }) => {
     toast.success("Post link copied");
   };
 
-  const [removePost,setRemovePost] = useState(false);
+  const [removePost, setRemovePost] = useState(false);
+
+  const trimmedTitle = post?.title.length > 200 ? post?.title.slice(0, 200) + "..." : post?.title;
 
   return (
     <>
-     {!removePost && <div className="mx-auto bg-white rounded-lg shadow-md overflow-hidden relative mb-5">
-        <div className="p-4">
-          {isPostOwner && location?.pathname =="/me" && (
-            <PostDropdown removePost={setRemovePost} postId = {post._id} className="float-right text-gray-600 cursor-pointer" />
-          )}
-          <div className="flex items-center mb-4">
-            <Link to={`/user/${post?.createdBy?.regno}`}>
-              <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
-                <AvatarImage src={post?.createdBy?.avatarUrl} />
-                <AvatarFallback>
-                  <User color="#6b7280" size={24} />
-                </AvatarFallback>
-              </Avatar>
-            </Link>
-            <div className="ml-2">
-              <Link to={`/user/${post?.createdBy?.regno}`}>
-                <h3 className="font-semibold text-gray-800 hover:underline ">
-                  {post?.createdBy?.fullName}
-                </h3>
-                <p className="text-sm text-gray-600 -mt-1">
-                  {trimText(post?.createdBy?.headLine, headLineLength)}
-                </p>
-              </Link>
-              <p className="text-xs  text-gray-500">
-                {timeAgo(post.createdAt)}
-              </p>
-            </div>
-          </div>
-          <p className="text-gray-800 mb-4 ml-2" style={{ whiteSpace: 'pre-wrap' }}>{post?.title}</p>
-          <div className="mb-4  overflow-hidden object-contain max-w-full flex justify-center rounded-lg">
-            <a target="_blank" href={post?.mediaUrl[0]}>
-            <img src={post?.mediaUrl[0]} className="max-h-[400px] " />
-            </a>
-          </div>
-          <div className="flex justify-between text-gray-500 text-sm">
-            <span>{likeCount} likes</span>
-            <span>
-              <span
-                className="hover:underline cursor-pointer"
-                onClick={() => setShowComments(!showComments)}
-              >
-                {post?.comments?.length} comments
-              </span>{" "}
-              • {post?.shares ?? 0} shares
-            </span>
-          </div>
-        </div>
-        <div className="border-t border-gray-200">
-          <div className="flex justify-around p-2">
-            <button
-              className={`flex items-center transition-colors duration-300 ease-in-out ${
-                liked ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
-              }`}
-              onClick={handleLike}
-            >
-              <ThumbsUp
-                className={`mr-1 transition-all duration-300 ease-in-out ${
-                  liked ? "fill-current" : ""
-                }`}
-                size={18}
+      {!removePost && (
+        <div className="mx-auto bg-white rounded-lg shadow-md overflow-hidden relative mb-5">
+          <div className="p-4">
+            {isPostOwner && location?.pathname == "/me" && (
+              <PostDropdown
+                removePost={setRemovePost}
+                postId={post._id}
+                className="float-right text-gray-600 cursor-pointer"
               />
-              Like
-            </button>
-            <button
-              className="flex items-center text-gray-600 hover:text-blue-600"
-              onClick={() => setShowComments(!showComments)}
-            >
-              <MessageSquare className="mr-1" size={18} />
-              Comment
-            </button>
-            <button
-              className="flex items-center text-gray-600 hover:text-blue-600"
-              onClick={sharePost}
-            >
-              <Share2 className="mr-1" size={18} />
-              Share
-            </button>
-          </div>
-        </div>
-        {showComments && (
-          <div className="p-4 bg-gray-50 transition-all duration-300 ease-in-out">
-            <div className="mb-4 relative">
-              <textarea
-                className="w-full p-2 border border-gray-300 rounded-md"
-                rows="2"
-                placeholder="Write a comment..."
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              ></textarea>
-              <div className="flex items-center justify-between mt-2">
-                <div className="relative" >
-                  <EmojiPicker setText={setNewComment}/>
-                </div>
-                <Button onClick={handleCommentSubmit} variant="primary" className="px-2.5">
-                  <Send size={16} className="mr-1.5" />
-                  Comment
-                </Button>
+            )}
+            <div className="flex items-center mb-4">
+              <Link to={`/user/${post?.createdBy?.regno}`}>
+                <Avatar className="h-7 w-7 md:h-10 md:w-10 cursor-pointer">
+                  <AvatarImage src={post?.createdBy?.avatarUrl} />
+                  <AvatarFallback>
+                    <User color="#6b7280" size={24} />
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+              <div className="ml-2">
+                <Link to={`/user/${post?.createdBy?.regno}`}>
+                  <h3 className="font-semibold text-gray-800 hover:underline ">
+                    {post?.createdBy?.fullName}
+                  </h3>
+                  <p className="text-sm text-gray-600 -mt-1">
+                    {trimText(post?.createdBy?.headLine, headLineLength)}
+                  </p>
+                </Link>
+                <p className="text-xs text-gray-500">
+                  {timeAgo(post.createdAt)}
+                </p>
               </div>
             </div>
-            <div className="space-y-4">
-              {post.comments.map((comment, index) => (
-                <div
-                  key={index}
-                  className="bg-white py-3 px-4 rounded-md shadow "
+            <div className="text-gray-800 mb-4 ml-2" style={{ whiteSpace: 'pre-wrap' }}>
+              {isExpanded ? post?.title : trimmedTitle}
+              {post?.title.length > 200 && (
+                <button
+                  className="text-blue-600 hover:underline ml-2"
+                  onClick={() => setIsExpanded(!isExpanded)}
                 >
-                  <div className="flex justify-between">
-                    <Link to={`/user/${comment?.userDetails?.regno}`}>
-                      <div className="flex items-center ">
-                        <Avatar className="h-7 w-7  md:h-10 md:w-10 cursor-pointer">
-                          <AvatarImage src={comment.userDetails.avatarUrl} />
-                          <AvatarFallback>
-                            <User color="#6b7280" size={24} />
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="font-semibold text-base text-gray-800 ml-1">
-                          <span className="hover:underline">
-                            {comment.userDetails.fullName}
-                          </span>
-                          <p className="text-xs text-gray-500 font-normal -mt-0.5">
-                            {comment.userDetails.headLine}
-                          </p>
-                        </span>
-                      </div>
-                    </Link>
-                    <span className="text-xs text-gray-400 ">
-                      {timeAgo(comment.createdAt)}
-                    </span>
-                  </div>
-                  <p className="text-gray-800 mt-0.5 text-sm ml-8 md:ml-11">
-                    {comment.content}
-                  </p>
-                </div>
-              ))}
+                  {isExpanded ? "Read less" : "Read more"}
+                </button>
+              )}
+            </div>
+            <div className="mb-4 overflow-hidden object-contain max-w-full flex justify-center rounded-lg">
+              <a target="_blank" href={post?.mediaUrl[0]}>
+                <img src={post?.mediaUrl[0]} className="max-h-[400px]" alt="Post media" />
+              </a>
+            </div>
+            <div className="flex justify-between text-gray-500 text-sm">
+              <span>{likeCount} likes</span>
+              <span>
+                <span
+                  className="hover:underline cursor-pointer"
+                  onClick={() => setShowComments(!showComments)}
+                >
+                  {post?.comments?.length} comments
+                </span>{" "}
+                • {post?.shares ?? 0} shares
+              </span>
             </div>
           </div>
-        )}
-      </div>
-}
+          <div className="border-t border-gray-200">
+            <div className="flex justify-around p-2">
+              <button
+                className={`flex items-center transition-colors duration-300 ease-in-out ${
+                  liked ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
+                }`}
+                onClick={handleLike}
+              >
+                <ThumbsUp
+                  className={`mr-1 transition-all duration-300 ease-in-out ${
+                    liked ? "fill-current" : ""
+                  }`}
+                  size={18}
+                />
+                Like
+              </button>
+              <button
+                className="flex items-center text-gray-600 hover:text-blue-600"
+                onClick={() => setShowComments(!showComments)}
+              >
+                <MessageSquare className="mr-1" size={18} />
+                Comment
+              </button>
+              <button
+                className="flex items-center text-gray-600 hover:text-blue-600"
+                onClick={sharePost}
+              >
+                <Share2 className="mr-1" size={18} />
+                Share
+              </button>
+            </div>
+          </div>
+          {showComments && (
+            <div className="p-4 bg-gray-50 transition-all duration-300 ease-in-out">
+              <div className="mb-4 relative">
+                <textarea
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  rows="2"
+                  placeholder="Write a comment..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                ></textarea>
+                <div className="flex items-center justify-between mt-2">
+                  <div className="relative">
+                    <EmojiPicker setText={setNewComment} />
+                  </div>
+                  <Button onClick={handleCommentSubmit} variant="primary" className="px-2.5">
+                    <Send size={16} className="mr-1.5" />
+                    Comment
+                  </Button>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {comments.map((comment, index) => (
+                  <div
+                    key={index}
+                    className="bg-white py-3 px-4 rounded-md shadow"
+                  >
+                    <div className="flex justify-between">
+                      <Link to={`/user/${comment?.userDetails?.regno}`}>
+                        <div className="flex items-center">
+                          <Avatar className="h-7 w-7 md:h-10 md:w-10 cursor-pointer">
+                            <AvatarImage src={comment.userDetails.avatarUrl} />
+                            <AvatarFallback>
+                              <User color="#6b7280" size={24} />
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="font-semibold text-base text-gray-800 ml-1">
+                            <span className="hover:underline">
+                              {comment.userDetails.fullName}
+                            </span>
+                            <p className="text-xs text-gray-500 font-normal -mt-0.5">
+                              {comment.userDetails.headLine}
+                            </p>
+                          </span>
+                        </div>
+                      </Link>
+                      <span className="text-xs text-gray-400">
+                        {timeAgo(comment.createdAt)}
+                      </span>
+                    </div>
+                    <p className="text-gray-800 mt-0.5 text-sm ml-8 md:ml-11">
+                      {comment.content}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 };
