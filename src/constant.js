@@ -1,6 +1,6 @@
 const PROGRAMMES = ["ICD", "BE"];
 const TRADES = {
-  ICD: ["CDE", "CSMM", "CSME", "CTV", "CPT", "CFP", "CFF", "CWG", "CTD", "CAC","CEN"],
+  ICD: ["CDE", "CSMM", "CSME", "CTV", "CPT", "CFP", "CFF", "CWG", "CTD", "CAC","CEN","CAF"],
   BE: ["GCS", "GEE", "GEC","GCT", "GFT", "GIN", "GME"],
 };
 

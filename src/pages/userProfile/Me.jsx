@@ -333,7 +333,7 @@ function Me() {
                         size={18}
                       />
                     </h2>
-                    <div className="py-3 text-xs lg:text-sm font-normal">
+                    <div className="py-3 text-xs lg:text-sm font-normal" style={{ whiteSpace: 'pre-wrap' }}>
                       {userData?.about && userData?.about}
                     </div>
                   </div>
