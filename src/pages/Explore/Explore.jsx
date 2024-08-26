@@ -18,6 +18,7 @@ import InfinitePageLoader from "@/components/Loaders/InfinitePageLoader";
 import { useInView } from "react-intersection-observer";
 import userService from "@/api/services/userService";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const BATCHES = getBatchYears();
 
@@ -294,6 +295,7 @@ const Explore = () => {
                 <React.Fragment key={i}>
                   {page?.map((user) => (
                     <Card key={user._id} className="max-w-sm">
+                      <Link to={`/user/${user.regno}`}>
                       <CardHeader className="flex flex-col items-center p-4">
                         <Avatar className="w-20 h-20 mb-2">
                           <AvatarImage src={user.avatarUrl} />
@@ -304,13 +306,14 @@ const Explore = () => {
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
-                        <h3 className="text-lg font-semibold text-center">
+                        <h3 className="text-lg font-semibold text-center hover:underline">
                           {user.fullName}
                         </h3>
-                        <p className="text-sm text-gray-500 text-center truncate max-w-full">
+                        <p className="text-sm text-gray-500 text-center truncate max-w-full ">
                           {user.headLine}
                         </p>
                       </CardHeader>
+                        </Link>
                       <CardContent className="p-4 pt-0 text-center">
                         <div className="flex items-center justify-center text-sm mb-2">
                           <Users className="mr-1 h-3 w-3" />
