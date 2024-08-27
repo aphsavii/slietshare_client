@@ -66,6 +66,14 @@ const routes = createRoutesFromElements(
         </Suspense>
       }
     />
+     <Route
+        path="qs"
+        element={
+          <Suspense fallback={<FullScreenLoader />}>
+            <QsShare />
+          </Suspense>
+        }
+      />
 
     {/* Admin Routes */}
     <Route element={<AdminRoutes />}>
@@ -86,14 +94,6 @@ const routes = createRoutesFromElements(
         element={
           <Suspense fallback={<FullScreenLoader text={`Loading your content...`} />}>
             <Feed />
-          </Suspense>
-        }
-      />
-      <Route
-        path="qs"
-        element={
-          <Suspense fallback={<FullScreenLoader />}>
-            <QsShare />
           </Suspense>
         }
       />

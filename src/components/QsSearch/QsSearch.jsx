@@ -1,5 +1,16 @@
 import { PropTypes } from "prop-types";
-const QsSearch = ({  setSearchText, disabled=false }) => {
+import { useSearchParams } from "react-router-dom";
+
+const QsSearch = ({ searchText, setSearchText, disabled = false }) => {
+  const [searchParams, setSearchParams] = useSearchParams(); // Extract setSearchParams
+
+  const handleChange = (e) => {
+    const newValue = e.target.value.trim();
+    setSearchText(newValue);
+    searchParams.set('q', newValue); // Update the searchParams
+    setSearchParams(searchParams); // Commit the changes to the URL
+  };
+
   return (
     <div className="qs-search">
       <div className="pt-2 relative mx-auto text-gray-600">
@@ -8,13 +19,13 @@ const QsSearch = ({  setSearchText, disabled=false }) => {
           type="search"
           name="search"
           placeholder="Search"
-          // value={searchText.trim()}
-          onChange={(e) => setSearchText(e.target.value.trim())}
+          defaultValue={searchText} // Use value instead of defaultValue
+          onChange={handleChange}
           autoComplete="off"
         />
-        <button  className="absolute right-0 top-0 mt-5 mr-4"  disabled={disabled}>
+        <button className="absolute right-0 top-0 mt-5 mr-4" disabled={disabled}>
           <svg
-                className="text-primaryBlue h-4 w-4 md:h-5 md:w-5 fill-current"
+            className="text-primaryBlue h-4 w-4 md:h-5 md:w-5 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
             x="0px"
@@ -24,17 +35,19 @@ const QsSearch = ({  setSearchText, disabled=false }) => {
             width="512px"
             height="512px"
           >
-            <path  d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+            <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
           </svg>
         </button>
       </div>
-      <p className="italic text-gray-500 text-xs md:text-sm text-center mt-1" >Note: You can search by Subject Code or Subject Name </p>
+      <p className="italic text-gray-500 text-xs md:text-sm text-center mt-1">
+        Note: You can search by Subject Code or Subject Name
+      </p>
     </div>
   );
 };
 
 QsSearch.propTypes = {
-  // searchText: PropTypes.string.isRequired,
+  searchText: PropTypes.string.isRequired, // Ensure this is uncommented
   setSearchText: PropTypes.func.isRequired,
   disabled: PropTypes.bool
 };

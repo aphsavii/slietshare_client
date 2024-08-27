@@ -9,9 +9,10 @@ import toast from "react-hot-toast";
 import { Button } from "@/shadcn/ui/Button.jsx";
 import { useEffect } from "react";
 import CtaSticky from "@/components/cta/CtaSticky";
-
+import { useSearchParams } from "react-router-dom";
 const QsShare = () => {
-  const [searchText, setSearchText] = useDebouncedState("", 1000);
+  const [searchParams] = useSearchParams();
+  const [searchText, setSearchText] = useDebouncedState(searchParams.get('q')?searchParams.get('q'):'', 500);
   const { isLoading, isError, data, error } = useQuery({ queryKey: ["qsData", searchText], queryFn: async () => await qsService.searchQs(searchText), enabled: searchText.length > 0, retry: false });
 
   useEffect(() => {
