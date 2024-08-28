@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import EditBasicInfo from "./EditBasicInfo";
 import EditPersonalInfo from "./EditPersonalInfo";
 import EditSkills from "./EditSkills";
@@ -9,9 +9,7 @@ import EditProjects from "./EditProjects";
 import EditEducation from "./EditEducation";
 
 const EditProfileDialog = () => {
-let userData = useSelector((state) => state.userProfile.userData);
 let activeDialog = useSelector((state) => state.userProfile.dialog);
-    const dispatch = useDispatch();
 
   return (
     <>

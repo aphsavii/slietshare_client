@@ -3,6 +3,10 @@ import { ExternalLink, Trophy, Medal } from "lucide-react";
 import leaderboardService from "@/api/services/leaderboardService";
 import { Link } from "react-router-dom";
 import LeaderboardSkeleton from "@/components/skeletons/LeaderboardSkeleton";
+import { Button } from "@/shadcn/ui/Button";
+import EditSocialLinks from "@/components/dialogs/EditSocialLinks";
+import { useSelector, useDispatch } from "react-redux";
+import { setDialog } from "@/redux/slices/userProfile";
 
 const TabButton = ({ active, onClick, children }) => (
   <button
@@ -137,7 +141,7 @@ const LeaderboardTable = ({ data, platform }) => {
             </td>
           </>
         );
-      case "leetcode":  
+      case "leetcode":
         return (
           <>
             <td className="py-2 px-3 sm:py-4 sm:px-4 border-b text-center text-sm sm:text-base whitespace-nowrap">
@@ -223,6 +227,7 @@ const Leaderboard = () => {
   const [leetcodeData, setLeetcodeData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -256,47 +261,61 @@ const Leaderboard = () => {
     fetchData();
   }, [selectedPlatform]);
 
-  return (
-    <div className="container min-h-[600px] md:min-h-[800px] mx-auto py-10 md:py-20">
-      <h1 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-8 text-center text-gray-800">
-        College wide Leaderboard
-      </h1>
-      <div className="mb-4 sm:mb-6 flex justify-center space-x-2 sm:space-x-4">
-        <TabButton
-          active={selectedPlatform === "leetcode"}
-          onClick={() => setSelectedPlatform("leetcode")}
-        >
-          LeetCode
-        </TabButton>
-        <TabButton
-          active={selectedPlatform === "codeforces"}
-          onClick={() => setSelectedPlatform("codeforces")}
-        >
-          Codeforces
-        </TabButton>
-        <TabButton
-          active={selectedPlatform === "gfg"}
-          onClick={() => setSelectedPlatform("gfg")}
-        >
-          GeeksforGeeks
-        </TabButton>
-      </div>
+  let activeDialog = useSelector((state) => state.userProfile.dialog);
+  const dispatch = useDispatch();
 
-      {isLoading ? (
-        <LeaderboardSkeleton platform={selectedPlatform} />
-      ) : (
-        <LeaderboardTable
-          data={
-            selectedPlatform === "gfg"
-              ? gfgData
-              : selectedPlatform === "codeforces"
-              ? codeforcesData
-              : leetcodeData
-          }
-          platform={selectedPlatform}
-        />
-      )}
-    </div>
+  return (
+    <>
+      {activeDialog == "links" && <EditSocialLinks />}
+      <div className="container min-h-[600px] md:min-h-[800px] mx-auto py-10 md:py-20">
+        <h1 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-8 text-center text-gray-800">
+          College wide Leaderboard
+        </h1>
+        <div className="mb-4 sm:mb-6 flex justify-center space-x-2 sm:space-x-4">
+          <TabButton
+            active={selectedPlatform === "leetcode"}
+            onClick={() => setSelectedPlatform("leetcode")}
+          >
+            LeetCode
+          </TabButton>
+          <TabButton
+            active={selectedPlatform === "codeforces"}
+            onClick={() => setSelectedPlatform("codeforces")}
+          >
+            Codeforces
+          </TabButton>
+          <TabButton
+            active={selectedPlatform === "gfg"}
+            onClick={() => setSelectedPlatform("gfg")}
+          >
+            GeeksforGeeks
+          </TabButton>
+        </div>
+
+        {isLoading ? (
+          <LeaderboardSkeleton platform={selectedPlatform} />
+        ) : (
+          <LeaderboardTable
+            data={
+              selectedPlatform === "gfg"
+                ? gfgData
+                : selectedPlatform === "codeforces"
+                ? codeforcesData
+                : leetcodeData
+            }
+            platform={selectedPlatform}
+          />
+        )}
+        <div className="w-full flex justify-end">
+          <Button
+            onClick={() => dispatch(setDialog("links"))}
+            className="mt-8 mr-2"
+          >
+            Add your profile
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
 
