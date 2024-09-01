@@ -15,7 +15,7 @@ import { setChats } from "@/redux/slices/chats";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const 
+
   useEffect(() => {
     chatService.getRecentChats().then((res) => {
       dispatch(setChats(res));
