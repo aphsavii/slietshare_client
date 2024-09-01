@@ -8,9 +8,24 @@ import { MessageSquare, FileSpreadsheet } from "lucide-react";
 import Notification from "../Notification/Notification";
 import UserSearch from "../SearchBar/UserSearch";
 import Menu from "../menu/Menu";
-import toast from "react-hot-toast";
+import { useEffect } from "react";
+import chatService from "@/api/services/chatService";
+import { useDispatch } from "react-redux";
+import { setChats } from "@/redux/slices/chats";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const 
+  useEffect(() => {
+    chatService.getRecentChats().then((res) => {
+      dispatch(setChats(res));
+    });
+  },[]);
+  let unreadCount = 0;
+  const recentChats = useSelector((state) => state.chats.chats);
+  recentChats.forEach((chat) => {
+    if (chat.isUnreadMessages) unreadCount++;
+  });
   const isLoginPage = useLocation().pathname === "/login";
   const { isAuthenticated } = useSelector((state) => state.auth);
   return (
@@ -41,7 +56,14 @@ const Navbar = () => {
               </Link>
               <UserSearch />
               <Link to="/chat">
-              <MessageSquare className="text-white h-5 w-5 md:h-7 md:w-7 cursor-pointer" />
+                <div>
+                  <MessageSquare className="text-white h-5 w-5 md:h-7 md:w-7 cursor-pointer" />
+                  {unreadCount > 0 && (
+                    <span className="absolute h-3 w-4 md:h-4 md:w-6 bg-red-500 rounded-full top-4 md:top-4 text-white font-medium text-[10px] leading-3 md:text-xs">
+                      {unreadCount}
+                    </span>
+                  )}
+                </div>
               </Link>
               <Notification />
             </div>

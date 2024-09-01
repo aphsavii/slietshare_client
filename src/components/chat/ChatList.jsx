@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shadcn/ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
 import chatService from "@/api/services/chatService";
 import { setChats } from "@/redux/slices/chats";
-import { formatTimestamp, trimText } from "@/helpers";
+import { formatTimestamp } from "@/helpers";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import ChatListSkeletonLoader from "../skeletons/ChatListSkeleton";
