@@ -75,6 +75,9 @@ const Chat = () => {
           dispatch(
             setMessages({ regno: chat.regno, messages: res.conversation })
           );
+          if(res.isRead=="true"){
+            dispatch(setChatSeen({ regno: chat.regno, seen: true}));
+          }
         })
         .catch((error) => {
           toast.error("Failed to fetch messages");
@@ -105,15 +108,20 @@ const Chat = () => {
         toast.error("Failed to fetch user");
         console.log(error);
       });
-
+      setLoading(true);
     chatService
       .getConversation(regno)
       .then((res) => {
         dispatch(setMessages({ regno: +regno, messages: res.conversation }));
+        if(res.isRead=="true"){
+          dispatch(setChatSeen({ regno: regno, seen: true}));
+        }
       })
       .catch((error) => {
         toast.error("Failed to fetch messages");
         console.log(error);
+      }).finally(() => {
+        setLoading(false);
       });
   }, [location]);
 
