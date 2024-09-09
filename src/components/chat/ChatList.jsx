@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shadcn/ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
 import chatService from "@/api/services/chatService";
 import { setChats } from "@/redux/slices/chats";
-import { formatTimestamp } from "@/helpers";
+import { formatTimestamp, trimText } from "@/helpers";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import ChatListSkeletonLoader from "../skeletons/ChatListSkeleton";
@@ -66,7 +66,7 @@ const ChatList = ({
             <div className="flex-grow min-w-0">
               <h3 className="font-semibold truncate">{chat.fullName}</h3>
               <p className="text-sm text-gray-500 truncate">
-                {chat.lastMessage.content}
+                {trimText(chat.lastMessage.content,30)}
               </p>
             </div>
             <div className="flex flex-col items-end">
